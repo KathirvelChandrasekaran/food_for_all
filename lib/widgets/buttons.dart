@@ -13,7 +13,7 @@ ElevatedButton RoundedButton(BuildContext context, String btnText, double h, dou
       );
     },
     style: ElevatedButton.styleFrom(
-      primary: Theme.of(context).accentColor,
+      primary: Theme.of(context).primaryColor,
       padding: EdgeInsets.symmetric(vertical: h, horizontal: v),
 
       shape: RoundedRectangleBorder(

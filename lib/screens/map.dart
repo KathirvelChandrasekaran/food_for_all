@@ -27,6 +27,7 @@ class _SelectLocationMapsState extends State<SelectLocationMaps> {
   @override
   void initState() {
     super.initState();
+    _modalBottomSheetMenu();
     _initialcameraposition = LatLng(11.1271, 78.6569);
   }
 
@@ -117,6 +118,59 @@ class _SelectLocationMapsState extends State<SelectLocationMaps> {
               ),
             ],
           ),
+        );
+      },
+    );
+  }
+
+  void _modalBottomSheetMenu() {
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) async {
+        await showModalBottomSheet(
+          context: context,
+          builder: (builder) {
+            return Container(
+              height: 250.0,
+              color: Colors.transparent,
+              child: Container(
+                decoration: new BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: new BorderRadius.only(
+                    topLeft: const Radius.circular(10.0),
+                    topRight: const Radius.circular(10.0),
+                  ),
+                ),
+                child: Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Long press on the map to Pin the location 🗺",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 25,
+                      ),
+                      Text(
+                        "Swipe to dismiss",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
         );
       },
     );
