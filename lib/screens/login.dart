@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:food_for_all/providers/authServiceProvider.dart';
 
@@ -9,6 +8,7 @@ class Login extends ConsumerWidget {
   Widget build(BuildContext context, ScopedReader watch) {
     final _auth = watch(authServiceProvider);
     return Scaffold(
+      appBar: AppBar(),
       body: Container(
         height: MediaQuery.of(context).size.height,
         child: Column(
@@ -17,9 +17,9 @@ class Login extends ConsumerWidget {
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: Center(
-                child: SvgPicture.asset(
-                  'images/Login.svg',
-                  width: MediaQuery.of(context).size.width * 0.5,
+                child: Image.asset(
+                  'images/Login.png',
+                  width: MediaQuery.of(context).size.width * 0.6,
                   height: MediaQuery.of(context).size.height * 0.6,
                 ),
               ),
