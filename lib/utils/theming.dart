@@ -14,8 +14,11 @@ ThemeData darkTheme = ThemeData(
     elevation: 0,
     iconTheme: IconThemeData(
       color: Color(
-        0xffA0C55F,
+        0xff7AB317,
       ),
+    ),
+    titleTextStyle: TextStyle(
+      color: Color(0xff0D6759),
     ),
   ),
   textTheme: TextTheme(
@@ -40,8 +43,11 @@ ThemeData lightTheme = ThemeData(
     elevation: 0,
     iconTheme: IconThemeData(
       color: Color(
-        0xffA0C55F,
+        0xff7AB317,
       ),
+    ),
+    titleTextStyle: TextStyle(
+      color: Color(0xff0D6759),
     ),
   ),
   textTheme: TextTheme(

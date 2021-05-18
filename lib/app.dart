@@ -11,7 +11,7 @@ class App extends StatelessWidget {
         final themingConsumer = watch(themingNotifer);
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          theme: themingConsumer.darkTheme ? darkTheme : lightTheme,
+          theme: !themingConsumer.darkTheme ? darkTheme : lightTheme,
           routes: {
             '/wrapper': (context) => Wrapper(),
           },
