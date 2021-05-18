@@ -21,6 +21,9 @@ dependencies:
   shared_preferences: ^2.0.5
   splash_screen_view: ^3.0.0
   google_sign_in: ^5.0.3
+  location: ^4.1.1
+  google_maps_flutter: ^2.0.5
+  logger: ^1.0.0
 
 dev_dependencies:
   flutter_test:

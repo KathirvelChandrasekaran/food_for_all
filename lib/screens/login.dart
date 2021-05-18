@@ -27,9 +27,10 @@ class Login extends ConsumerWidget {
             SignInButton(
               Buttons.Google,
               text: "Continue with Google",
+              elevation: 5,
               padding: EdgeInsets.only(
-                left: MediaQuery.of(context).size.width * 0.1,
-                right: MediaQuery.of(context).size.width * 0.1,
+                left: MediaQuery.of(context).size.width * 0.15,
+                right: MediaQuery.of(context).size.width * 0.15,
                 top: MediaQuery.of(context).size.height * 0.01,
                 bottom: MediaQuery.of(context).size.height * 0.01,
               ),
