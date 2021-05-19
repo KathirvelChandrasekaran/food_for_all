@@ -1,6 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_switch/flutter_switch.dart';
+import 'package:food_for_all/utils/theming.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:logger/logger.dart';
 
 // ignore: must_be_immutable
 class Profile extends StatefulWidget {
@@ -15,6 +19,7 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   String photoUrl, newPhotoUrl;
   bool status = false;
+  var logger = Logger();
 
   @override
   void initState() {
@@ -29,7 +34,90 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        actions: [
+          PopupMenuButton(
+            onSelected: (index) {
+              if (index == 1) logout();
+            },
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(15.0),
+              ),
+            ),
+            itemBuilder: (BuildContext bc) => [
+              PopupMenuItem(
+                value: 1,
+                child: ListTile(
+                  leading: Icon(
+                    Icons.logout_rounded,
+                    color: Theme.of(context).primaryColor,
+                    size: 25,
+                  ),
+                  title: Text(
+                    "Logout",
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.black54,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+              PopupMenuItem(
+                value: 2,
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(
+                        20.0,
+                      ),
+                      child: Consumer(
+                        builder: (context, watch, child) {
+                          final themingListener = watch(themingNotifer);
+                          return FlutterSwitch(
+                            width: 100.0,
+                            height: 50.0,
+                            toggleSize: 50.0,
+                            value: themingListener.darkTheme,
+                            borderRadius: 50.0,
+                            activeToggleColor: Colors.black,
+                            inactiveToggleColor: Colors.white,
+                            activeSwitchBorder: Border.all(
+                              color: Theme.of(context).primaryColor,
+                              width: 2.0,
+                            ),
+                            inactiveSwitchBorder: Border.all(
+                              color: Theme.of(context).primaryColor,
+                              width: 2.0,
+                            ),
+                            activeColor: Theme.of(context).scaffoldBackgroundColor,
+                            inactiveColor:
+                            Theme.of(context).scaffoldBackgroundColor,
+                            activeIcon: Image.asset(
+                              "images/moon.png",
+                              height: 500,
+                            ),
+                            inactiveIcon: Image.asset(
+                              "images/sun.png",
+                            ),
+                            onToggle: (val) {
+                              setState(() {
+                                themingListener.toggleTheme();
+                                status = themingListener.darkTheme;
+                              });
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                )
+              ),
+            ],
+          ),
+        ],
+      ),
       body: Center(
         child: Container(
           child: Column(
@@ -100,36 +188,19 @@ class _ProfileState extends State<Profile> {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.07,
               ),
-              ElevatedButton.icon(
-                style: ElevatedButton.styleFrom(
-                  primary: Theme.of(context).primaryColor,
-                  padding: EdgeInsets.fromLTRB(100, 15, 100, 15),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                ),
-                onPressed: () async {
-                  await GoogleSignIn().signOut();
-                  await FirebaseAuth.instance.signOut();
-                  Navigator.popAndPushNamed(
-                    context,
-                    '/wrapper',
-                  );
-                },
-                icon: Icon(
-                  Icons.logout,
-                ),
-                label: Text(
-                  "Logout",
-                  style: TextStyle(
-                    fontSize: 15,
-                  ),
-                ),
-              ),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  void logout() async {
+    await GoogleSignIn().signOut();
+    await FirebaseAuth.instance.signOut();
+    Navigator.popAndPushNamed(
+      context,
+      '/wrapper',
     );
   }
 }
