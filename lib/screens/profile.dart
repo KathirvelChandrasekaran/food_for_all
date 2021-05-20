@@ -122,7 +122,6 @@ class _ProfileState extends State<Profile> {
       body: Consumer(
         builder: (context, watch, child) {
           final userDetails = watch(getRegisterDetailsProvider);
-          Map<dynamic, dynamic> data = userDetails.data.value.data();
           return Center(
             child: Container(
               child: Column(
@@ -191,51 +190,66 @@ class _ProfileState extends State<Profile> {
                       ),
                     ],
                   ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.03,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.location_city_rounded,
-                        color: Theme.of(context).accentColor,
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.05,
-                      ),
-                      Container(
-                        height: 100,
-                        width: MediaQuery.of(context).size.width * 0.70,
-                        child: Text(
-                          data['address'],
-                          style: TextStyle(
-                            fontSize: 20,
+                  userDetails.when(
+                      data: (snapshot) {
+                        Map<dynamic, dynamic> data = snapshot.data();
+                        return Column(
+                          children: [
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.03,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.location_city_rounded,
+                                  color: Theme.of(context).accentColor,
+                                ),
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.05,
+                                ),
+                                Container(
+                                  height: 100,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.70,
+                                  child: Text(
+                                    data['address'],
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.phone_android_rounded,
+                                  color: Theme.of(context).accentColor,
+                                ),
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.05,
+                                ),
+                                Text(
+                                  data['mobile'].toString(),
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    color: Theme.of(context).primaryColor,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        );
+                      },
+                      loading: () => CircularProgressIndicator(
                             color: Theme.of(context).primaryColor,
                           ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.phone_android_rounded,
-                        color: Theme.of(context).accentColor,
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.05,
-                      ),
-                      Text(
-                        data['mobile'].toString(),
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Theme.of(context).primaryColor,
-                        ),
-                      ),
-                    ],
-                  ),
+                      error: null)
                 ],
               ),
             ),
