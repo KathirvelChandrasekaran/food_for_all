@@ -26,4 +26,12 @@ class RegisterDetailsToFirebase {
       ),
     );
   }
+
+  Future<DocumentSnapshot> viewUserDetails() async {
+    var snapShot = FirebaseFirestore.instance
+        .collection('UserDetails')
+        .doc(FirebaseAuth.instance.currentUser.email)
+        .get();
+    return snapShot;
+  }
 }

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_for_all/services/registerDetailsService.dart';
@@ -19,4 +20,8 @@ final registerProvider = ChangeNotifierProvider(
 
 final registerDetailsProvider = Provider<RegisterDetailsToFirebase>(
   (_) => RegisterDetailsToFirebase(),
+);
+
+final getRegisterDetailsProvider = FutureProvider<DocumentSnapshot>(
+  (_) => RegisterDetailsToFirebase().viewUserDetails(),
 );
