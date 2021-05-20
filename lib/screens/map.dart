@@ -191,7 +191,10 @@ class _SelectLocationMapsState extends State<SelectLocationMaps> {
       _address = await Geocoder.local.findAddressesFromCoordinates(Coordinates(
           _pinedLocationData.latitude, _pinedLocationData.longitude));
       var first = _address.first;
-      context.read(addressProvider).listenToAddressNotifier(first.addressLine);
+      context.read(addressProvider).listenToAddressNotifier(
+            first.addressLine,
+            LatLng(pos.latitude, pos.longitude),
+          );
     }
   }
 
