@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:food_for_all/screens/chooseRole.dart';
-import 'package:food_for_all/screens/newsFeed.dart';
+import 'package:food_for_all/screens/home.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthenticationService {
@@ -33,7 +33,7 @@ class AuthenticationService {
         : Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => NewsFeed(),
+              builder: (context) => Home(),
             ),
           );
     return userCredential;

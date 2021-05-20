@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 ThemeData darkTheme = ThemeData(
   scaffoldBackgroundColor: Color(0xff0B2E59),
-  primaryColor: Color(0xff0D6759),
+  primaryColor: Colors.white,
   selectedRowColor: Color(0xff7045af),
   indicatorColor: Colors.black,
   accentColor: Color(0xff7AB317),
