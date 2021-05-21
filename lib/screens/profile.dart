@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:food_for_all/providers/registerDetailsProvider.dart';
+import 'package:food_for_all/screens/registerDetails.dart';
 import 'package:food_for_all/utils/theming.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:logger/logger.dart';
@@ -40,6 +41,16 @@ class _ProfileState extends State<Profile> {
           PopupMenuButton(
             onSelected: (index) {
               if (index == 1) logout();
+              if (index == 2)
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => RegisterDetails(
+                      title: "Edit details",
+                      edit: true,
+                    ),
+                  ),
+                );
             },
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(
@@ -66,7 +77,25 @@ class _ProfileState extends State<Profile> {
                 ),
               ),
               PopupMenuItem(
-                  value: 2,
+                value: 2,
+                child: ListTile(
+                  leading: Icon(
+                    Icons.edit,
+                    color: Theme.of(context).primaryColor,
+                    size: 25,
+                  ),
+                  title: Text(
+                    "Edit details",
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.black54,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+              PopupMenuItem(
+                  value: 3,
                   child: Row(
                     children: [
                       Padding(
@@ -119,140 +148,144 @@ class _ProfileState extends State<Profile> {
           ),
         ],
       ),
-      body: Consumer(
-        builder: (context, watch, child) {
-          final userDetails = watch(getRegisterDetailsProvider);
-          return Center(
-            child: Container(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
+      body: Center(
+        child: Container(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                child: CircleAvatar(
+                  backgroundColor: Theme.of(context).primaryColor,
+                  radius: 137,
+                  child: CircleAvatar(
+                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                    radius: 132,
                     child: CircleAvatar(
-                      backgroundColor: Theme.of(context).primaryColor,
-                      radius: 137,
-                      child: CircleAvatar(
-                        backgroundColor:
-                            Theme.of(context).scaffoldBackgroundColor,
-                        radius: 132,
-                        child: CircleAvatar(
-                          radius: 100,
-                          backgroundColor: Colors.transparent,
-                          backgroundImage: NetworkImage(
-                            this.newPhotoUrl,
-                          ),
-                        ),
+                      radius: 100,
+                      backgroundColor: Colors.transparent,
+                      backgroundImage: NetworkImage(
+                        this.newPhotoUrl,
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.1,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.account_circle_rounded,
-                        color: Theme.of(context).accentColor,
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.05,
-                      ),
-                      Text(
-                        widget.userCredential.displayName,
-                        style: TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.w500,
-                          color: Theme.of(context).primaryColor,
-                        ),
-                      ),
-                    ],
+                ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.1,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.account_circle_rounded,
+                    color: Theme.of(context).accentColor,
                   ),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.03,
+                    width: MediaQuery.of(context).size.width * 0.05,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.alternate_email_rounded,
-                        color: Theme.of(context).accentColor,
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.05,
-                      ),
-                      Text(
-                        widget.userCredential.email,
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Theme.of(context).primaryColor,
-                        ),
-                      ),
-                    ],
+                  Text(
+                    widget.userCredential.displayName,
+                    style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.w500,
+                      color: Theme.of(context).primaryColor,
+                    ),
                   ),
-                  userDetails.when(
-                    data: (snapshot) {
-                      Map<dynamic, dynamic> data = snapshot.data();
-                      return Column(
-                        children: [
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.03,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.location_city_rounded,
-                                color: Theme.of(context).accentColor,
-                              ),
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.05,
-                              ),
-                              Container(
-                                height: 100,
-                                width: MediaQuery.of(context).size.width * 0.70,
-                                child: Text(
-                                  data['address'],
+                ],
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.03,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.alternate_email_rounded,
+                    color: Theme.of(context).accentColor,
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.05,
+                  ),
+                  Text(
+                    widget.userCredential.email,
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                ],
+              ),
+              Consumer(
+                builder: (context, watch, child) {
+                  final userDetails = watch(getRegisterDetailsProvider.stream);
+                  return StreamBuilder(
+                    stream: userDetails,
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData)
+                        return CircularProgressIndicator();
+                      else {
+                        Map<dynamic, dynamic> data =
+                            new Map<String, dynamic>.from(snapshot.data.data());
+                        return Column(
+                          children: [
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.03,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.location_city_rounded,
+                                  color: Theme.of(context).accentColor,
+                                ),
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.05,
+                                ),
+                                Container(
+                                  height: 100,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.70,
+                                  child: Text(
+                                    data['address'],
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.phone_android_rounded,
+                                  color: Theme.of(context).accentColor,
+                                ),
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.05,
+                                ),
+                                Text(
+                                  data['mobile'].toString(),
                                   style: TextStyle(
                                     fontSize: 20,
                                     color: Theme.of(context).primaryColor,
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.phone_android_rounded,
-                                color: Theme.of(context).accentColor,
-                              ),
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.05,
-                              ),
-                              Text(
-                                data['mobile'].toString(),
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  color: Theme.of(context).primaryColor,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      );
+                              ],
+                            ),
+                          ],
+                        );
+                      }
                     },
-                    loading: () => CircularProgressIndicator(
-                      color: Theme.of(context).primaryColor,
-                    ),
-                    error: null,
-                  )
-                ],
+                  );
+                },
               ),
-            ),
-          );
-        },
+            ],
+          ),
+        ),
       ),
     );
   }

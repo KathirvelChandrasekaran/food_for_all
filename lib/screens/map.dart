@@ -157,7 +157,7 @@ class _SelectLocationMapsState extends State<SelectLocationMaps> {
                         height: 25,
                       ),
                       Text(
-                        "Swipe to dismiss",
+                        "Swipe down to dismiss",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Colors.black,

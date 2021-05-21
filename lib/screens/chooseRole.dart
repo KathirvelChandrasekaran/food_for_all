@@ -1,8 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:food_for_all/screens/registerDetails.dart';
 import 'package:food_for_all/widgets/buttons.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 class ChooseRole extends StatelessWidget {
   const ChooseRole({Key key}) : super(key: key);
@@ -35,7 +33,10 @@ class ChooseRole extends StatelessWidget {
               'School / College',
               15,
               100,
-              RegisterDetails(),
+              RegisterDetails(
+                title: "More about you",
+                edit: false,
+              ),
             ),
             SizedBox(
               height: 15,
@@ -45,7 +46,10 @@ class ChooseRole extends StatelessWidget {
               'NGO',
               15,
               155,
-              RegisterDetails(),
+              RegisterDetails(
+                title: "More about you",
+                edit: false,
+              ),
             ),
             SizedBox(
               height: 15,
@@ -55,7 +59,10 @@ class ChooseRole extends StatelessWidget {
               'Volunteer',
               15,
               130,
-              RegisterDetails(),
+              RegisterDetails(
+                title: "More about you",
+                edit: false,
+              ),
             ),
             SizedBox(
               height: 15,
@@ -65,7 +72,10 @@ class ChooseRole extends StatelessWidget {
               'General User',
               15,
               115,
-              RegisterDetails(),
+              RegisterDetails(
+                title: "More about you",
+                edit: false,
+              ),
             ),
           ],
         ),

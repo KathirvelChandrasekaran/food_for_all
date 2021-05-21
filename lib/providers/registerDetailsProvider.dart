@@ -22,6 +22,6 @@ final registerDetailsProvider = Provider<RegisterDetailsToFirebase>(
   (_) => RegisterDetailsToFirebase(),
 );
 
-final getRegisterDetailsProvider = FutureProvider<DocumentSnapshot>(
+final getRegisterDetailsProvider = StreamProvider.autoDispose<DocumentSnapshot>(
   (_) => RegisterDetailsToFirebase().viewUserDetails(),
 );

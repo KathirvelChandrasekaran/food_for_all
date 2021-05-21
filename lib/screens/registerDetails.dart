@@ -7,6 +7,11 @@ import 'package:food_for_all/screens/map.dart';
 
 // ignore: must_be_immutable
 class RegisterDetails extends StatefulWidget {
+  String title;
+  bool edit;
+
+  RegisterDetails({this.title, this.edit});
+
   @override
   _RegisterDetailsState createState() => _RegisterDetailsState();
 }
@@ -30,7 +35,7 @@ class _RegisterDetailsState extends State<RegisterDetails> {
           child: Scaffold(
             appBar: AppBar(
               title: Text(
-                "More about you",
+                widget.title,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 25,
@@ -126,8 +131,11 @@ class _RegisterDetailsState extends State<RegisterDetails> {
                           ? null
                           : () {
                               if (_formKey.currentState.validate())
-                                reg.addRegisterDetails(
-                                    context, map.address, map.latLng, phone);
+                                widget.edit
+                                    ? reg.editRegisterDetails(
+                                        context, map.address, map.latLng, phone)
+                                    : reg.addRegisterDetails(context,
+                                        map.address, map.latLng, phone);
                             },
                       style: ElevatedButton.styleFrom(
                         primary: Theme.of(context).primaryColor,
