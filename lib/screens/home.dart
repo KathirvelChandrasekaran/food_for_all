@@ -40,6 +40,7 @@ class _HomeState extends State<Home> {
         currentIndex: _selectedIndex,
         itemBorderRadius: 15,
         selectedItemColor: Theme.of(context).selectedRowColor,
+        elevation: 10,
         iconSize: 20,
         items: [
           FloatingNavbarItem(

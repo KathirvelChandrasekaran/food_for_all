@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_for_all/providers/mapProvider.dart';
 import 'package:food_for_all/providers/registerDetailsProvider.dart';
 import 'package:food_for_all/screens/map.dart';
+import 'package:food_for_all/utils/theming.dart';
 
 // ignore: must_be_immutable
 class RegisterDetails extends StatefulWidget {
@@ -27,6 +28,7 @@ class _RegisterDetailsState extends State<RegisterDetails> {
         final map = watch(addressProvider);
         final phone = watch(registerProvider).phone;
         final reg = watch(registerDetailsProvider);
+        final theme = watch(themingNotifer);
         return GestureDetector(
           onTap: () {
             FocusScopeNode currentFocus = FocusScope.of(context);
@@ -84,7 +86,8 @@ class _RegisterDetailsState extends State<RegisterDetails> {
                               : map.address.toString(),
                           style: TextStyle(
                             fontSize: 18,
-                            color: Colors.black,
+                            color:
+                                theme.darkTheme ? Colors.black : Colors.white,
                           ),
                         ),
                       ),
@@ -101,12 +104,22 @@ class _RegisterDetailsState extends State<RegisterDetails> {
                           ),
                           focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
-                              color: Theme.of(context).primaryColor,
+                              color:
+                                  theme.darkTheme ? Colors.black : Colors.white,
+                            ),
+                          ),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color:
+                                  theme.darkTheme ? Colors.black : Colors.white,
                             ),
                           ),
                         ),
                         cursorColor: Theme.of(context).primaryColor,
                         controller: _phoneController,
+                        style: TextStyle(
+                          color: theme.darkTheme ? Colors.black : Colors.white,
+                        ),
                         validator: (val) {
                           if (val.isEmpty) return "Should not be empty";
                           if (val.length < 10)

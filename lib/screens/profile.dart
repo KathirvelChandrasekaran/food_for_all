@@ -155,7 +155,7 @@ class _ProfileState extends State<Profile> {
             children: [
               Container(
                 child: CircleAvatar(
-                  backgroundColor: Theme.of(context).selectedRowColor,
+                  backgroundColor: Theme.of(context).primaryColor,
                   radius: 137,
                   child: CircleAvatar(
                     backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -222,7 +222,9 @@ class _ProfileState extends State<Profile> {
                     stream: userDetails,
                     builder: (context, snapshot) {
                       if (!snapshot.hasData)
-                        return CircularProgressIndicator();
+                        return CircularProgressIndicator(
+                          color: Theme.of(context).primaryColor,
+                        );
                       else {
                         Map<dynamic, dynamic> data =
                             new Map<String, dynamic>.from(snapshot.data.data());
