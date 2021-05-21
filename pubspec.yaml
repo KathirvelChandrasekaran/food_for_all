@@ -27,7 +27,7 @@ dependencies:
   logger: ^1.0.0
   geocoder: ^0.2.1
   flutter_switch: ^0.3.1
-  flashy_tab_bar: ^0.0.3
+  floating_bottom_navigation_bar: ^1.5.1
 
 dev_dependencies:
   flutter_test:

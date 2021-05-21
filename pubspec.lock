@@ -148,13 +148,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.0"
-  flashy_tab_bar:
+  floating_bottom_navigation_bar:
     dependency: "direct main"
     description:
-      name: flashy_tab_bar
+      name: floating_bottom_navigation_bar
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.3"
+    version: "1.5.1"
   flutter:
     dependency: "direct main"
     description: flutter

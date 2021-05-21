@@ -63,7 +63,7 @@ class _ProfileState extends State<Profile> {
                 child: ListTile(
                   leading: Icon(
                     Icons.logout_rounded,
-                    color: Theme.of(context).primaryColor,
+                    color: Theme.of(context).accentColor,
                     size: 25,
                   ),
                   title: Text(
@@ -81,7 +81,7 @@ class _ProfileState extends State<Profile> {
                 child: ListTile(
                   leading: Icon(
                     Icons.edit,
-                    color: Theme.of(context).primaryColor,
+                    color: Theme.of(context).accentColor,
                     size: 25,
                   ),
                   title: Text(
@@ -155,7 +155,7 @@ class _ProfileState extends State<Profile> {
             children: [
               Container(
                 child: CircleAvatar(
-                  backgroundColor: Theme.of(context).primaryColor,
+                  backgroundColor: Theme.of(context).selectedRowColor,
                   radius: 137,
                   child: CircleAvatar(
                     backgroundColor: Theme.of(context).scaffoldBackgroundColor,

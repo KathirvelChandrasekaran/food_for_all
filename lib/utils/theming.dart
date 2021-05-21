@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 ThemeData darkTheme = ThemeData(
   scaffoldBackgroundColor: Color(0xff0B2E59),
   primaryColor: Colors.white,
-  selectedRowColor: Color(0xff7045af),
+  selectedRowColor: Color(0xff2A044A),
   indicatorColor: Colors.black,
   accentColor: Color(0xff7AB317),
   errorColor: Color(0xffce1212),
@@ -34,7 +34,7 @@ ThemeData darkTheme = ThemeData(
 ThemeData lightTheme = ThemeData(
   scaffoldBackgroundColor: Color(0xffe1e5ea),
   primaryColor: Color(0xff0D6759),
-  selectedRowColor: Color(0xff7045af),
+  selectedRowColor: Color(0xff2A044A),
   indicatorColor: Colors.black,
   accentColor: Color(0xff7AB317),
   errorColor: Color(0xffce1212),
