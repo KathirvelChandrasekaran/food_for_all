@@ -505,7 +505,7 @@ class _CreatePostState extends State<CreatePost> {
                               fontWeight: FontWeight.bold,
                               color: theme.darkTheme
                                   ? Theme.of(context).primaryColor
-                                  : Colors.black,
+                                  : Colors.white,
                               fontSize: 20,
                             ),
                           ),
@@ -522,7 +522,7 @@ class _CreatePostState extends State<CreatePost> {
                               style: TextStyle(
                                 color: theme.darkTheme
                                     ? Theme.of(context).primaryColor
-                                    : Colors.black,
+                                    : Colors.white,
                                 fontSize: 25,
                               ),
                             ),
@@ -546,7 +546,7 @@ class _CreatePostState extends State<CreatePost> {
                               style: TextStyle(
                                 color: theme.darkTheme
                                     ? Theme.of(context).primaryColor
-                                    : Colors.black,
+                                    : Colors.white,
                                 fontSize: 25,
                               ),
                             ),
@@ -578,7 +578,7 @@ class _CreatePostState extends State<CreatePost> {
                               fontWeight: FontWeight.bold,
                               color: theme.darkTheme
                                   ? Theme.of(context).primaryColor
-                                  : Colors.black,
+                                  : Colors.white,
                               fontSize: 20,
                             ),
                           ),
@@ -595,7 +595,7 @@ class _CreatePostState extends State<CreatePost> {
                               style: TextStyle(
                                 color: theme.darkTheme
                                     ? Theme.of(context).primaryColor
-                                    : Colors.black,
+                                    : Colors.white,
                                 fontSize: 25,
                               ),
                             ),
@@ -640,6 +640,9 @@ class _CreatePostState extends State<CreatePost> {
                         "Continue",
                         style: TextStyle(
                           fontSize: 20,
+                          color: theme.darkTheme
+                              ? Colors.white
+                              : Colors.black,
                         ),
                       ),
                     ),

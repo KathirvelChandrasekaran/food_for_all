@@ -166,6 +166,7 @@ class _RegisterDetailsState extends State<RegisterDetails> {
                         "Submit",
                         style: TextStyle(
                           fontSize: 20,
+                          color: theme.darkTheme ? Colors.white : Colors.black,
                         ),
                       ),
                     )

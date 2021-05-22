@@ -29,7 +29,8 @@ dependencies:
   flutter_switch: ^0.3.1
   floating_bottom_navigation_bar: ^1.5.1
   numberpicker: ^2.1.1
-  file_picker: ^3.0.1
+  image_picker: ^0.7.5+2
+  firebase_storage: ^8.1.0
 
 dev_dependencies:
   flutter_test:

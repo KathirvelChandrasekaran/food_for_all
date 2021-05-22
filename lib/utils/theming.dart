@@ -9,6 +9,7 @@ ThemeData darkTheme = ThemeData(
   indicatorColor: Colors.black,
   accentColor: Color(0xff7AB317),
   errorColor: Color(0xffce1212),
+  unselectedWidgetColor: Colors.white,
   appBarTheme: AppBarTheme(
     color: Color(0xff0B2E59),
     elevation: 0,
