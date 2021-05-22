@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:food_for_all/screens/imageUpload.dart';
+import 'package:food_for_all/screens/postSuccess.dart';
 import 'package:food_for_all/utils/theming.dart';
 import 'package:food_for_all/widgets/inputs.dart';
 import 'package:numberpicker/numberpicker.dart';
@@ -18,7 +20,10 @@ class _CreatePostState extends State<CreatePost> {
 
   double _foodQuantity = 0.0, _expiry = 0.0;
   int _nosPersons = 0, _vesselCount = 0;
-  bool _needVessel = false, _tiffin = false, _mainCourse = false;
+  bool _needVessel = false,
+      _tiffin = false,
+      _mainCourse = false,
+      _imageUpload = false;
 
   void toggleVessel(bool val) {
     _needVessel
@@ -556,6 +561,90 @@ class _CreatePostState extends State<CreatePost> {
                           ),
                         ],
                       ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Container(
+                      padding: new EdgeInsets.all(22.0),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            'Choose the image upload status',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: theme.darkTheme
+                                  ? Theme.of(context).primaryColor
+                                  : Colors.black,
+                              fontSize: 20,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          CheckboxListTile(
+                            secondary: Icon(
+                              Icons.upload_file_rounded,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                            title: Text(
+                              'Upload image',
+                              style: TextStyle(
+                                color: theme.darkTheme
+                                    ? Theme.of(context).primaryColor
+                                    : Colors.black,
+                                fontSize: 25,
+                              ),
+                            ),
+                            value: _imageUpload,
+                            onChanged: (bool value) {
+                              setState(
+                                () {
+                                  _imageUpload = value;
+                                },
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        _imageUpload
+                            ? Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ImageUpload(),
+                                ),
+                              )
+                            : Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => PostSuccess(),
+                                ),
+                              );
+                        ;
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Theme.of(context).primaryColor,
+                        padding:
+                            EdgeInsets.symmetric(vertical: 15, horizontal: 125),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                      ),
+                      child: Text(
+                        "Continue",
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 50,
                     ),
                   ],
                 ),
