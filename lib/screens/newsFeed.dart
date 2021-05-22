@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_for_all/providers/authServiceProvider.dart';
+import 'package:food_for_all/screens/createPost.dart';
 import 'package:food_for_all/screens/profile.dart';
 
 class NewsFeed extends StatefulWidget {
@@ -78,7 +79,7 @@ class _NewsFeedState extends State<NewsFeed> {
                     left: 30,
                   ),
                   child: Text(
-                    "Your Feeds!!!",
+                    "Create a Post",
                     style: TextStyle(
                       color: Theme.of(context).primaryColor,
                       fontWeight: FontWeight.w600,
@@ -98,16 +99,17 @@ class _NewsFeedState extends State<NewsFeed> {
                   ),
                   width: MediaQuery.of(context).size.width * 0.85,
                   decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(
-                        15,
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(
+                      15,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey,
+                        blurRadius: 10.0,
                       ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey,
-                          blurRadius: 10.0,
-                        ),
-                      ]),
+                    ],
+                  ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -144,7 +146,14 @@ class _NewsFeedState extends State<NewsFeed> {
                           ),
                         ),
                         child: IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => CreatePost(),
+                              ),
+                            );
+                          },
                           icon: Icon(
                             Icons.post_add_rounded,
                             color: Colors.white,

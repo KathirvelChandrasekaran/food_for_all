@@ -98,6 +98,10 @@ class _RegisterDetailsState extends State<RegisterDetails> {
                         maxLength: 10,
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
+                          labelText: "Mobile number",
+                          labelStyle: TextStyle(
+                            color: Theme.of(context).primaryColor,
+                          ),
                           prefixIcon: Icon(
                             Icons.phone_android_outlined,
                             color: Theme.of(context).primaryColor,
