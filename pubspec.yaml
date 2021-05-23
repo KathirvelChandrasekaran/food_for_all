@@ -20,7 +20,6 @@ dependencies:
   flutter_svg: ^0.22.0
   flutter_signin_button: ^2.0.0
   shared_preferences: ^2.0.5
-  splash_screen_view: ^3.0.0
   google_sign_in: ^5.0.3
   location: ^4.1.1
   google_maps_flutter: ^2.0.5
@@ -31,6 +30,7 @@ dependencies:
   numberpicker: ^2.1.1
   image_picker: ^0.7.5+2
   firebase_storage: ^8.1.0
+  introduction_screen: ^2.1.0
 
 dev_dependencies:
   flutter_test:

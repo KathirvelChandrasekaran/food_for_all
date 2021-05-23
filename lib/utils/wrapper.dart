@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_for_all/providers/authServiceProvider.dart';
 import 'package:food_for_all/screens/home.dart';
-import 'package:food_for_all/screens/starter.dart';
+import 'package:food_for_all/screens/intro.dart';
 
 class Wrapper extends ConsumerWidget {
   @override
@@ -13,7 +13,7 @@ class Wrapper extends ConsumerWidget {
         if (value != null)
           return Home();
         else
-          return Starter();
+          return Intro();
       },
       loading: () {
         return Scaffold(

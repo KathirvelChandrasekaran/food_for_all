@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 ThemeData darkTheme = ThemeData(
-  scaffoldBackgroundColor: Color(0xff0B2E59),
+  scaffoldBackgroundColor: Color(0xff151515),
   primaryColor: Colors.white,
   selectedRowColor: Color(0xff2A044A),
   indicatorColor: Colors.black,
@@ -11,7 +11,7 @@ ThemeData darkTheme = ThemeData(
   errorColor: Color(0xffce1212),
   unselectedWidgetColor: Colors.white,
   appBarTheme: AppBarTheme(
-    color: Color(0xff0B2E59),
+    color: Color(0xff151515),
     elevation: 0,
     iconTheme: IconThemeData(
       color: Color(
