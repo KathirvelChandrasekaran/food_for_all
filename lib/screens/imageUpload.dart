@@ -6,6 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_for_all/utils/theming.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as Path;
 
@@ -33,13 +34,37 @@ class _ImageUploadState extends State<ImageUpload> {
   }
 
   chooseImage() async {
-    var pickedFile = await picker.getImage(source: ImageSource.gallery);
+    var pickedFile = await picker.getImage(
+      source: ImageSource.gallery,
+    );
+    var croppedImage = await ImageCropper.cropImage(
+      sourcePath: pickedFile.path,
+      aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
+      aspectRatioPresets: [CropAspectRatioPreset.square],
+      compressQuality: 70,
+      compressFormat: ImageCompressFormat.jpg,
+      androidUiSettings: androidUiSettingsLocked(),
+      iosUiSettings: iosUiSettingsLocked(),
+    );
+
     setState(() {
-      _image.add(File(pickedFile.path));
+      _image.add(File(croppedImage.path));
       _visible = true;
     });
     if (pickedFile.path == null) retrieveLostData();
   }
+
+  IOSUiSettings iosUiSettingsLocked() => IOSUiSettings(
+        rotateClockwiseButtonHidden: false,
+        rotateButtonsHidden: false,
+      );
+
+  AndroidUiSettings androidUiSettingsLocked() => AndroidUiSettings(
+        toolbarTitle: 'Crop your image Image',
+        toolbarColor: Colors.red,
+        toolbarWidgetColor: Colors.white,
+        hideBottomControls: true,
+      );
 
   Future<void> retrieveLostData() async {
     final LostData response = await picker.getLostData();
