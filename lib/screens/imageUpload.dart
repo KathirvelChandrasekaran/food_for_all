@@ -20,7 +20,7 @@ class ImageUpload extends StatefulWidget {
 class _ImageUploadState extends State<ImageUpload> {
   bool _uploading = false, _visible = false;
   double _val = 0;
-  DocumentReference _imageRef;
+  CollectionReference _imageRef;
   firebase_storage.Reference ref;
   List<File> _image = [];
   final picker = ImagePicker();
@@ -30,12 +30,16 @@ class _ImageUploadState extends State<ImageUpload> {
     super.initState();
     _imageRef = FirebaseFirestore.instance
         .collection('Posts')
-        .doc(FirebaseAuth.instance.currentUser.email);
+        .doc(FirebaseAuth.instance.currentUser.email)
+        .collection(
+          DateTime.now().toLocal().toString(),
+        );
   }
 
   chooseImage() async {
     var pickedFile = await picker.getImage(
       source: ImageSource.gallery,
+      imageQuality: 85,
     );
     var croppedImage = await ImageCropper.cropImage(
       sourcePath: pickedFile.path,
@@ -51,7 +55,7 @@ class _ImageUploadState extends State<ImageUpload> {
       _image.add(File(croppedImage.path));
       _visible = true;
     });
-    if (pickedFile.path == null) retrieveLostData();
+    if (croppedImage.path == null) retrieveLostData();
   }
 
   IOSUiSettings iosUiSettingsLocked() => IOSUiSettings(
@@ -87,12 +91,12 @@ class _ImageUploadState extends State<ImageUpload> {
         },
       );
       ref = firebase_storage.FirebaseStorage.instance.ref().child(
-          'Post Images/${FirebaseAuth.instance.currentUser.email}/${Path.basename(img.path)}');
+          'Post Images/${FirebaseAuth.instance.currentUser.email}/${DateTime.now()}/${Path.basename(img.path)}');
       await ref.putFile(img).whenComplete(
         () async {
           await ref.getDownloadURL().then(
             (value) {
-              _imageRef.set(
+              _imageRef.add(
                 {'url': value},
               );
               i++;
@@ -165,10 +169,8 @@ class _ImageUploadState extends State<ImageUpload> {
                             child: Text(
                               'Uploading...',
                               style: TextStyle(
-                                fontSize: 20,
-                                color: theme.darkTheme
-                                    ? Theme.of(context).primaryColor
-                                    : Colors.white,
+                                fontSize: 30,
+                                color: Colors.redAccent,
                               ),
                             ),
                           ),
@@ -178,7 +180,8 @@ class _ImageUploadState extends State<ImageUpload> {
                           CircularProgressIndicator(
                             value: _val,
                             valueColor: AlwaysStoppedAnimation(
-                                Theme.of(context).primaryColor),
+                              Colors.yellowAccent,
+                            ),
                           )
                         ],
                       ),

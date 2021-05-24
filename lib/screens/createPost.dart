@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:food_for_all/providers/createPostProvider.dart';
 import 'package:food_for_all/screens/imageUpload.dart';
 import 'package:food_for_all/screens/postSuccess.dart';
 import 'package:food_for_all/utils/theming.dart';
@@ -37,6 +38,15 @@ class _CreatePostState extends State<CreatePost> {
           });
   }
 
+  void createSnackBar(String message) {
+    final snackBar = new SnackBar(
+      content: new Text(message),
+      backgroundColor: Colors.red,
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -58,6 +68,7 @@ class _CreatePostState extends State<CreatePost> {
         body: Consumer(
           builder: (context, watch, child) {
             final theme = watch(themingNotifer);
+            final createPost = watch(createPostProvider);
             return SingleChildScrollView(
               child: Form(
                 key: _formKey,
@@ -65,17 +76,17 @@ class _CreatePostState extends State<CreatePost> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     InputTextMethod(
-                      context,
-                      theme,
-                      TextInputType.text,
-                      _postHeadingController,
-                      100,
-                      "Post Heading",
-                      Icon(
-                        Icons.title_rounded,
-                        color: Theme.of(context).primaryColor,
-                      ),
-                    ),
+                        context,
+                        theme,
+                        TextInputType.text,
+                        _postHeadingController,
+                        100,
+                        "Post Heading",
+                        Icon(
+                          Icons.title_rounded,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        "Please enter the post's heading"),
                     SizedBox(
                       height: 10,
                     ),
@@ -84,7 +95,16 @@ class _CreatePostState extends State<CreatePost> {
                       child: TextFormField(
                         keyboardType: TextInputType.multiline,
                         maxLines: 6,
+                        style: TextStyle(
+                          color: theme.darkTheme ? Colors.black : Colors.white,
+                        ),
                         controller: _postContentController,
+                        validator: (val) {
+                          if (val.isEmpty) {
+                            return "Please feed the post content";
+                          }
+                          return null;
+                        },
                         decoration: InputDecoration(
                           labelText: "Post Content",
                           labelStyle: TextStyle(
@@ -613,20 +633,41 @@ class _CreatePostState extends State<CreatePost> {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        _imageUpload
-                            ? Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ImageUpload(),
-                                ),
-                              )
-                            : Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => PostSuccess(),
-                                ),
-                              );
-                        ;
+                        // _imageUpload
+                        //     ? Navigator.push(
+                        //         context,
+                        //         MaterialPageRoute(
+                        //           builder: (context) => ImageUpload(),
+                        //         ),
+                        //       )
+                        //     : Navigator.push(
+                        //         context,
+                        //         MaterialPageRoute(
+                        //           builder: (context) => PostSuccess(),
+                        //         ),
+                        //       );
+
+                        if (_formKey.currentState.validate()) {
+                          if (_foodQuantity == 0.0)
+                            createSnackBar("Food quantity should not be empty");
+                          if (_nosPersons == 0)
+                            createSnackBar("Person head should not be empty");
+                          if (_expiry == 0.0)
+                            createSnackBar("Expiry time should not be empty");
+                          if (_tiffin | _mainCourse == false)
+                            createSnackBar("Food type should be checked");
+
+                          createPost.notifyToCreatePostListener(
+                              _foodQuantity,
+                              _expiry,
+                              _postContentController.text,
+                              _postContentController.text,
+                              _nosPersons,
+                              _vesselCount,
+                              _needVessel,
+                              _tiffin,
+                              _mainCourse);
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         primary: Theme.of(context).primaryColor,
@@ -640,9 +681,7 @@ class _CreatePostState extends State<CreatePost> {
                         "Continue",
                         style: TextStyle(
                           fontSize: 20,
-                          color: theme.darkTheme
-                              ? Colors.white
-                              : Colors.black,
+                          color: theme.darkTheme ? Colors.white : Colors.black,
                         ),
                       ),
                     ),
