@@ -85,6 +85,7 @@ class _CreatePostState extends State<CreatePost> {
           builder: (context, watch, child) {
             final theme = watch(themingNotifer);
             final createPost = watch(addPostDetails);
+            final createPostListener = watch(createPostProvider);
             return SingleChildScrollView(
               child: Form(
                 key: _formKey,
@@ -653,26 +654,38 @@ class _CreatePostState extends State<CreatePost> {
                         if (checkErrors())
                           return;
                         else {
-                          if (_imageUpload)
+                          if (_imageUpload) {
+                            createPostListener.notifyToCreatePostListener(
+                              _foodQuantity,
+                              _expiry,
+                              _postContentController.text,
+                              _postHeadingController.text,
+                              _nosPersons,
+                              _vesselCount,
+                              _needVessel,
+                              _tiffin,
+                              _mainCourse,
+                            );
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => ImageUpload(),
                               ),
                             );
-                          else {
+                          } else
                             createPost.addPostDetails(
-                                context,
-                                _foodQuantity,
-                                _expiry,
-                                _postContentController.text,
-                                _postHeadingController.text,
-                                _nosPersons,
-                                _vesselCount,
-                                _needVessel,
-                                _tiffin,
-                                _mainCourse);
-                          }
+                              context,
+                              _foodQuantity,
+                              _expiry,
+                              _postContentController.text,
+                              _postHeadingController.text,
+                              _nosPersons,
+                              _vesselCount,
+                              _needVessel,
+                              _tiffin,
+                              _mainCourse,
+                              _imageUpload,
+                            );
                         }
                       },
                       style: ElevatedButton.styleFrom(

@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:food_for_all/screens/postSuccess.dart';
 
 class AddPostDetailsToFirebase {
   AddPostDetailsToFirebase();
@@ -18,6 +17,7 @@ class AddPostDetailsToFirebase {
     bool needVessel,
     tiffin,
     mainCourse,
+    imageUpload,
   ) {
     FirebaseFirestore.instance
         .collection("Posts")
@@ -33,13 +33,9 @@ class AddPostDetailsToFirebase {
       'needVessel': needVessel,
       'tiffin': tiffin,
       'mainCourse': mainCourse,
+      'images': imageUpload,
     }).whenComplete(
-      () => Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => PostSuccess(),
-        ),
-      ),
+      () => Navigator.popAndPushNamed(context, '/postSuccess'),
     );
   }
 }

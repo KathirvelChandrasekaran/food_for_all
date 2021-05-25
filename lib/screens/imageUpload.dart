@@ -5,10 +5,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:food_for_all/providers/createPostProvider.dart';
 import 'package:food_for_all/utils/theming.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as Path;
+import 'package:uuid/uuid.dart';
 
 class ImageUpload extends StatefulWidget {
   const ImageUpload({Key key}) : super(key: key);
@@ -24,6 +26,8 @@ class _ImageUploadState extends State<ImageUpload> {
   firebase_storage.Reference ref;
   List<File> _image = [];
   final picker = ImagePicker();
+  var uuid = Uuid();
+  List<String> _uploadedFiles = [];
 
   @override
   void initState() {
@@ -31,9 +35,7 @@ class _ImageUploadState extends State<ImageUpload> {
     _imageRef = FirebaseFirestore.instance
         .collection('Posts')
         .doc(FirebaseAuth.instance.currentUser.email)
-        .collection(
-          DateTime.now().toLocal().toString(),
-        );
+        .collection('Post');
   }
 
   chooseImage() async {
@@ -81,7 +83,17 @@ class _ImageUploadState extends State<ImageUpload> {
       print(response.file);
   }
 
-  Future uploadFile() async {
+  Future uploadFile(
+    double foodQuantity,
+    expiry,
+    String postHeading,
+    postContent,
+    int nosPersons,
+    vesselCount,
+    bool needVessel,
+    tiffin,
+    mainCourse,
+  ) async {
     int i = 1;
 
     for (var img in _image) {
@@ -90,21 +102,36 @@ class _ImageUploadState extends State<ImageUpload> {
           _val = i / _image.length;
         },
       );
+      print(_image);
       ref = firebase_storage.FirebaseStorage.instance.ref().child(
-          'Post Images/${FirebaseAuth.instance.currentUser.email}/${DateTime.now()}/${Path.basename(img.path)}');
+          'Posts Images/${FirebaseAuth.instance.currentUser.email}/Post/${Path.basename(img.path)}');
       await ref.putFile(img).whenComplete(
         () async {
           await ref.getDownloadURL().then(
             (value) {
-              _imageRef.add(
-                {'url': value},
-              );
+              setState(() {
+                _uploadedFiles.add(value);
+              });
               i++;
             },
           );
         },
       );
     }
+    _imageRef.add(
+      {
+        'foodQuantity': foodQuantity,
+        'expiry': expiry,
+        'postHeading': postHeading,
+        'postContent': postContent,
+        'nosPersons': nosPersons,
+        'vesselCount': vesselCount,
+        'needVessel': needVessel,
+        'tiffin': tiffin,
+        'mainCourse': mainCourse,
+        'url': _uploadedFiles
+      },
+    );
   }
 
   @override
@@ -112,6 +139,7 @@ class _ImageUploadState extends State<ImageUpload> {
     return Consumer(
       builder: (context, watch, child) {
         final theme = watch(themingNotifer);
+        final postDetails = watch(createPostProvider);
         return Scaffold(
           appBar: AppBar(
             title: Text(
@@ -201,8 +229,19 @@ class _ImageUploadState extends State<ImageUpload> {
                     setState(() {
                       _uploading = true;
                     });
-                    uploadFile()
-                        .whenComplete(() => Navigator.of(context).pop());
+                    uploadFile(
+                            postDetails.foodQuantity,
+                            postDetails.expiry,
+                            postDetails.postHeading,
+                            postDetails.postContent,
+                            postDetails.nosPersons,
+                            postDetails.vesselCount,
+                            postDetails.needVessel,
+                            postDetails.tiffin,
+                            postDetails.mainCourse)
+                        .whenComplete(
+                      () => Navigator.popAndPushNamed(context, '/postSuccess'),
+                    );
                   },
                   child: Icon(
                     Icons.cloud_upload,
