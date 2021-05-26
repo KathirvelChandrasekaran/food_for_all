@@ -10,7 +10,6 @@ import 'package:food_for_all/utils/theming.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as Path;
-import 'package:uuid/uuid.dart';
 
 class ImageUpload extends StatefulWidget {
   const ImageUpload({Key key}) : super(key: key);
@@ -26,16 +25,13 @@ class _ImageUploadState extends State<ImageUpload> {
   firebase_storage.Reference ref;
   List<File> _image = [];
   final picker = ImagePicker();
-  var uuid = Uuid();
   List<String> _uploadedFiles = [];
 
   @override
   void initState() {
     super.initState();
     _imageRef = FirebaseFirestore.instance
-        .collection('Posts')
-        .doc(FirebaseAuth.instance.currentUser.email)
-        .collection('Post');
+        .collection('Posts');
   }
 
   chooseImage() async {
@@ -129,6 +125,9 @@ class _ImageUploadState extends State<ImageUpload> {
         'needVessel': needVessel,
         'tiffin': tiffin,
         'mainCourse': mainCourse,
+        'email': FirebaseAuth.instance.currentUser.email,
+        'createdAt': DateTime.now(),
+        'images': 'true',
         'url': _uploadedFiles
       },
     );

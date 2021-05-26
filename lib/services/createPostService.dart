@@ -21,8 +21,6 @@ class AddPostDetailsToFirebase {
   ) {
     FirebaseFirestore.instance
         .collection("Posts")
-        .doc(FirebaseAuth.instance.currentUser.email)
-        .collection('Post')
         .add({
       'foodQuantity': foodQuantity,
       'expiry': expiry,
@@ -34,6 +32,8 @@ class AddPostDetailsToFirebase {
       'tiffin': tiffin,
       'mainCourse': mainCourse,
       'images': imageUpload,
+      'email': FirebaseAuth.instance.currentUser.email,
+      'createdAt': DateTime.now(),
     }).whenComplete(
       () => Navigator.popAndPushNamed(context, '/postSuccess'),
     );

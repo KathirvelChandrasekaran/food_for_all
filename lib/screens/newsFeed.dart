@@ -1,8 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_for_all/providers/authServiceProvider.dart';
+import 'package:food_for_all/providers/newsFeedProvider.dart';
 import 'package:food_for_all/screens/createPost.dart';
 import 'package:food_for_all/screens/profile.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class NewsFeed extends StatefulWidget {
   @override
@@ -15,6 +18,7 @@ class _NewsFeedState extends State<NewsFeed> {
     return Consumer(
       builder: (context, watch, child) {
         final _authService = watch(firebaseAuthProvider).currentUser;
+        final posts = watch(getNewsFeeds.stream);
         return Scaffold(
           appBar: AppBar(
             title: Text(
@@ -68,7 +72,7 @@ class _NewsFeedState extends State<NewsFeed> {
           ),
           body: SingleChildScrollView(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
@@ -173,8 +177,46 @@ class _NewsFeedState extends State<NewsFeed> {
                   width: MediaQuery.of(context).size.width * 0.80,
                   child: Divider(
                     thickness: 2.0,
+                    color: Theme.of(context).primaryColor,
                   ),
-                )
+                ),
+                StreamBuilder(
+                  stream: posts,
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (!snapshot.hasData)
+                      return Center(
+                        child: CircularProgressIndicator(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                      );
+                    else
+                      return ListView(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                        children: snapshot.data.docs
+                            .map(
+                              (doc) => Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(doc['postHeading']),
+                                    Text(doc['postContent']),
+                                    Text(
+                                      doc['createdAt'].toDate().toString(),
+                                    ),
+
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )
+                            .toList(),
+                      );
+                  },
+                ),
               ],
             ),
           ),
