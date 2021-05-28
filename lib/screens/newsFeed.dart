@@ -73,117 +73,117 @@ class _NewsFeedState extends State<NewsFeed> {
               ),
             ],
           ),
-          body: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 50,
+          body: Column(
+            // mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 50,
+              ),
+              Container(
+                margin: EdgeInsets.only(
+                  left: 30,
                 ),
-                Container(
-                  margin: EdgeInsets.only(
-                    left: 30,
-                  ),
-                  child: Text(
-                    "Create a Post",
-                    style: TextStyle(
-                      color: Theme.of(context).primaryColor,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 25,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 25,
-                ),
-                Container(
-                  margin: EdgeInsets.only(
-                    left: 30,
-                  ),
-                  padding: EdgeInsets.all(
-                    20,
-                  ),
-                  width: MediaQuery.of(context).size.width * 0.85,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(
-                      15,
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey,
-                        blurRadius: 10.0,
-                      ),
-                    ],
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        child: CircleAvatar(
-                          backgroundColor: Theme.of(context).primaryColor,
-                          radius: 27,
-                          child: CircleAvatar(
-                            backgroundColor:
-                                Theme.of(context).scaffoldBackgroundColor,
-                            radius: 25,
-                            child: CircleAvatar(
-                              backgroundImage: NetworkImage(
-                                _authService.photoURL.toString(),
-                              ),
-                              radius: 20,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Text(
-                        "Post your needs !!!",
-                        style: TextStyle(
-                          color: Theme.of(context).selectedRowColor,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 20,
-                        ),
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).selectedRowColor,
-                          borderRadius: BorderRadius.circular(
-                            25,
-                          ),
-                        ),
-                        child: IconButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => CreatePost(),
-                              ),
-                            );
-                          },
-                          icon: Icon(
-                            Icons.post_add_rounded,
-                            color: Colors.white,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                Container(
-                  margin: EdgeInsets.only(
-                    left: 40,
-                  ),
-                  width: MediaQuery.of(context).size.width * 0.80,
-                  child: Divider(
-                    thickness: 2.0,
+                child: Text(
+                  "Create a Post",
+                  style: TextStyle(
                     color: Theme.of(context).primaryColor,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 25,
                   ),
                 ),
-                Container(
+              ),
+              SizedBox(
+                height: 25,
+              ),
+              Container(
+                margin: EdgeInsets.only(
+                  left: 30,
+                ),
+                padding: EdgeInsets.all(
+                  20,
+                ),
+                width: MediaQuery.of(context).size.width * 0.85,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(
+                    15,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey,
+                      blurRadius: 10.0,
+                    ),
+                  ],
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      child: CircleAvatar(
+                        backgroundColor: Theme.of(context).primaryColor,
+                        radius: 27,
+                        child: CircleAvatar(
+                          backgroundColor:
+                              Theme.of(context).scaffoldBackgroundColor,
+                          radius: 25,
+                          child: CircleAvatar(
+                            backgroundImage: NetworkImage(
+                              _authService.photoURL.toString(),
+                            ),
+                            radius: 20,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Text(
+                      "Post your needs !!!",
+                      style: TextStyle(
+                        color: Theme.of(context).selectedRowColor,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 20,
+                      ),
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).selectedRowColor,
+                        borderRadius: BorderRadius.circular(
+                          25,
+                        ),
+                      ),
+                      child: IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CreatePost(),
+                            ),
+                          );
+                        },
+                        icon: Icon(
+                          Icons.post_add_rounded,
+                          color: Colors.white,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Container(
+                margin: EdgeInsets.only(
+                  left: 40,
+                ),
+                width: MediaQuery.of(context).size.width * 0.80,
+                child: Divider(
+                  thickness: 2.0,
+                  color: Theme.of(context).primaryColor,
+                ),
+              ),
+              Expanded(
+                child: Container(
                   child: StreamBuilder(
                     stream: posts,
                     builder: (BuildContext context,
@@ -196,54 +196,100 @@ class _NewsFeedState extends State<NewsFeed> {
                         );
                       return ListView(
                         shrinkWrap: true,
-                        physics: AlwaysScrollableScrollPhysics(),
+                        primary: true,
                         scrollDirection: Axis.vertical,
                         children: snapshot.data.docs.map(
                           (doc) {
-                            return Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  doc['images']
-                                      ? Container(
-                                          child: CarouselSlider.builder(
-                                            itemCount: doc['url'].length,
-                                            itemBuilder:
-                                                (context, index, realIndex) =>
-                                                    Container(
-                                              child: Image.network(
-                                                doc['url'][index],
-                                              ),
-                                            ),
-                                            options: CarouselOptions(
-                                              aspectRatio: 1.0,
-                                              enlargeCenterPage: true,
-                                              autoPlay: true,
-                                            ),
+                            return Column(
+                              children: [
+                                SizedBox(
+                                  height: 25,
+                                ),
+                                Center(
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.85,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(
+                                        15,
+                                      ),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey,
+                                          blurRadius: 10.0,
+                                        ),
+                                      ],
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        doc['images']
+                                            ? Container(
+                                                child: CarouselSlider.builder(
+                                                  itemCount: doc['url'].length,
+                                                  itemBuilder: (context, index,
+                                                          realIndex) =>
+                                                      Container(
+                                                    child: Image.network(
+                                                      doc['url'][index],
+                                                      fit: BoxFit.contain,
+                                                    ),
+                                                  ),
+                                                  options: CarouselOptions(
+                                                    aspectRatio: 1.0,
+                                                    enlargeCenterPage: true,
+                                                    autoPlay: true,
+                                                    viewportFraction: 0.7,
+                                                  ),
+                                                ),
+                                              )
+                                            : Text(""),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Text(
+                                          doc['postHeading'],
+                                          style: TextStyle(
+                                            color: Theme.of(context)
+                                                .selectedRowColor,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 20,
                                           ),
-                                        )
-                                      : Text("Not Found"),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(doc['postHeading']),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(doc['postContent']),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(
-                                    timeago.format(
-                                      doc['createdAt'].toDate(),
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Text(
+                                          doc['postContent'],
+                                          style: TextStyle(
+                                            color: Theme.of(context)
+                                                .selectedRowColor,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 20,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Text(
+                                          timeago.format(
+                                            doc['createdAt'].toDate(),
+                                          ),
+                                          style: TextStyle(
+                                            color: Theme.of(context)
+                                                .selectedRowColor,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 20,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 50,
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                  SizedBox(
-                                    height: 50,
-                                  ),
-                                ],
-                              ),
+                                ),
+                              ],
                             );
                           },
                         ).toList(),
@@ -251,8 +297,8 @@ class _NewsFeedState extends State<NewsFeed> {
                     },
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         );
       },
