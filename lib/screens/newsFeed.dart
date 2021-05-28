@@ -1,5 +1,8 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_for_all/providers/authServiceProvider.dart';
 import 'package:food_for_all/providers/newsFeedProvider.dart';
@@ -180,42 +183,73 @@ class _NewsFeedState extends State<NewsFeed> {
                     color: Theme.of(context).primaryColor,
                   ),
                 ),
-                StreamBuilder(
-                  stream: posts,
-                  builder: (BuildContext context,
-                      AsyncSnapshot<QuerySnapshot> snapshot) {
-                    if (!snapshot.hasData)
-                      return Center(
-                        child: CircularProgressIndicator(
-                          color: Theme.of(context).primaryColor,
-                        ),
-                      );
-                    else
+                Container(
+                  child: StreamBuilder(
+                    stream: posts,
+                    builder: (BuildContext context,
+                        AsyncSnapshot<QuerySnapshot> snapshot) {
+                      if (!snapshot.hasData)
+                        return Center(
+                          child: CircularProgressIndicator(
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        );
                       return ListView(
                         shrinkWrap: true,
+                        physics: AlwaysScrollableScrollPhysics(),
                         scrollDirection: Axis.vertical,
-                        children: snapshot.data.docs
-                            .map(
-                              (doc) => Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(doc['postHeading']),
-                                    Text(doc['postContent']),
-                                    Text(
-                                      doc['createdAt'].toDate().toString(),
+                        children: snapshot.data.docs.map(
+                          (doc) {
+                            return Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  doc['images']
+                                      ? Container(
+                                          child: CarouselSlider.builder(
+                                            itemCount: doc['url'].length,
+                                            itemBuilder:
+                                                (context, index, realIndex) =>
+                                                    Container(
+                                              child: Image.network(
+                                                doc['url'][index],
+                                              ),
+                                            ),
+                                            options: CarouselOptions(
+                                              aspectRatio: 1.0,
+                                              enlargeCenterPage: true,
+                                              autoPlay: true,
+                                            ),
+                                          ),
+                                        )
+                                      : Text("Not Found"),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(doc['postHeading']),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(doc['postContent']),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                    timeago.format(
+                                      doc['createdAt'].toDate(),
                                     ),
-
-                                    SizedBox(
-                                      height: 20,
-                                    ),
-                                  ],
-                                ),
+                                  ),
+                                  SizedBox(
+                                    height: 50,
+                                  ),
+                                ],
                               ),
-                            )
-                            .toList(),
+                            );
+                          },
+                        ).toList(),
                       );
-                  },
+                    },
+                  ),
                 ),
               ],
             ),

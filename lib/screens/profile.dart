@@ -246,7 +246,7 @@ class _ProfileState extends State<Profile> {
                                       MediaQuery.of(context).size.width * 0.05,
                                 ),
                                 Container(
-                                  height: 100,
+                                  height: 120,
                                   width:
                                       MediaQuery.of(context).size.width * 0.70,
                                   child: Text(
@@ -258,6 +258,9 @@ class _ProfileState extends State<Profile> {
                                   ),
                                 ),
                               ],
+                            ),
+                            SizedBox(
+                              height: 10,
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,

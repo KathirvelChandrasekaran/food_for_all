@@ -4,6 +4,7 @@ import 'package:food_for_all/providers/createPostProvider.dart';
 import 'package:food_for_all/screens/imageUpload.dart';
 import 'package:food_for_all/utils/theming.dart';
 import 'package:food_for_all/widgets/inputs.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:numberpicker/numberpicker.dart';
 
 class CreatePost extends StatefulWidget {
@@ -74,7 +75,7 @@ class _CreatePostState extends State<CreatePost> {
         appBar: AppBar(
           title: Text(
             "Create Post",
-            style: TextStyle(
+            style: GoogleFonts.oswald(
               fontWeight: FontWeight.bold,
               fontSize: 25,
               color: Theme.of(context).primaryColor,

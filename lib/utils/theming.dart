@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 ThemeData darkTheme = ThemeData(
@@ -18,15 +19,15 @@ ThemeData darkTheme = ThemeData(
         0xff7AB317,
       ),
     ),
-    titleTextStyle: TextStyle(
+    titleTextStyle: GoogleFonts.nunito(
       color: Color(0xff0D6759),
     ),
   ),
   textTheme: TextTheme(
-    bodyText1: TextStyle(
+    bodyText1: GoogleFonts.nunito(
       color: Colors.white,
     ),
-    bodyText2: TextStyle(
+    bodyText2: GoogleFonts.nunito(
       color: Colors.white,
     ),
   ),
@@ -47,15 +48,15 @@ ThemeData lightTheme = ThemeData(
         0xff7AB317,
       ),
     ),
-    titleTextStyle: TextStyle(
+    titleTextStyle: GoogleFonts.nunito(
       color: Color(0xff0D6759),
     ),
   ),
   textTheme: TextTheme(
-    bodyText1: TextStyle(
+    bodyText1: GoogleFonts.nunito(
       color: Colors.white,
     ),
-    bodyText2: TextStyle(
+    bodyText2: GoogleFonts.nunito(
       color: Colors.white,
     ),
   ),

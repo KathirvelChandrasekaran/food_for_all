@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_for_all/providers/createPostProvider.dart';
 import 'package:food_for_all/utils/theming.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as Path;
@@ -127,7 +128,7 @@ class _ImageUploadState extends State<ImageUpload> {
         'mainCourse': mainCourse,
         'email': FirebaseAuth.instance.currentUser.email,
         'createdAt': DateTime.now(),
-        'images': 'true',
+        'images': true,
         'url': _uploadedFiles
       },
     );
@@ -143,7 +144,7 @@ class _ImageUploadState extends State<ImageUpload> {
           appBar: AppBar(
             title: Text(
               "Upload image",
-              style: TextStyle(
+              style: GoogleFonts.oswald(
                 fontWeight: FontWeight.bold,
                 fontSize: 25,
                 color: Theme.of(context).primaryColor,
