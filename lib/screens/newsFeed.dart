@@ -9,6 +9,7 @@ import 'package:food_for_all/providers/authServiceProvider.dart';
 import 'package:food_for_all/providers/newsFeedProvider.dart';
 import 'package:food_for_all/screens/createPost.dart';
 import 'package:food_for_all/screens/profile.dart';
+import 'package:food_for_all/screens/viewPost.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class NewsFeed extends StatefulWidget {
@@ -209,152 +210,159 @@ class _NewsFeedState extends State<NewsFeed> {
                                 Center(
                                   child: BouncingWidget(
                                     scaleFactor: 0.5,
-                                    onPressed: () {},
-                                    child: Container(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.85,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(
-                                          15,
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => ViewPost(
+                                            snapshot: doc,
+                                          ),
                                         ),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.grey,
-                                            blurRadius: 10.0,
+                                      );
+                                    },
+                                    child: Hero(
+                                      tag: doc.id,
+                                      child: Container(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.85,
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.circular(
+                                            15,
                                           ),
-                                        ],
-                                      ),
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                            margin: EdgeInsets.only(
-                                              left: 20,
-                                              top: 30,
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.grey,
+                                              blurRadius: 10.0,
                                             ),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                CircleAvatar(
-                                                  backgroundImage: NetworkImage(
-                                                    doc['photo'],
-                                                  ),
-                                                  radius: 30,
-                                                ),
-                                                SizedBox(
-                                                  width: 15,
-                                                ),
-                                                Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      doc['userName'],
-                                                      style: TextStyle(
-                                                        color: Theme.of(context)
-                                                            .selectedRowColor,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        fontSize: 16,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      timeago.format(
-                                                        doc['createdAt']
-                                                            .toDate(),
-                                                      ),
-                                                      style: TextStyle(
-                                                        color: Theme.of(context)
-                                                            .selectedRowColor,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        fontSize: 15,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                SizedBox(
-                                                  width: 10,
-                                                ),
-                                                IconButton(
-                                                  onPressed: () {},
-                                                  icon: Icon(
-                                                    Icons.share_rounded,
-                                                    color: Theme.of(context)
-                                                        .accentColor,
-                                                  ),
-                                                  tooltip: "Share this post",
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          doc['images']
-                                              ? Container(
-                                                  child: CarouselSlider.builder(
-                                                    itemCount:
-                                                        doc['url'].length,
-                                                    itemBuilder: (context,
-                                                            index, realIndex) =>
-                                                        Container(
-                                                      child: Image.network(
-                                                        doc['url'][index],
-                                                        fit: BoxFit.contain,
-                                                      ),
-                                                    ),
-                                                    options: CarouselOptions(
-                                                      aspectRatio: 1.0,
-                                                      enlargeCenterPage: true,
-                                                      autoPlay: true,
-                                                      viewportFraction: 0.7,
-                                                    ),
-                                                  ),
-                                                )
-                                              : Text(""),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                          Container(
-                                            child: Text(
-                                              doc['postContent'],
-                                              style: TextStyle(
-                                                color: Theme.of(context)
-                                                    .selectedRowColor,
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 20,
+                                          ],
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            Container(
+                                              margin: EdgeInsets.only(
+                                                left: 20,
+                                                top: 30,
                                               ),
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                            margin: EdgeInsets.only(
-                                              left: 25,
-                                              right: 25,
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                          Container(
-                                            child: Text(
-                                              doc['postHeading'],
-                                              style: TextStyle(
-                                                color: Theme.of(context)
-                                                    .selectedRowColor,
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 20,
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  CircleAvatar(
+                                                    backgroundImage:
+                                                        NetworkImage(
+                                                      doc['photo'],
+                                                    ),
+                                                    radius: 30,
+                                                  ),
+                                                  SizedBox(
+                                                    width: 15,
+                                                  ),
+                                                  Column(
+                                                    // mainAxisAlignment:
+                                                    //     MainAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(
+                                                        doc['userName'],
+                                                        style: TextStyle(
+                                                          color: Theme.of(
+                                                                  context)
+                                                              .selectedRowColor,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          fontSize: 16,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        timeago.format(
+                                                          doc['createdAt']
+                                                              .toDate(),
+                                                        ),
+                                                        style: TextStyle(
+                                                          color: Theme.of(
+                                                                  context)
+                                                              .selectedRowColor,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          fontSize: 15,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
                                               ),
-                                              overflow: TextOverflow.ellipsis,
                                             ),
-                                            margin: EdgeInsets.only(
-                                              left: 25,
-                                              right: 25,
+                                            doc['images']
+                                                ? Container(
+                                                    child:
+                                                        CarouselSlider.builder(
+                                                      itemCount:
+                                                          doc['url'].length,
+                                                      itemBuilder: (context,
+                                                              index,
+                                                              realIndex) =>
+                                                          Container(
+                                                        child: Image.network(
+                                                          doc['url'][index],
+                                                          fit: BoxFit.contain,
+                                                        ),
+                                                      ),
+                                                      options: CarouselOptions(
+                                                        aspectRatio: 1.0,
+                                                        enlargeCenterPage: true,
+                                                        autoPlay: true,
+                                                        viewportFraction: 0.7,
+                                                      ),
+                                                    ),
+                                                  )
+                                                : Text(""),
+                                            SizedBox(
+                                              height: 10,
                                             ),
-                                          ),
-                                          SizedBox(
-                                            height: 50,
-                                          ),
-                                        ],
+                                            Container(
+                                              child: Text(
+                                                doc['postContent'],
+                                                style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .selectedRowColor,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 20,
+                                                ),
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                              margin: EdgeInsets.only(
+                                                left: 25,
+                                                right: 25,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            Container(
+                                              child: Text(
+                                                doc['postHeading'],
+                                                style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .selectedRowColor,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 20,
+                                                ),
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                              margin: EdgeInsets.only(
+                                                left: 25,
+                                                right: 25,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: 50,
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
