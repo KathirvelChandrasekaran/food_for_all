@@ -27,12 +27,12 @@ class _ImageUploadState extends State<ImageUpload> {
   List<File> _image = [];
   final picker = ImagePicker();
   List<String> _uploadedFiles = [];
+  User _auth = FirebaseAuth.instance.currentUser;
 
   @override
   void initState() {
     super.initState();
-    _imageRef = FirebaseFirestore.instance
-        .collection('Posts');
+    _imageRef = FirebaseFirestore.instance.collection('Posts');
   }
 
   chooseImage() async {
@@ -100,8 +100,9 @@ class _ImageUploadState extends State<ImageUpload> {
         },
       );
       print(_image);
-      ref = firebase_storage.FirebaseStorage.instance.ref().child(
-          'Posts Images/${FirebaseAuth.instance.currentUser.email}/Post/${Path.basename(img.path)}');
+      ref = firebase_storage.FirebaseStorage.instance
+          .ref()
+          .child('Posts Images/${_auth.email}/Post/${Path.basename(img.path)}');
       await ref.putFile(img).whenComplete(
         () async {
           await ref.getDownloadURL().then(
@@ -128,6 +129,9 @@ class _ImageUploadState extends State<ImageUpload> {
         'mainCourse': mainCourse,
         'email': FirebaseAuth.instance.currentUser.email,
         'createdAt': DateTime.now(),
+        'email': _auth.email,
+        'userName': _auth.displayName,
+        'photo': _auth.photoURL,
         'images': true,
         'url': _uploadedFiles
       },

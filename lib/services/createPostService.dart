@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 class AddPostDetailsToFirebase {
   AddPostDetailsToFirebase();
 
+  User _auth = FirebaseAuth.instance.currentUser;
+
   addPostDetails(
     BuildContext context,
     double foodQuantity,
@@ -19,9 +21,7 @@ class AddPostDetailsToFirebase {
     mainCourse,
     imageUpload,
   ) {
-    FirebaseFirestore.instance
-        .collection("Posts")
-        .add({
+    FirebaseFirestore.instance.collection("Posts").add({
       'foodQuantity': foodQuantity,
       'expiry': expiry,
       'postHeading': postHeading,
@@ -32,7 +32,9 @@ class AddPostDetailsToFirebase {
       'tiffin': tiffin,
       'mainCourse': mainCourse,
       'images': imageUpload,
-      'email': FirebaseAuth.instance.currentUser.email,
+      'email': _auth.email,
+      'userName': _auth.displayName,
+      'photo': _auth.photoURL,
       'createdAt': DateTime.now(),
     }).whenComplete(
       () => Navigator.popAndPushNamed(context, '/postSuccess'),
