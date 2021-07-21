@@ -19,6 +19,7 @@ ThemeData darkTheme = ThemeData(
         0xff7AB317,
       ),
     ),
+    brightness: Brightness.light,
     titleTextStyle: GoogleFonts.nunito(
       color: Color(0xff0D6759),
     ),
@@ -48,6 +49,7 @@ ThemeData lightTheme = ThemeData(
         0xff7AB317,
       ),
     ),
+    brightness: Brightness.light,
     titleTextStyle: GoogleFonts.nunito(
       color: Color(0xff0D6759),
     ),

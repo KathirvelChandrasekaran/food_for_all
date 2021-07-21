@@ -27,6 +27,7 @@ class _RegisterDetailsState extends State<RegisterDetails> {
       builder: (context, watch, child) {
         final map = watch(addressProvider);
         final phone = watch(registerProvider).phone;
+        final role = watch(registerProvider).role;
         final reg = watch(registerDetailsProvider);
         final theme = watch(themingNotifer);
         return GestureDetector(
@@ -82,7 +83,7 @@ class _RegisterDetailsState extends State<RegisterDetails> {
                         ),
                         title: Text(
                           map.address == ""
-                              ? "Press ⬅ Home icon to choose location"
+                              ? "Press ️⬅️ Home icon to choose location"
                               : map.address.toString(),
                           style: TextStyle(
                             fontSize: 18,
@@ -152,7 +153,7 @@ class _RegisterDetailsState extends State<RegisterDetails> {
                                     ? reg.editRegisterDetails(
                                         context, map.address, map.latLng, phone)
                                     : reg.addRegisterDetails(context,
-                                        map.address, map.latLng, phone);
+                                        map.address, map.latLng, phone, role);
                             },
                       style: ElevatedButton.styleFrom(
                         primary: Theme.of(context).primaryColor,

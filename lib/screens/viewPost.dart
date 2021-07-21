@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:food_for_all/services/createPostService.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:flutter/material.dart';
@@ -17,7 +18,15 @@ class ViewPost extends StatefulWidget {
 }
 
 class _ViewPostState extends State<ViewPost> {
-  TextEditingController _commentController;
+  TextEditingController commentController = TextEditingController();
+  DocumentSnapshot doc;
+
+  @override
+  void initState() {
+    super.initState();
+    doc = widget.snapshot;
+    print(doc['comments'][0]);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,11 +82,12 @@ class _ViewPostState extends State<ViewPost> {
                             width: 10,
                           ),
                           Container(
-                            width: MediaQuery.of(context).size.width * 0.75,
-                            child: TextField(
-                              controller: _commentController,
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            child: TextFormField(
+                              controller: commentController,
                               keyboardType: TextInputType.text,
                               cursorColor: Theme.of(context).accentColor,
+                              onChanged: (data) {},
                               decoration: InputDecoration(
                                 labelText: "Post your comment",
                                 labelStyle: TextStyle(
@@ -89,8 +99,18 @@ class _ViewPostState extends State<ViewPost> {
                                       20.0,
                                     ),
                                   ),
-                                  borderSide: BorderSide(
-                                    width: 2.5
+                                  borderSide: BorderSide(width: 2.5),
+                                ),
+                                suffixIcon: IconButton(
+                                  tooltip: "Post your comment",
+                                  onPressed: () {
+                                    AddPostDetailsToFirebase().addCommentToPost(
+                                        widget.snapshot,
+                                        commentController.text);
+                                  },
+                                  icon: Icon(
+                                    Icons.send_rounded,
+                                    color: Theme.of(context).accentColor,
                                   ),
                                 ),
                                 focusedBorder: OutlineInputBorder(
@@ -102,18 +122,40 @@ class _ViewPostState extends State<ViewPost> {
                                     25.0,
                                   ),
                                 ),
-                                suffixIcon: IconButton(
-                                  tooltip: "Post your comment",
-                                  onPressed: () {},
-                                  icon: Icon(
-                                    Icons.insert_comment_rounded,
-                                    color: Theme.of(context).accentColor,
-                                  ),
-                                ),
                               ),
                             ),
                           ),
                         ],
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.80,
+                        child: Divider(
+                          thickness: 2.0,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      widget.snapshot['comments'].length == 0
+                          ? Text(
+                              "No comments yet !😅",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).selectedRowColor,
+                                fontSize: 22,
+                              ),
+                            )
+                          : Text(widget.snapshot['comments'][0]['commentedBy'],
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).selectedRowColor,
+                          fontSize: 22,
+                        ),
                       ),
                     ],
                   ),

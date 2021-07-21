@@ -7,8 +7,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 class RegisterDetailsToFirebase {
   RegisterDetailsToFirebase();
 
-  void addRegisterDetails(
-      BuildContext context, String address, LatLng latLng, int phone) {
+  void addRegisterDetails(BuildContext context, String address, LatLng latLng,
+      int phone, String role) {
     FirebaseFirestore.instance
         .collection("UserDetails")
         .doc(FirebaseAuth.instance.currentUser.email)
@@ -16,7 +16,8 @@ class RegisterDetailsToFirebase {
       'address': address,
       'mobile': phone,
       'latitude': latLng.latitude,
-      'longitude': latLng.longitude
+      'longitude': latLng.longitude,
+      'role': role,
     }).then(
       (value) => Navigator.pushReplacement(
         context,

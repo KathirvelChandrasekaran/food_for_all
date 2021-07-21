@@ -38,7 +38,7 @@ class _IntroState extends State<Intro> {
               showNextButton: false,
               dotsDecorator: const DotsDecorator(
                 size: Size(10.0, 10.0),
-                color: Color(0xffD64550),
+                color: Color(0xFF7AB317),
                 activeSize: Size(22.0, 10.0),
                 activeShape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(

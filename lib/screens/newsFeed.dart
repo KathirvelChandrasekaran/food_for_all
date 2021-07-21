@@ -1,6 +1,7 @@
 import 'package:bouncing_widget/bouncing_widget.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -18,6 +19,27 @@ class NewsFeed extends StatefulWidget {
 }
 
 class _NewsFeedState extends State<NewsFeed> {
+  String role = "";
+
+  @override
+  void initState() {
+    super.initState();
+    getRole();
+  }
+
+  Future<void> getRole() async {
+    await FirebaseFirestore.instance
+        .collection('UserDetails')
+        .doc(FirebaseAuth.instance.currentUser.email)
+        .snapshots()
+        .listen((event) {
+      setState(() {
+        role = event.get('role');
+      });
+      print(role);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer(
@@ -139,7 +161,9 @@ class _NewsFeedState extends State<NewsFeed> {
                       ),
                     ),
                     Text(
-                      "Post your needs !!!",
+                      role == "Volunteer"
+                          ? "Hi there 🖐🏼"
+                          : "Post your needs 📥",
                       style: TextStyle(
                         color: Theme.of(context).selectedRowColor,
                         fontWeight: FontWeight.w500,
@@ -153,20 +177,22 @@ class _NewsFeedState extends State<NewsFeed> {
                           25,
                         ),
                       ),
-                      child: IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => CreatePost(),
+                      child: role == "Volunteer"
+                          ? null
+                          : IconButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => CreatePost(),
+                                  ),
+                                );
+                              },
+                              icon: Icon(
+                                Icons.post_add_rounded,
+                                color: Colors.white,
+                              ),
                             ),
-                          );
-                        },
-                        icon: Icon(
-                          Icons.post_add_rounded,
-                          color: Colors.white,
-                        ),
-                      ),
                     )
                   ],
                 ),
@@ -194,6 +220,17 @@ class _NewsFeedState extends State<NewsFeed> {
                         return Center(
                           child: CircularProgressIndicator(
                             color: Theme.of(context).primaryColor,
+                          ),
+                        );
+                      if (snapshot.data.size < 1)
+                        return Center(
+                          child: Text(
+                            "No post found ☹️",
+                            style: TextStyle(
+                              color: Theme.of(context).primaryColor,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 25,
+                            ),
                           ),
                         );
                       return ListView(
@@ -260,8 +297,6 @@ class _NewsFeedState extends State<NewsFeed> {
                                                     width: 15,
                                                   ),
                                                   Column(
-                                                    // mainAxisAlignment:
-                                                    //     MainAxisAlignment.start,
                                                     crossAxisAlignment:
                                                         CrossAxisAlignment
                                                             .start,

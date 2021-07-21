@@ -36,8 +36,22 @@ class AddPostDetailsToFirebase {
       'userName': _auth.displayName,
       'photo': _auth.photoURL,
       'createdAt': DateTime.now(),
+      "comments": "",
     }).whenComplete(
       () => Navigator.popAndPushNamed(context, '/postSuccess'),
     );
+  }
+
+  addCommentToPost(QueryDocumentSnapshot snapshot, String comment) {
+    FirebaseFirestore.instance.collection("Posts").doc(snapshot.id).update({
+      'comments': FieldValue.arrayUnion([
+        {
+          'comment': comment,
+          'commentedBy': _auth.displayName,
+          'commentedAt': DateTime.now(),
+          'commentedPhotoURL': _auth.photoURL,
+        }
+      ])
+    });
   }
 }
