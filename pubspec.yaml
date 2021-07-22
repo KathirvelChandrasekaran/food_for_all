@@ -36,7 +36,7 @@ dependencies:
   google_fonts: ^2.1.0
   carousel_slider: ^3.0.0
   bouncing_widget: ^2.0.0
-  sliding_up_panel: ^2.0.0+1
+  comment_box: ^0.0.16
 
 dev_dependencies:
   flutter_test:
