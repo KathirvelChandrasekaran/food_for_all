@@ -133,7 +133,8 @@ class _ImageUploadState extends State<ImageUpload> {
         'userName': _auth.displayName,
         'photo': _auth.photoURL,
         'images': true,
-        'url': _uploadedFiles
+        'url': _uploadedFiles,
+        "comments": {},
       },
     );
   }

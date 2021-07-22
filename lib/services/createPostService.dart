@@ -36,7 +36,7 @@ class AddPostDetailsToFirebase {
       'userName': _auth.displayName,
       'photo': _auth.photoURL,
       'createdAt': DateTime.now(),
-      "comments": "",
+      "comments": FieldValue.arrayUnion([{}]),
     }).whenComplete(
       () => Navigator.popAndPushNamed(context, '/postSuccess'),
     );
