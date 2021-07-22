@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_for_all/screens/comments.dart';
 import 'package:logger/logger.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:flutter/material.dart';
 
@@ -109,7 +110,12 @@ class _ViewPostState extends State<ViewPost> {
                                     width: 20,
                                   ),
                                   IconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      print("share");
+                                      Share.share("Hey! Will you help this 😄",
+                                          subject:
+                                              "There is availability of ${widget.snapshot['foodQuantity']}Kg food from ${widget.snapshot['userName']}");
+                                    },
                                     icon: Icon(
                                       Icons.share_rounded,
                                       color: Theme.of(context).accentColor,
@@ -435,7 +441,9 @@ class _ViewPostState extends State<ViewPost> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => Comments(snapshot: widget.snapshot,),
+                  builder: (context) => Comments(
+                    snapshot: widget.snapshot,
+                  ),
                 ),
               );
             },

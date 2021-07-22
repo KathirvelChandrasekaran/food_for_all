@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_for_all/services/createPostService.dart';
 import 'package:food_for_all/utils/theming.dart';
 
+// ignore: must_be_immutable
 class Comments extends StatefulWidget {
   QueryDocumentSnapshot snapshot;
 
