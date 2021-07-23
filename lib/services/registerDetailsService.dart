@@ -8,7 +8,7 @@ class RegisterDetailsToFirebase {
   RegisterDetailsToFirebase();
 
   void addRegisterDetails(BuildContext context, String address, LatLng latLng,
-      int phone, String role) {
+      int phone, String role, String orgName) {
     FirebaseFirestore.instance
         .collection("UserDetails")
         .doc(FirebaseAuth.instance.currentUser.email)
@@ -18,6 +18,7 @@ class RegisterDetailsToFirebase {
       'latitude': latLng.latitude,
       'longitude': latLng.longitude,
       'role': role,
+      'orgName': orgName == "" ? "" : orgName,
     }).then(
       (value) => Navigator.pushReplacement(
         context,
