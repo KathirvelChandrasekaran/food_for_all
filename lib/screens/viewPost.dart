@@ -1,12 +1,14 @@
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:food_for_all/screens/acceptRequest.dart';
 import 'package:food_for_all/screens/comments.dart';
 import 'package:logger/logger.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:timeago/timeago.dart' as timeago;
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 // ignore: must_be_immutable
 class ViewPost extends StatefulWidget {
@@ -22,13 +24,17 @@ class _ViewPostState extends State<ViewPost> {
   TextEditingController commentController = TextEditingController();
   DocumentSnapshot doc;
   List<dynamic> comments;
-
+  DateTime postedAt;
   var logger = Logger();
 
   @override
   void initState() {
     super.initState();
     doc = widget.snapshot;
+    Timestamp t = doc['createdAt'];
+    setState(() {
+      postedAt = t.toDate();
+    });
   }
 
   @override
@@ -42,7 +48,7 @@ class _ViewPostState extends State<ViewPost> {
             child: Center(
               child: Column(
                 children: [
-                  Flexible(
+                  Expanded(
                     child: Container(
                       width: MediaQuery.of(context).size.width * 0.90,
                       height: double.infinity,
@@ -95,9 +101,9 @@ class _ViewPostState extends State<ViewPost> {
                                         ),
                                       ),
                                       Text(
-                                        timeago.format(
-                                          widget.snapshot['createdAt'].toDate(),
-                                        ),
+                                        DateFormat.yMMMd()
+                                            .add_jm()
+                                            .format(postedAt),
                                         style: TextStyle(
                                           color: Colors.black54,
                                           fontWeight: FontWeight.w400,
@@ -432,21 +438,65 @@ class _ViewPostState extends State<ViewPost> {
               ),
             ),
           ),
-          floatingActionButton: FloatingActionButton(
-            child: Icon(
-              Icons.comment,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => Comments(
-                    snapshot: widget.snapshot,
+          floatingActionButton: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              FloatingActionButton.extended(
+                heroTag: "comment",
+                icon: Icon(
+                  Icons.comment,
+                  color: Colors.white,
+                ),
+                label: Text(
+                  "Comments",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
                   ),
                 ),
-              );
-            },
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Comments(
+                        snapshot: widget.snapshot,
+                      ),
+                    ),
+                  );
+                },
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              FloatingActionButton.extended(
+                heroTag: "accept",
+                icon: Icon(
+                  Icons.task_alt_rounded,
+                  color: Colors.white,
+                ),
+                label: Text(
+                  "Accept",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                  ),
+                ),
+                onPressed: widget.snapshot['email'] ==
+                        FirebaseAuth.instance.currentUser.email
+                    ? null
+                    : () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AcceptRequest(
+                              snapshot: widget.snapshot,
+                            ),
+                          ),
+                        );
+                      },
+              ),
+            ],
           ),
         );
       },

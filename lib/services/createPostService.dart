@@ -37,6 +37,7 @@ class AddPostDetailsToFirebase {
       'photo': _auth.photoURL,
       'createdAt': DateTime.now(),
       "comments": FieldValue.arrayUnion([{}]),
+      "accepted": false,
     }).whenComplete(
       () => Navigator.popAndPushNamed(context, '/postSuccess'),
     );
@@ -52,6 +53,12 @@ class AddPostDetailsToFirebase {
           'commentedPhotoURL': _auth.photoURL,
         }
       ])
+    });
+  }
+
+  acceptRequest(QueryDocumentSnapshot snapshot) {
+    FirebaseFirestore.instance.collection("Posts").doc(snapshot.id).update({
+      'accepted': true,
     });
   }
 }

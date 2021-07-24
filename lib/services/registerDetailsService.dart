@@ -19,6 +19,7 @@ class RegisterDetailsToFirebase {
       'longitude': latLng.longitude,
       'role': role,
       'orgName': orgName == "" ? "" : orgName,
+      'email': FirebaseAuth.instance.currentUser.email,
     }).then(
       (value) => Navigator.pushReplacement(
         context,

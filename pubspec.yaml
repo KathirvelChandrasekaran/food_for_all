@@ -38,6 +38,7 @@ dependencies:
   bouncing_widget: ^2.0.0
   comment_box: ^0.0.16
   share_plus: ^2.1.4
+  url_launcher: ^6.0.9
 
 dev_dependencies:
   flutter_test:
