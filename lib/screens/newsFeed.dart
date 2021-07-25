@@ -103,22 +103,6 @@ class _NewsFeedState extends State<NewsFeed> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                height: 50,
-              ),
-              Container(
-                margin: EdgeInsets.only(
-                  left: 30,
-                ),
-                child: Text(
-                  "Create a Post",
-                  style: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 25,
-                  ),
-                ),
-              ),
-              SizedBox(
                 height: 25,
               ),
               Container(
@@ -212,7 +196,7 @@ class _NewsFeedState extends State<NewsFeed> {
                 ),
               ),
               SizedBox(
-                height: 15,
+                height: 20,
               ),
               Container(
                 margin: EdgeInsets.only(
@@ -410,11 +394,11 @@ class _NewsFeedState extends State<NewsFeed> {
                                             Container(
                                               child: Text(
                                                 doc['comments']
-                                                    .length
-                                                    .toString() + "Comment(s)",
+                                                        .length
+                                                        .toString() +
+                                                    " Comment(s)",
                                                 style: TextStyle(
-                                                  color: Theme.of(context)
-                                                      .selectedRowColor,
+                                                  color: Colors.black54,
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 20,
                                                 ),
