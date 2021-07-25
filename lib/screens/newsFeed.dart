@@ -369,9 +369,6 @@ class _NewsFeedState extends State<NewsFeed> {
                                                     ),
                                                   )
                                                 : Text(""),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
                                             Container(
                                               child: Text(
                                                 doc['postContent'],
@@ -408,7 +405,28 @@ class _NewsFeedState extends State<NewsFeed> {
                                               ),
                                             ),
                                             SizedBox(
-                                              height: 50,
+                                              height: 25,
+                                            ),
+                                            Container(
+                                              child: Text(
+                                                doc['comments']
+                                                    .length
+                                                    .toString() + "Comment(s)",
+                                                style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .selectedRowColor,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20,
+                                                ),
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                              margin: EdgeInsets.only(
+                                                left: 25,
+                                                right: 25,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: 40,
                                             ),
                                           ],
                                         ),
