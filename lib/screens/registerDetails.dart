@@ -21,12 +21,15 @@ class _RegisterDetailsState extends State<RegisterDetails> {
   @override
   Widget build(BuildContext context) {
     TextEditingController _phoneController = TextEditingController();
+    TextEditingController _organizationController = TextEditingController();
 
     final _formKey = GlobalKey<FormState>();
     return Consumer(
       builder: (context, watch, child) {
         final map = watch(addressProvider);
         final phone = watch(registerProvider).phone;
+        final role = watch(registerProvider).role;
+        final orgName = watch(registerProvider).orgName;
         final reg = watch(registerDetailsProvider);
         final theme = watch(themingNotifer);
         return GestureDetector(
@@ -57,6 +60,61 @@ class _RegisterDetailsState extends State<RegisterDetails> {
                         width: MediaQuery.of(context).size.width * 0.8,
                       ),
                     ),
+                    Container(
+                      child: role == "NGO" || role == "School / College"
+                          ? Padding(
+                              padding: const EdgeInsets.fromLTRB(40, 10, 40, 0),
+                              child: TextFormField(
+                                maxLength: 150,
+                                keyboardType: TextInputType.text,
+                                decoration: InputDecoration(
+                                  labelText: "Organization Name",
+                                  labelStyle: TextStyle(
+                                    color: Theme.of(context).primaryColor,
+                                  ),
+                                  prefixIcon: Icon(
+                                    Icons.corporate_fare_rounded,
+                                    color: Theme.of(context).primaryColor,
+                                  ),
+                                  focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: theme.darkTheme
+                                          ? Colors.black
+                                          : Colors.white,
+                                    ),
+                                  ),
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: theme.darkTheme
+                                          ? Colors.black
+                                          : Colors.white,
+                                    ),
+                                  ),
+                                ),
+                                cursorColor: Theme.of(context).primaryColor,
+                                controller: _organizationController,
+                                style: TextStyle(
+                                  color: theme.darkTheme
+                                      ? Colors.black
+                                      : Colors.white,
+                                ),
+                                validator: (val) {
+                                  if (val.isEmpty) return "Should not be empty";
+                                  if (val.length < 10)
+                                    return "Not a valid phone number";
+                                  return null;
+                                },
+                                onChanged: (val) {
+                                  context
+                                      .read(registerProvider)
+                                      .listenToRegisterDetailsOrgNotifier(
+                                        _organizationController.text,
+                                      );
+                                },
+                              ),
+                            )
+                          : null,
+                    ),
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.1,
                     ),
@@ -82,7 +140,7 @@ class _RegisterDetailsState extends State<RegisterDetails> {
                         ),
                         title: Text(
                           map.address == ""
-                              ? "Press ⬅ Home icon to choose location"
+                              ? "Press ️⬅️ Home icon to choose location"
                               : map.address.toString(),
                           style: TextStyle(
                             fontSize: 18,
@@ -151,8 +209,14 @@ class _RegisterDetailsState extends State<RegisterDetails> {
                                 widget.edit
                                     ? reg.editRegisterDetails(
                                         context, map.address, map.latLng, phone)
-                                    : reg.addRegisterDetails(context,
-                                        map.address, map.latLng, phone);
+                                    : reg.addRegisterDetails(
+                                        context,
+                                        map.address,
+                                        map.latLng,
+                                        phone,
+                                        role,
+                                        orgName,
+                                      );
                             },
                       style: ElevatedButton.styleFrom(
                         primary: Theme.of(context).primaryColor,
@@ -166,6 +230,7 @@ class _RegisterDetailsState extends State<RegisterDetails> {
                         "Submit",
                         style: TextStyle(
                           fontSize: 20,
+                          color: theme.darkTheme ? Colors.white : Colors.black,
                         ),
                       ),
                     )

@@ -46,7 +46,12 @@ class Starter extends StatelessWidget {
                   borderRadius: BorderRadius.circular(50),
                 ),
               ),
-              child: Text('Continue', style: TextStyle(fontSize: 20,),),
+              child: Text(
+                'Continue',
+                style: TextStyle(
+                  fontSize: 20,
+                ),
+              ),
             ),
           ],
         ),

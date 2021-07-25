@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // ignore: non_constant_identifier_names
-ElevatedButton RoundedButton(BuildContext context, String btnText, double h, double v, Widget page) {
+ElevatedButton RoundedButton(BuildContext context, String btnText, double h, double v, Widget page, Color color) {
   return ElevatedButton(
     onPressed: () {
       Navigator.pushReplacement(
@@ -24,6 +24,7 @@ ElevatedButton RoundedButton(BuildContext context, String btnText, double h, dou
       btnText,
       style: TextStyle(
         fontSize: 20,
+        color: color,
       ),
     ),
   );

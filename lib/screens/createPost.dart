@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:food_for_all/providers/createPostProvider.dart';
 import 'package:food_for_all/screens/imageUpload.dart';
-import 'package:food_for_all/screens/postSuccess.dart';
 import 'package:food_for_all/utils/theming.dart';
 import 'package:food_for_all/widgets/inputs.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:numberpicker/numberpicker.dart';
 
 class CreatePost extends StatefulWidget {
@@ -37,6 +38,32 @@ class _CreatePostState extends State<CreatePost> {
           });
   }
 
+  bool checkErrors() {
+    if (_formKey.currentState.validate()) {
+      if (_foodQuantity == 0.0)
+        createSnackBar("Food quantity should not be empty");
+      if (_nosPersons == 0) createSnackBar("Person head should not be empty");
+      if (_expiry == 0.0) createSnackBar("Expiry time should not be empty");
+      if (_needVessel == true && _vesselCount == 0)
+        createSnackBar("Vessel count should not be empty");
+
+      if (_tiffin | _mainCourse == false)
+        createSnackBar("Food type should be checked");
+
+      return false;
+    } else
+      return true;
+  }
+
+  void createSnackBar(String message) {
+    final snackBar = new SnackBar(
+      content: new Text(message),
+      backgroundColor: Colors.red,
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -48,7 +75,7 @@ class _CreatePostState extends State<CreatePost> {
         appBar: AppBar(
           title: Text(
             "Create Post",
-            style: TextStyle(
+            style: GoogleFonts.oswald(
               fontWeight: FontWeight.bold,
               fontSize: 25,
               color: Theme.of(context).primaryColor,
@@ -58,6 +85,8 @@ class _CreatePostState extends State<CreatePost> {
         body: Consumer(
           builder: (context, watch, child) {
             final theme = watch(themingNotifer);
+            final createPost = watch(addPostDetails);
+            final createPostListener = watch(createPostProvider);
             return SingleChildScrollView(
               child: Form(
                 key: _formKey,
@@ -65,17 +94,17 @@ class _CreatePostState extends State<CreatePost> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     InputTextMethod(
-                      context,
-                      theme,
-                      TextInputType.text,
-                      _postHeadingController,
-                      100,
-                      "Post Heading",
-                      Icon(
-                        Icons.title_rounded,
-                        color: Theme.of(context).primaryColor,
-                      ),
-                    ),
+                        context,
+                        theme,
+                        TextInputType.text,
+                        _postHeadingController,
+                        100,
+                        "Post Heading",
+                        Icon(
+                          Icons.title_rounded,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        "Please enter the post's heading"),
                     SizedBox(
                       height: 10,
                     ),
@@ -84,7 +113,16 @@ class _CreatePostState extends State<CreatePost> {
                       child: TextFormField(
                         keyboardType: TextInputType.multiline,
                         maxLines: 6,
+                        style: TextStyle(
+                          color: theme.darkTheme ? Colors.black : Colors.white,
+                        ),
                         controller: _postContentController,
+                        validator: (val) {
+                          if (val.isEmpty) {
+                            return "Please feed the post content";
+                          }
+                          return null;
+                        },
                         decoration: InputDecoration(
                           labelText: "Post Content",
                           labelStyle: TextStyle(
@@ -418,7 +456,8 @@ class _CreatePostState extends State<CreatePost> {
                                 Switch(
                                   value: _needVessel,
                                   onChanged: toggleVessel,
-                                  activeColor: Theme.of(context).primaryColor,
+                                  activeColor:
+                                      Theme.of(context).scaffoldBackgroundColor,
                                 ),
                                 Container(
                                   child: _needVessel
@@ -505,7 +544,7 @@ class _CreatePostState extends State<CreatePost> {
                               fontWeight: FontWeight.bold,
                               color: theme.darkTheme
                                   ? Theme.of(context).primaryColor
-                                  : Colors.black,
+                                  : Colors.white,
                               fontSize: 20,
                             ),
                           ),
@@ -522,7 +561,7 @@ class _CreatePostState extends State<CreatePost> {
                               style: TextStyle(
                                 color: theme.darkTheme
                                     ? Theme.of(context).primaryColor
-                                    : Colors.black,
+                                    : Colors.white,
                                 fontSize: 25,
                               ),
                             ),
@@ -546,7 +585,7 @@ class _CreatePostState extends State<CreatePost> {
                               style: TextStyle(
                                 color: theme.darkTheme
                                     ? Theme.of(context).primaryColor
-                                    : Colors.black,
+                                    : Colors.white,
                                 fontSize: 25,
                               ),
                             ),
@@ -578,7 +617,7 @@ class _CreatePostState extends State<CreatePost> {
                               fontWeight: FontWeight.bold,
                               color: theme.darkTheme
                                   ? Theme.of(context).primaryColor
-                                  : Colors.black,
+                                  : Colors.white,
                               fontSize: 20,
                             ),
                           ),
@@ -595,7 +634,7 @@ class _CreatePostState extends State<CreatePost> {
                               style: TextStyle(
                                 color: theme.darkTheme
                                     ? Theme.of(context).primaryColor
-                                    : Colors.black,
+                                    : Colors.white,
                                 fontSize: 25,
                               ),
                             ),
@@ -613,33 +652,59 @@ class _CreatePostState extends State<CreatePost> {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        _imageUpload
-                            ? Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ImageUpload(),
-                                ),
-                              )
-                            : Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => PostSuccess(),
-                                ),
-                              );
-                        ;
+                        if (checkErrors())
+                          return;
+                        else {
+                          if (_imageUpload) {
+                            createPostListener.notifyToCreatePostListener(
+                              _foodQuantity,
+                              _expiry,
+                              _postContentController.text,
+                              _postHeadingController.text,
+                              _nosPersons,
+                              _vesselCount,
+                              _needVessel,
+                              _tiffin,
+                              _mainCourse,
+                            );
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ImageUpload(),
+                              ),
+                            );
+                          } else
+                            createPost.addPostDetails(
+                              context,
+                              _foodQuantity,
+                              _expiry,
+                              _postContentController.text,
+                              _postHeadingController.text,
+                              _nosPersons,
+                              _vesselCount,
+                              _needVessel,
+                              _tiffin,
+                              _mainCourse,
+                              _imageUpload,
+                            );
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         primary: Theme.of(context).primaryColor,
-                        padding:
-                            EdgeInsets.symmetric(vertical: 15, horizontal: 125),
+                        padding: _imageUpload
+                            ? EdgeInsets.symmetric(
+                                vertical: 15, horizontal: 125)
+                            : EdgeInsets.symmetric(
+                                vertical: 15, horizontal: 145),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(50),
                         ),
                       ),
                       child: Text(
-                        "Continue",
+                        _imageUpload ? "Continue" : "Post",
                         style: TextStyle(
                           fontSize: 20,
+                          color: theme.darkTheme ? Colors.white : Colors.black,
                         ),
                       ),
                     ),

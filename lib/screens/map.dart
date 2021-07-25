@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_for_all/providers/mapProvider.dart';
 import 'package:food_for_all/utils/mapStyle.dart';
+import 'package:food_for_all/utils/theming.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
@@ -140,33 +141,40 @@ class _SelectLocationMapsState extends State<SelectLocationMaps> {
                     topRight: const Radius.circular(10.0),
                   ),
                 ),
-                child: Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Long press on the map to Pin the location 🗺",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                        ),
+                child: Consumer(
+                  builder: (context, watch, child) {
+                    final theme = watch(themingNotifer);
+                    return Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Long press on the map to Pin the location 🗺",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color:
+                                  theme.darkTheme ? Colors.white : Colors.black,
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 25,
+                          ),
+                          Text(
+                            "Swipe down to dismiss",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color:
+                                  theme.darkTheme ? Colors.white : Colors.black,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ],
                       ),
-                      SizedBox(
-                        height: 25,
-                      ),
-                      Text(
-                        "Swipe down to dismiss",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ],
-                  ),
+                    );
+                  },
                 ),
               ),
             );

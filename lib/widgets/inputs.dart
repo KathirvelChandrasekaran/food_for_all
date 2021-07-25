@@ -9,13 +9,22 @@ Padding InputTextMethod(
     int maxLength,
     String labelText,
     Icon prefixIcon,
-    ) {
+    String validator) {
   return Padding(
     padding: const EdgeInsets.fromLTRB(40, 10, 40, 0),
     child: TextFormField(
       keyboardType: type,
       maxLength: maxLength,
       controller: controller,
+      style: TextStyle(
+        color: theme.darkTheme ? Colors.black : Colors.white,
+      ),
+      validator: (val) {
+        if (val.isEmpty) {
+          return validator;
+        }
+        return null;
+      },
       decoration: InputDecoration(
         labelText: labelText,
         labelStyle: TextStyle(

@@ -95,55 +95,56 @@ class _ProfileState extends State<Profile> {
                 ),
               ),
               PopupMenuItem(
-                  value: 3,
-                  child: Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(
-                          20.0,
-                        ),
-                        child: Consumer(
-                          builder: (context, watch, child) {
-                            final themingListener = watch(themingNotifer);
-                            return FlutterSwitch(
-                              width: 100.0,
-                              height: 50.0,
-                              toggleSize: 50.0,
-                              value: themingListener.darkTheme,
-                              borderRadius: 50.0,
-                              activeToggleColor: Colors.black,
-                              inactiveToggleColor: Colors.white,
-                              activeSwitchBorder: Border.all(
-                                color: Theme.of(context).primaryColor,
-                                width: 2.0,
-                              ),
-                              inactiveSwitchBorder: Border.all(
-                                color: Theme.of(context).primaryColor,
-                                width: 2.0,
-                              ),
-                              activeColor:
-                                  Theme.of(context).scaffoldBackgroundColor,
-                              inactiveColor:
-                                  Theme.of(context).scaffoldBackgroundColor,
-                              activeIcon: Image.asset(
-                                "images/moon.png",
-                                height: 500,
-                              ),
-                              inactiveIcon: Image.asset(
-                                "images/sun.png",
-                              ),
-                              onToggle: (val) {
-                                setState(() {
-                                  themingListener.toggleTheme();
-                                  status = themingListener.darkTheme;
-                                });
-                              },
-                            );
-                          },
-                        ),
+                value: 3,
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(
+                        20.0,
                       ),
-                    ],
-                  )),
+                      child: Consumer(
+                        builder: (context, watch, child) {
+                          final themingListener = watch(themingNotifer);
+                          return FlutterSwitch(
+                            width: 100.0,
+                            height: 50.0,
+                            toggleSize: 50.0,
+                            value: themingListener.darkTheme,
+                            borderRadius: 50.0,
+                            activeToggleColor: Colors.black,
+                            inactiveToggleColor: Colors.white,
+                            activeSwitchBorder: Border.all(
+                              color: Theme.of(context).primaryColor,
+                              width: 2.0,
+                            ),
+                            inactiveSwitchBorder: Border.all(
+                              color: Theme.of(context).primaryColor,
+                              width: 2.0,
+                            ),
+                            activeColor:
+                                Theme.of(context).scaffoldBackgroundColor,
+                            inactiveColor:
+                                Theme.of(context).scaffoldBackgroundColor,
+                            activeIcon: Image.asset(
+                              "images/moon.png",
+                              height: 500,
+                            ),
+                            inactiveIcon: Image.asset(
+                              "images/sun.png",
+                            ),
+                            onToggle: (val) {
+                              setState(() {
+                                themingListener.toggleTheme();
+                                status = themingListener.darkTheme;
+                              });
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ],
@@ -245,7 +246,7 @@ class _ProfileState extends State<Profile> {
                                       MediaQuery.of(context).size.width * 0.05,
                                 ),
                                 Container(
-                                  height: 100,
+                                  height: 120,
                                   width:
                                       MediaQuery.of(context).size.width * 0.70,
                                   child: Text(
@@ -257,6 +258,9 @@ class _ProfileState extends State<Profile> {
                                   ),
                                 ),
                               ],
+                            ),
+                            SizedBox(
+                              height: 10,
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,

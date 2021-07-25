@@ -1,31 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 ThemeData darkTheme = ThemeData(
-  scaffoldBackgroundColor: Color(0xff0B2E59),
+  scaffoldBackgroundColor: Color(0xff151515),
   primaryColor: Colors.white,
   selectedRowColor: Color(0xff2A044A),
   indicatorColor: Colors.black,
   accentColor: Color(0xff7AB317),
   errorColor: Color(0xffce1212),
+  unselectedWidgetColor: Colors.white,
   appBarTheme: AppBarTheme(
-    color: Color(0xff0B2E59),
+    color: Color(0xff151515),
     elevation: 0,
     iconTheme: IconThemeData(
       color: Color(
         0xff7AB317,
       ),
     ),
-    titleTextStyle: TextStyle(
+    brightness: Brightness.light,
+    titleTextStyle: GoogleFonts.nunito(
       color: Color(0xff0D6759),
     ),
   ),
   textTheme: TextTheme(
-    bodyText1: TextStyle(
+    bodyText1: GoogleFonts.nunito(
       color: Colors.white,
     ),
-    bodyText2: TextStyle(
+    bodyText2: GoogleFonts.nunito(
       color: Colors.white,
     ),
   ),
@@ -46,15 +49,16 @@ ThemeData lightTheme = ThemeData(
         0xff7AB317,
       ),
     ),
-    titleTextStyle: TextStyle(
+    brightness: Brightness.light,
+    titleTextStyle: GoogleFonts.nunito(
       color: Color(0xff0D6759),
     ),
   ),
   textTheme: TextTheme(
-    bodyText1: TextStyle(
+    bodyText1: GoogleFonts.nunito(
       color: Colors.white,
     ),
-    bodyText2: TextStyle(
+    bodyText2: GoogleFonts.nunito(
       color: Colors.white,
     ),
   ),
