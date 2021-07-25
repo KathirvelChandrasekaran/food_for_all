@@ -5,3 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 final getNewsFeeds = StreamProvider.autoDispose<QuerySnapshot>(
   (_) => NewsFeedService().getPosts(),
 );
+
+final getVolunteerPosts = StreamProvider.autoDispose<QuerySnapshot>(
+  (_) => NewsFeedService().getVolunteerPosts(),
+);

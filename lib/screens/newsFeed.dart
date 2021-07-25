@@ -11,6 +11,7 @@ import 'package:food_for_all/providers/newsFeedProvider.dart';
 import 'package:food_for_all/screens/createPost.dart';
 import 'package:food_for_all/screens/profile.dart';
 import 'package:food_for_all/screens/viewPost.dart';
+import 'package:food_for_all/screens/volunteerPosts.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class NewsFeed extends StatefulWidget {
@@ -178,7 +179,20 @@ class _NewsFeedState extends State<NewsFeed> {
                         ),
                       ),
                       child: role == "Volunteer"
-                          ? null
+                          ? IconButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => VolunteerPosts(),
+                                  ),
+                                );
+                              },
+                              icon: Icon(
+                                Icons.view_carousel_outlined,
+                                color: Colors.white,
+                              ),
+                            )
                           : IconButton(
                               onPressed: () {
                                 Navigator.push(

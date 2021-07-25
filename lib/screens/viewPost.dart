@@ -50,7 +50,7 @@ class _ViewPostState extends State<ViewPost> {
                 children: [
                   Expanded(
                     child: Container(
-                      width: MediaQuery.of(context).size.width * 0.90,
+                      width: MediaQuery.of(context).size.width * 0.95,
                       height: double.infinity,
                       decoration: BoxDecoration(
                         color: Colors.white,
