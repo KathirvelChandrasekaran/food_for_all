@@ -246,6 +246,7 @@ class _NewsFeedState extends State<NewsFeed> {
                                   child: BouncingWidget(
                                     scaleFactor: 0.5,
                                     onPressed: () {
+                                      watch(getSinglePost(doc.id));
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(

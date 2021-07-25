@@ -20,3 +20,11 @@ class NewsFeedService {
     return snapshots;
   }
 }
+
+class Post {
+  Stream<DocumentSnapshot> get(String docID) {
+    var snapshots =
+        FirebaseFirestore.instance.collection("Posts").doc(docID).snapshots();
+    return snapshots;
+  }
+}
