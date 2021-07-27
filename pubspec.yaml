@@ -40,6 +40,7 @@ dependencies:
   share_plus: ^2.1.4
   url_launcher: ^6.0.9
   material_floating_search_bar: ^0.3.4
+  page_transition: ^2.0.2
 
 dev_dependencies:
   flutter_test:
