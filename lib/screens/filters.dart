@@ -68,18 +68,54 @@ class _FiltersState extends State<Filters> {
                   isSelected: filters.isFoodSelected,
                   onPressed: (int index) {
                     setState(() {
-                      filters.isFoodSelected[index] = !filters.isFoodSelected[index];
+                      filters.isFoodSelected[index] =
+                          !filters.isFoodSelected[index];
                     });
                   },
+                ),
+                SizedBox(height: 20),
+                Text(
+                  "Expiry time limit⏱️",
+                  style: TextStyle(
+                    color: !theme.darkTheme ? Colors.white : Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
+                ),
+                Slider(
+                  min: 0,
+                  max: 24,
+                  divisions: 24,
+                  activeColor: Theme.of(context).accentColor,
+                  inactiveColor: Colors.redAccent,
+                  value: filters.startTime.toDouble(),
+                  onChanged: (value) {
+                    setState(
+                      () {
+                        filters.startTime = value.toInt();
+                      },
+                    );
+                  },
+                ),
+                SizedBox(height: 10),
+                Text(
+                  "Less than ${filters.startTime} Hrs",
+                  style: TextStyle(
+                    color: !theme.darkTheme ? Colors.white : Colors.black,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 20,
+                  ),
                 ),
                 SizedBox(
                   height: 20,
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    context
-                        .read(filterProvider)
-                        .listenToFilters(filters.isFoodSelected, true);
+                    context.read(filterProvider).listenToFilters(
+                          filters.isFoodSelected,
+                          true,
+                          filters.startTime,
+                        );
                     Navigator.pop(context);
                   },
                   style: ElevatedButton.styleFrom(
