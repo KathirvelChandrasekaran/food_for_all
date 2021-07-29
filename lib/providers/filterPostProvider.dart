@@ -1,15 +1,29 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class FilterPostProvider extends ChangeNotifier {
   bool _filterFlag = false;
   List<bool> _isFoodSelected = [false, false];
-  int _startTime = 0;
-  Stream<QuerySnapshot> _fetchedPost;
+  int _startTime = 0, _foodQuantity = 0, _personCount = 0, _vesselCount = 0;
+  bool _oldPost = false;
+  bool _newPost = false;
+  bool _timeFlag = false;
 
+  get foodQuantity => _foodQuantity;
 
-  Stream<QuerySnapshot> get fetchedPost => _fetchedPost;
+  set foodQuantity(value) {
+    _foodQuantity = value;
+  }
+
+  set personCount(value) {
+    _personCount = value;
+  }
+
+  get vesselCount => _vesselCount;
+
+  set vesselCount(value) {
+    _vesselCount = value;
+  }
 
   set startTime(int value) {
     _startTime = value;
@@ -17,17 +31,45 @@ class FilterPostProvider extends ChangeNotifier {
 
   bool get filterFlag => _filterFlag;
 
+  bool get timeFlag => _timeFlag;
+
   List<bool> get isFoodSelected => _isFoodSelected;
 
   int get startTime => _startTime;
 
+  int get personCount => _personCount;
 
-  void listenToFilters(
-      List<bool> foodType, bool filterFlag, int startTime) {
+  bool get newPost => _newPost;
+
+  bool get oldPost => _oldPost;
+
+  void listenToFilters(List<bool> foodType, int startTime, foodQuantity,
+      personCount, vesselCount) {
     _isFoodSelected[0] = foodType[0];
     _isFoodSelected[1] = foodType[1];
-    _filterFlag = filterFlag;
     _startTime = startTime;
+    _foodQuantity = foodQuantity;
+    _personCount = personCount;
+    _vesselCount = _vesselCount;
+
+    notifyListeners();
+  }
+
+  void listenToFilterFlag(bool filterFlag) {
+    _filterFlag = filterFlag;
+
+    notifyListeners();
+  }
+
+  void listenToTimeFlag(bool timeFlag) {
+    _timeFlag = timeFlag;
+
+    notifyListeners();
+  }
+
+  void listenToTimeFilter(bool oldPost, newPost) {
+    _oldPost = oldPost;
+    _newPost = newPost;
 
     notifyListeners();
   }
@@ -36,4 +78,3 @@ class FilterPostProvider extends ChangeNotifier {
 final filterProvider = ChangeNotifierProvider(
   (_) => FilterPostProvider(),
 );
-

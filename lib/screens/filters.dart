@@ -106,16 +106,118 @@ class _FiltersState extends State<Filters> {
                     fontSize: 20,
                   ),
                 ),
+                SizedBox(height: 20),
+                Text(
+                  "Food Quantity ⚖️",
+                  style: TextStyle(
+                    color: !theme.darkTheme ? Colors.white : Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
+                ),
+                Slider(
+                  min: 0,
+                  max: 100,
+                  divisions: 100,
+                  activeColor: Theme.of(context).accentColor,
+                  inactiveColor: Colors.redAccent,
+                  value: filters.foodQuantity.toDouble(),
+                  onChanged: (value) {
+                    setState(
+                      () {
+                        filters.foodQuantity = value.toInt();
+                      },
+                    );
+                  },
+                ),
+                SizedBox(height: 10),
+                Text(
+                  "Less than ${filters.foodQuantity} Kg",
+                  style: TextStyle(
+                    color: !theme.darkTheme ? Colors.white : Colors.black,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 20,
+                  ),
+                ),
+                SizedBox(height: 20),
+                Text(
+                  "Person Count 👨🏼‍🤝‍👨🏻",
+                  style: TextStyle(
+                    color: !theme.darkTheme ? Colors.white : Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
+                ),
+                Slider(
+                  min: 0,
+                  max: 1000,
+                  divisions: 1000,
+                  activeColor: Theme.of(context).accentColor,
+                  inactiveColor: Colors.redAccent,
+                  value: filters.personCount.toDouble(),
+                  onChanged: (value) {
+                    setState(
+                      () {
+                        filters.personCount = value.toInt();
+                      },
+                    );
+                  },
+                ),
+                SizedBox(height: 10),
+                Text(
+                  "Less than ${filters.personCount} Persons",
+                  style: TextStyle(
+                    color: !theme.darkTheme ? Colors.white : Colors.black,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 20,
+                  ),
+                ),
+                SizedBox(height: 20),
+                Text(
+                  "Vessel Count 🍜",
+                  style: TextStyle(
+                    color: !theme.darkTheme ? Colors.white : Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
+                ),
+                Slider(
+                  min: 0,
+                  max: 250,
+                  divisions: 250,
+                  activeColor: Theme.of(context).accentColor,
+                  inactiveColor: Colors.redAccent,
+                  value: filters.vesselCount.toDouble(),
+                  onChanged: (value) {
+                    setState(
+                      () {
+                        filters.vesselCount = value.toInt();
+                      },
+                    );
+                  },
+                ),
+                SizedBox(height: 10),
+                Text(
+                  "Less than ${filters.vesselCount} Vessels",
+                  style: TextStyle(
+                    color: !theme.darkTheme ? Colors.white : Colors.black,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 20,
+                  ),
+                ),
                 SizedBox(
                   height: 20,
                 ),
                 ElevatedButton(
                   onPressed: () {
+                    context.read(filterProvider).listenToFilterFlag(true);
+                    context.read(filterProvider).listenToTimeFlag(false);
                     context.read(filterProvider).listenToFilters(
-                          filters.isFoodSelected,
-                          true,
-                          filters.startTime,
-                        );
+                        filters.isFoodSelected,
+                        filters.startTime,
+                        filters.foodQuantity,
+                        filters.personCount,
+                        filters.vesselCount);
                     Navigator.pop(context);
                   },
                   style: ElevatedButton.styleFrom(

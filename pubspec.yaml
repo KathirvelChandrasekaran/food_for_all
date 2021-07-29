@@ -41,8 +41,6 @@ dependencies:
   url_launcher: ^6.0.9
   material_floating_search_bar: ^0.3.4
   page_transition: ^2.0.2
-  freezed: ^0.12.7
-  freezed_annotation: ^0.14.0
 
 dev_dependencies:
   flutter_test:
