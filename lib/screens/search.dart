@@ -244,24 +244,42 @@ class _SearchState extends State<Search> {
                         Container(
                           child: filters.filterFlag
                               ? StreamBuilder(
-                                  stream: FirebaseFirestore.instance
-                                      .collectionGroup("Posts")
-                                      .where('mainCourse',
-                                          isEqualTo: filters.isFoodSelected[0])
-                                      .where('tiffin',
-                                          isEqualTo: filters.isFoodSelected[1])
-                                      .where(
-                                        'expiry',
-                                        isLessThan: filters.startTime,
-                                      )
-                                      // .where('nosPersons',
-                                      //     isEqualTo: filters.personCount)
-                                      // .where('foodQuantity',
-                                      //     isEqualTo: filters.foodQuantity)
-                                      // .where('vesselCount',
-                                      //     isEqualTo: filters.vesselCount)
-                                      .get()
-                                      .asStream(),
+                                  stream: filters.optionFlag
+                                      ? FirebaseFirestore.instance
+                                          .collection("Posts")
+                                          .where('mainCourse',
+                                              isEqualTo:
+                                                  filters.isFoodSelected[0])
+                                          .where('tiffin',
+                                              isEqualTo:
+                                                  filters.isFoodSelected[1])
+                                          .where(
+                                            'expiry',
+                                            isLessThan: filters.startTime,
+                                          )
+                                          .where('nosPersons',
+                                              isEqualTo: filters.personCount)
+                                          .where('foodQuantity',
+                                              isEqualTo: filters.foodQuantity)
+                                          .where('vesselCount',
+                                              isEqualTo: filters.vesselCount)
+                                          .orderBy('expiry')
+                                          .get()
+                                          .asStream()
+                                      : FirebaseFirestore.instance
+                                          .collection("Posts")
+                                          .where('mainCourse',
+                                              isEqualTo:
+                                                  filters.isFoodSelected[0])
+                                          .where('tiffin',
+                                              isEqualTo:
+                                                  filters.isFoodSelected[1])
+                                          .where(
+                                            'expiry',
+                                            isLessThan: filters.startTime,
+                                          )
+                                          .get()
+                                          .asStream(),
                                   builder: (BuildContext context,
                                       AsyncSnapshot<QuerySnapshot> snapshot) {
                                     if (!snapshot.hasData)
@@ -284,7 +302,7 @@ class _SearchState extends State<Search> {
                                       scrollDirection: Axis.vertical,
                                       shrinkWrap: true,
                                       children: snapshot.data.docs.map((doc) {
-                                        // print(doc.id);
+                                        print(doc.id);
                                         return Center(
                                           child: Column(
                                             children: [
@@ -549,7 +567,7 @@ class _SearchState extends State<Search> {
                                           shrinkWrap: true,
                                           children:
                                               snapshot.data.docs.map((doc) {
-                                            print(doc.id);
+                                            // print(doc.id);
                                             return Center(
                                               child: Column(
                                                 children: [

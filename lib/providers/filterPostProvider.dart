@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class FilterPostProvider extends ChangeNotifier {
   bool _filterFlag = false;
+  bool _optionFlag = false;
   List<bool> _isFoodSelected = [false, false];
   int _startTime = 0, _foodQuantity = 0, _personCount = 0, _vesselCount = 0;
   bool _oldPost = false;
@@ -33,6 +34,8 @@ class FilterPostProvider extends ChangeNotifier {
 
   bool get timeFlag => _timeFlag;
 
+  bool get optionFlag => _optionFlag;
+
   List<bool> get isFoodSelected => _isFoodSelected;
 
   int get startTime => _startTime;
@@ -55,6 +58,10 @@ class FilterPostProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  set optionFlag(bool value) {
+    _optionFlag = value;
+  }
+
   void listenToFilterFlag(bool filterFlag) {
     _filterFlag = filterFlag;
 
@@ -63,6 +70,12 @@ class FilterPostProvider extends ChangeNotifier {
 
   void listenToTimeFlag(bool timeFlag) {
     _timeFlag = timeFlag;
+
+    notifyListeners();
+  }
+
+  void listenToOptionFlag(bool optionFlag) {
+    _optionFlag = optionFlag;
 
     notifyListeners();
   }
