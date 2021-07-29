@@ -24,6 +24,16 @@ class _SearchState extends State<Search> {
   String query;
   bool timePost = false;
 
+  void createSnackBar(String message) {
+    final snackBar = new SnackBar(
+      content: new Text(message),
+      backgroundColor: Theme.of(context).accentColor,
+      behavior: SnackBarBehavior.floating,
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
   Widget buildFloatingSearchBar(BuildContext context) {
     final isPortrait =
         MediaQuery.of(context).orientation == Orientation.portrait;
@@ -172,6 +182,7 @@ class _SearchState extends State<Search> {
                                         filters.listenToTimeFlag(true);
                                         filters.listenToTimeFilter(false, true);
                                         Navigator.pop(context);
+                                        createSnackBar("Showing New Post ✌🏼");
                                       },
                                     ),
                                     ListTile(
@@ -191,6 +202,7 @@ class _SearchState extends State<Search> {
                                         filters.listenToTimeFlag(true);
                                         filters.listenToTimeFilter(true, false);
                                         Navigator.pop(context);
+                                        createSnackBar("Showing Old Post ✌🏼");
                                       },
                                     ),
                                   ],
