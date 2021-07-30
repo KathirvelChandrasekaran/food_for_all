@@ -21,26 +21,50 @@ class AddPostDetailsToFirebase {
     mainCourse,
     imageUpload,
   ) {
-    FirebaseFirestore.instance.collection("Posts").add({
-      'foodQuantity': foodQuantity,
-      'expiry': expiry,
-      'postHeading': postHeading,
-      'postContent': postContent,
-      'nosPersons': nosPersons,
-      'vesselCount': vesselCount,
-      'needVessel': needVessel,
-      'tiffin': tiffin,
-      'mainCourse': mainCourse,
-      'images': imageUpload,
-      'email': _auth.email,
-      'userName': _auth.displayName,
-      'photo': _auth.photoURL,
-      'createdAt': DateTime.now(),
-      "comments": FieldValue.arrayUnion([{}]),
-      "accepted": false,
-    }).whenComplete(
-      () => Navigator.popAndPushNamed(context, '/postSuccess'),
-    );
+    FirebaseFirestore.instance
+        .collection("Posts")
+        .add({
+          'foodQuantity': foodQuantity,
+          'expiry': expiry,
+          'postHeading': postHeading,
+          'postContent': postContent,
+          'nosPersons': nosPersons,
+          'vesselCount': vesselCount,
+          'needVessel': needVessel,
+          'tiffin': tiffin,
+          'mainCourse': mainCourse,
+          'images': imageUpload,
+          'email': _auth.email,
+          'userName': _auth.displayName,
+          'photo': _auth.photoURL,
+          'createdAt': DateTime.now(),
+          "comments": FieldValue.arrayUnion([{}]),
+          "accepted": false,
+        })
+        .then(
+          (value) => {
+            FirebaseFirestore.instance
+                .collection('PostQuantity')
+                .doc(_auth.email)
+                .get()
+                .then(
+                  (value) => {
+                    FirebaseFirestore.instance
+                        .collection("PostQuantity")
+                        .doc(_auth.email)
+                        .update({
+                      'foodQuantity':
+                          value.data()["foodQuantity"] + foodQuantity.toInt(),
+                      'nosPersons':
+                          value.data()["nosPersons"] + nosPersons.toInt(),
+                    })
+                  },
+                ),
+          },
+        )
+        .whenComplete(
+          () => Navigator.popAndPushNamed(context, '/postSuccess'),
+        );
   }
 
   addCommentToPost(QueryDocumentSnapshot snapshot, String comment) {
