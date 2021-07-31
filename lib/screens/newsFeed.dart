@@ -9,6 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_for_all/providers/authServiceProvider.dart';
 import 'package:food_for_all/providers/newsFeedProvider.dart';
 import 'package:food_for_all/screens/createPost.dart';
+import 'package:food_for_all/screens/moneyBag.dart';
 import 'package:food_for_all/screens/profile.dart';
 import 'package:food_for_all/screens/viewPost.dart';
 import 'package:food_for_all/screens/volunteerPosts.dart';
@@ -97,6 +98,21 @@ class _NewsFeedState extends State<NewsFeed> {
                 ),
               ),
             ],
+          ),
+          floatingActionButton: FloatingActionButton(
+            child: Icon(
+              Icons.volunteer_activism_rounded,
+              color: Colors.white,
+            ),
+            tooltip: "Money Bag",
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MoneyBag(),
+                ),
+              );
+            },
           ),
           body: Column(
             // mainAxisAlignment: MainAxisAlignment.center,
