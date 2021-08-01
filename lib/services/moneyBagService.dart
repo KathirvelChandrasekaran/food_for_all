@@ -18,6 +18,7 @@ class MoneyBagFirebase {
       'name': auth.currentUser.displayName,
       'url': auth.currentUser.photoURL,
       'createdAt': DateTime.now(),
+      'upi': upiID,
       'amount': amount,
       'credit': 0,
       'finished': false,

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_for_all/providers/moneyBagProvider.dart';
+import 'package:food_for_all/screens/donateNow.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -16,6 +17,8 @@ class ViewMoneyBagDetails extends StatefulWidget {
 }
 
 class _ViewMoneyBagDetailsState extends State<ViewMoneyBagDetails> {
+  String upi = "";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +31,7 @@ class _ViewMoneyBagDetailsState extends State<ViewMoneyBagDetails> {
             child: Column(
               children: [
                 SizedBox(
-                  height: 50,
+                  height: 15,
                 ),
                 Center(
                   child: Container(
@@ -39,6 +42,8 @@ class _ViewMoneyBagDetailsState extends State<ViewMoneyBagDetails> {
                           AsyncSnapshot<DocumentSnapshot> snapshot) {
                         Map<String, dynamic> doc =
                             new Map<String, dynamic>.from(snapshot.data.data());
+                        upi = doc['upi'];
+
                         double percent = doc['credit'] / doc['amount'];
                         if (!snapshot.hasData)
                           return Center(
@@ -243,6 +248,34 @@ class _ViewMoneyBagDetailsState extends State<ViewMoneyBagDetails> {
                           ],
                         );
                       },
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 25,
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DonateNow(upi),
+                      ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: Theme.of(context).accentColor,
+                    padding:
+                        EdgeInsets.symmetric(vertical: 15, horizontal: 130),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                  ),
+                  child: Text(
+                    "Donate now",
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
                     ),
                   ),
                 ),
