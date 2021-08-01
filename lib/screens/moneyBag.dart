@@ -152,9 +152,6 @@ class _MoneyBagState extends State<MoneyBag>
                               return Container(
                                 height: MediaQuery.of(context).size.height,
                                 child: Column(
-                                  // scrollDirection: Axis.vertical,
-                                  // primary: true,
-                                  // shrinkWrap: true,
                                   children: snapshot.data.docs.map((doc) {
                                     return Column(
                                       children: [
@@ -169,7 +166,9 @@ class _MoneyBagState extends State<MoneyBag>
                                                 context,
                                                 MaterialPageRoute(
                                                   builder: (context) =>
-                                                      ViewMoneyBagDetails(),
+                                                      ViewMoneyBagDetails(
+                                                    snapshot: doc,
+                                                  ),
                                                 ),
                                               );
                                             },

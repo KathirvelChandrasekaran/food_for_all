@@ -37,3 +37,13 @@ class MoneyBagFirebase {
     return snapshot;
   }
 }
+
+class MoneyBagSingle {
+  Stream<DocumentSnapshot> get(String docID) {
+    var snapshot = FirebaseFirestore.instance
+        .collection('MoneyBag')
+        .doc(docID)
+        .snapshots();
+    return snapshot;
+  }
+}

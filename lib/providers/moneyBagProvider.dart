@@ -59,3 +59,15 @@ final moneyBagDetailsProvider = Provider<MoneyBagFirebase>(
 final getPendingMoneyBagProvider = StreamProvider.autoDispose<QuerySnapshot>(
   (_) => MoneyBagFirebase().getPendingMoneyBag(),
 );
+
+final moneyBagSingleProvider = Provider(
+  (ref) => MoneyBagSingle(),
+);
+
+final getSingleMoneyBag =
+    StreamProvider.autoDispose.family<DocumentSnapshot, String>(
+  (ref, docId) {
+    final post = ref.read(moneyBagSingleProvider);
+    return post.get(docId);
+  },
+);
