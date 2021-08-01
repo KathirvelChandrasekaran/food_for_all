@@ -8,7 +8,16 @@ class MoneyBag extends StatefulWidget {
   _MoneyBagState createState() => _MoneyBagState();
 }
 
-class _MoneyBagState extends State<MoneyBag> {
+class _MoneyBagState extends State<MoneyBag>
+    with SingleTickerProviderStateMixin {
+  TabController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TabController(length: 2, vsync: this);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, watch, child) {
@@ -77,6 +86,63 @@ class _MoneyBagState extends State<MoneyBag> {
                     topLeft: Radius.circular(30),
                   ),
                 ),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: TabBar(
+                        indicator: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          // Creates border
+                          color: Theme.of(context).accentColor,
+                        ),
+                        controller: _controller,
+                        unselectedLabelColor: Colors.black,
+                        labelColor: Colors.white,
+                        tabs: [
+                          Tab(
+                            icon: Icon(
+                              Icons.pending_actions_rounded,
+                              color: Colors.black,
+                            ),
+                            text: 'Pending requests',
+                          ),
+                          Tab(
+                            icon: Icon(
+                              Icons.check_circle_outline_rounded,
+                              color: Colors.black,
+                            ),
+                            text: 'Completed requests',
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      height: 80.0,
+                      child: TabBarView(
+                        controller: _controller,
+                        children: [
+                          ListTile(
+                            leading: const Icon(Icons.location_on),
+                            title:
+                                Text('Latitude: 48.09342\nLongitude: 11.23403'),
+                            trailing: IconButton(
+                                icon: const Icon(Icons.my_location),
+                                onPressed: () {}),
+                          ),
+                          ListTile(
+                            leading: const Icon(Icons.location_on),
+                            title:
+                                Text('Latitude: 48.09342\nLongitude: 11.23403'),
+                            trailing: IconButton(
+                                icon: const Icon(Icons.my_location),
+                                onPressed: () {}),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
@@ -88,7 +154,7 @@ class _MoneyBagState extends State<MoneyBag> {
             color: Colors.white,
           ),
           label: Text(
-            "Donate Now",
+            "Request money",
             style: TextStyle(
               color: Colors.white,
               fontSize: 18,
