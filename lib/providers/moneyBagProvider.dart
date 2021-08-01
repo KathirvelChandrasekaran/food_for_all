@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:food_for_all/services/moneyBagService.dart';
 
 class MoneyBagNotifier extends ChangeNotifier {
@@ -53,4 +54,8 @@ final moneyBagProvider = ChangeNotifierProvider(
 
 final moneyBagDetailsProvider = Provider<MoneyBagFirebase>(
   (_) => MoneyBagFirebase(),
+);
+
+final getPendingMoneyBagProvider = StreamProvider.autoDispose<QuerySnapshot>(
+  (_) => MoneyBagFirebase().getPendingMoneyBag(),
 );

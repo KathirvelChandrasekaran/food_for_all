@@ -7,16 +7,17 @@ class MoneyBagFirebase {
   MoneyBagFirebase();
 
   FirebaseAuth auth = FirebaseAuth.instance;
+  CollectionReference db = FirebaseFirestore.instance.collection('MoneyBag');
 
   void addMoneyBagDetails(
       BuildContext context, String title, description, upiID, int amount) {
-    FirebaseFirestore.instance
-        .collection('MoneyBag')
-        .doc()
-        .set({
+    db.doc().set({
       'email': auth.currentUser.email,
       'title': title,
       'description': description,
+      'name': auth.currentUser.displayName,
+      'url': auth.currentUser.photoURL,
+      'createdAt': DateTime.now(),
       'amount': amount,
       'credit': 0,
       'finished': false,
@@ -26,5 +27,13 @@ class MoneyBagFirebase {
         (route) => route.isFirst,
       ),
     );
+  }
+
+  Stream<QuerySnapshot> getPendingMoneyBag() {
+    var snapshot = db
+        .where('email', isEqualTo: auth.currentUser.email)
+        .where('finished', isEqualTo: false)
+        .snapshots();
+    return snapshot;
   }
 }

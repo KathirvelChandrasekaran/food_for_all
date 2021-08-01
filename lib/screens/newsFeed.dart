@@ -233,7 +233,7 @@ class _NewsFeedState extends State<NewsFeed> {
                       if (!snapshot.hasData)
                         return Center(
                           child: CircularProgressIndicator(
-                            color: Theme.of(context).primaryColor,
+                            color: Theme.of(context).accentColor,
                           ),
                         );
                       if (snapshot.data.size < 1)
