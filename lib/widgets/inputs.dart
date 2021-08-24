@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_for_all/utils/theming.dart';
 
+// ignore: non_constant_identifier_names
 Padding InputTextMethod(
     BuildContext context,
     ThemeNotifer theme,

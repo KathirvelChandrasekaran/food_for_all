@@ -76,20 +76,10 @@ class _SearchState extends State<Search> {
         return ClipRRect(
           borderRadius: BorderRadius.circular(8),
           child: Material(
-              color: Colors.white,
-              elevation: 4.0,
-              child: Padding(
-                padding: const EdgeInsets.all(50.0),
-                child: Center(
-                  child: Text(
-                    "Start searching",
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-              )),
+            color: Colors.white,
+            elevation: 4.0,
+            child: Container()
+          ),
         );
       },
       body: SingleChildScrollView(

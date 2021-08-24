@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_for_all/providers/moneyBagProvider.dart';
 import 'package:food_for_all/utils/theming.dart';
 
+// ignore: must_be_immutable
 class MoneyBagDetails extends StatelessWidget {
   TextEditingController _titleController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();

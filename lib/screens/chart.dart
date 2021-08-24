@@ -90,6 +90,10 @@ class _ChartsScreenState extends State<ChartsScreen> {
               color: Theme.of(context).accentColor,
             ),
           );
+        if(snapshot.data.docs.isEmpty)
+          return Center(
+            child: Text("No data found 😕", style: TextStyle(fontSize: 25,),)
+          );
         else {
           List<PostQuantity> post = snapshot.data.docs
               .map((docSnap) => PostQuantity.fromMap(docSnap.data()))
