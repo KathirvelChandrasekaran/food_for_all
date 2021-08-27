@@ -9,6 +9,7 @@ class FilterPostProvider extends ChangeNotifier {
   bool _oldPost = false;
   bool _newPost = false;
   bool _timeFlag = false;
+  bool _searchPost = false;
 
   get foodQuantity => _foodQuantity;
 
@@ -31,6 +32,7 @@ class FilterPostProvider extends ChangeNotifier {
   }
 
   bool get filterFlag => _filterFlag;
+  bool get searchPost => _searchPost;
 
   bool get timeFlag => _timeFlag;
 
@@ -76,6 +78,12 @@ class FilterPostProvider extends ChangeNotifier {
 
   void listenToOptionFlag(bool optionFlag) {
     _optionFlag = optionFlag;
+
+    notifyListeners();
+  }
+
+  void listenToSearchFlag(bool searchFlag) {
+    _searchPost = searchFlag;
 
     notifyListeners();
   }

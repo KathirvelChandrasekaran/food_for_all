@@ -2,14 +2,15 @@ import 'package:bouncing_widget/bouncing_widget.dart';
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_for_all/providers/filterPostProvider.dart';
 import 'package:food_for_all/providers/newsFeedProvider.dart';
 import 'package:food_for_all/screens/filters.dart';
+import 'package:food_for_all/screens/searchScreen.dart';
 import 'package:food_for_all/screens/viewPost.dart';
 import 'package:food_for_all/utils/theming.dart';
-import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -21,7 +22,6 @@ class Search extends StatefulWidget {
 }
 
 class _SearchState extends State<Search> {
-  String query;
   bool timePost = false;
 
   void createSnackBar(String message) {
@@ -34,54 +34,44 @@ class _SearchState extends State<Search> {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
-  Widget buildFloatingSearchBar(BuildContext context) {
-    final isPortrait =
-        MediaQuery.of(context).orientation == Orientation.portrait;
-
-    return FloatingSearchBar(
-      hint: 'Food quantity, No. of persons, food type...',
-      scrollPadding: const EdgeInsets.only(top: 16, bottom: 56),
-      transitionDuration: const Duration(milliseconds: 500),
-      transitionCurve: Curves.easeInCubic,
-      physics: const BouncingScrollPhysics(),
-      axisAlignment: isPortrait ? 0.0 : -1.0,
-      openAxisAlignment: 0.0,
-      width: isPortrait ? 600 : 500,
-      debounceDelay: const Duration(milliseconds: 50),
-      borderRadius: BorderRadius.circular(
-        20,
-      ),
-      onQueryChanged: (query) {
-        setState(() {
-          query = query;
-        });
-        print(query);
-      },
-      transition: CircularFloatingSearchBarTransition(),
-      actions: [
-        FloatingSearchBarAction(
-          showIfOpened: false,
-          child: CircularButton(
-            icon: Icon(
-              Icons.category_outlined,
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          "Search",
+          style: TextStyle(
+            color: Theme.of(context).primaryColor,
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        backwardsCompatibility: true,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 15.0, top: 10),
+            child: Container(
+              height: 75,
+              width: 50,
+              decoration: BoxDecoration(
+                color: Theme.of(context).accentColor,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: IconButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => SearchScreen()));
+                },
+                icon: Icon(
+                  Icons.search_rounded,
+                ),
+                color: Theme.of(context).primaryColor,
+              ),
             ),
-            onPressed: () {},
-          ),
-        ),
-        FloatingSearchBarAction.searchToClear(
-          showIfClosed: false,
-        ),
-      ],
-      builder: (context, transition) {
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(8),
-          child: Material(
-            color: Colors.white,
-            elevation: 4.0,
-            child: Container()
-          ),
-        );
-      },
+          )
+        ],
+      ),
+      resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
         child: Consumer(
           builder: (context, watch, child) {
@@ -94,19 +84,6 @@ class _SearchState extends State<Search> {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 75.0, left: 0),
-                  child: Container(
-                    margin: EdgeInsets.only(
-                      left: 40,
-                    ),
-                    width: MediaQuery.of(context).size.width * 0.80,
-                    child: Divider(
-                      thickness: 2.0,
-                      color: Theme.of(context).primaryColor,
-                    ),
-                  ),
-                ),
                 Container(
                   margin: EdgeInsets.all(25),
                   child: Row(
@@ -146,6 +123,9 @@ class _SearchState extends State<Search> {
                         onPressed: () {
                           showModalBottomSheet(
                             context: context,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15.0),
+                            ),
                             builder: (context) {
                               return Container(
                                 height: 150,
@@ -816,24 +796,6 @@ class _SearchState extends State<Search> {
           },
         ),
       ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Search 🔍",
-          style: TextStyle(
-            color: Theme.of(context).primaryColor,
-            fontSize: 30,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-      resizeToAvoidBottomInset: false,
-      body: buildFloatingSearchBar(context),
     );
   }
 }
