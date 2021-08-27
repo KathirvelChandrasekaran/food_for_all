@@ -148,12 +148,14 @@ class _ImageUploadState extends State<ImageUpload> {
       'nosPersons': nosPersons,
       'vesselCount': vesselCount,
       'needVessel': needVessel,
-      'tiffin': tiffin,
-      'mainCourse': mainCourse,
+      'tiffin': tiffin ? "Tiffin" : tiffin,
+      'mainCourse': mainCourse ? "Main Course" : mainCourse,
       'email': _auth.email,
       'userName': _auth.displayName,
       'photo': _auth.photoURL,
+      'images': true,
       'createdAt': DateTime.now(),
+      'url': _uploadedFiles,
       "accepted": false,
     });
   }
