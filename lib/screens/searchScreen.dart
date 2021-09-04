@@ -27,7 +27,6 @@ class _SearchScreenState extends State<SearchScreen> {
     AlgoliaQuery query = AlgoliaManager.algolia.instance.index('posts');
     query = query.query(q);
     _results = (await query.getObjects()).hits;
-    print(_results);
     setState(() {
       _searching = false;
     });
