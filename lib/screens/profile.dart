@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:food_for_all/providers/registerDetailsProvider.dart';
+import 'package:food_for_all/screens/chart.dart';
 import 'package:food_for_all/screens/registerDetails.dart';
 import 'package:food_for_all/utils/theming.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -149,6 +150,20 @@ class _ProfileState extends State<Profile> {
           ),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ChartsScreen(),
+            ),
+          );
+        },
+        child: Icon(
+          Icons.bar_chart,
+          color: Colors.white,
+        ),
+      ),
       body: Center(
         child: Container(
           child: Column(
@@ -172,7 +187,7 @@ class _ProfileState extends State<Profile> {
                 ),
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.1,
+                height: MediaQuery.of(context).size.height * 0.05,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

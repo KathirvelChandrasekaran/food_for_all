@@ -59,6 +59,7 @@ class _CreatePostState extends State<CreatePost> {
     final snackBar = new SnackBar(
       content: new Text(message),
       backgroundColor: Colors.red,
+      behavior: SnackBarBehavior.floating,
     );
 
     ScaffoldMessenger.of(context).showSnackBar(snackBar);

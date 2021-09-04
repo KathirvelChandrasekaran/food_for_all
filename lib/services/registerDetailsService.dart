@@ -13,21 +13,32 @@ class RegisterDetailsToFirebase {
         .collection("UserDetails")
         .doc(FirebaseAuth.instance.currentUser.email)
         .set({
-      'address': address,
-      'mobile': phone,
-      'latitude': latLng.latitude,
-      'longitude': latLng.longitude,
-      'role': role,
-      'orgName': orgName == "" ? "" : orgName,
-      'email': FirebaseAuth.instance.currentUser.email,
-    }).then(
-      (value) => Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => Home(),
-        ),
-      ),
-    );
+          'address': address,
+          'mobile': phone,
+          'latitude': latLng.latitude,
+          'longitude': latLng.longitude,
+          'role': role,
+          'orgName': orgName == "" ? "" : orgName,
+          'email': FirebaseAuth.instance.currentUser.email,
+        })
+        .then((value) => {
+              FirebaseFirestore.instance
+                  .collection("PostQuantity")
+                  .doc(FirebaseAuth.instance.currentUser.email)
+                  .set({
+                'foodQuantity': 0,
+                'nosPersons': 0,
+                'email': FirebaseAuth.instance.currentUser.email,
+              })
+            })
+        .then(
+          (value) => Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Home(),
+            ),
+          ),
+        );
   }
 
   void editRegisterDetails(

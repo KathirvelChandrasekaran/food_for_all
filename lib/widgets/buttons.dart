@@ -2,7 +2,8 @@
 import 'package:flutter/material.dart';
 
 // ignore: non_constant_identifier_names
-ElevatedButton RoundedButton(BuildContext context, String btnText, double h, double v, Widget page, Color color) {
+ElevatedButton RoundedButton(BuildContext context, String btnText, double h,
+    double v, Widget page, Color color) {
   return ElevatedButton(
     onPressed: () {
       Navigator.pushReplacement(
@@ -15,7 +16,6 @@ ElevatedButton RoundedButton(BuildContext context, String btnText, double h, dou
     style: ElevatedButton.styleFrom(
       primary: Theme.of(context).primaryColor,
       padding: EdgeInsets.symmetric(vertical: h, horizontal: v),
-
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(50),
       ),
@@ -30,7 +30,9 @@ ElevatedButton RoundedButton(BuildContext context, String btnText, double h, dou
   );
 }
 
-ElevatedButton RoundedPushButton(BuildContext context, String btnText, double h, double v, Widget page, Color bgColor, Color txtColor) {
+// ignore: non_constant_identifier_names
+ElevatedButton RoundedPushButton(BuildContext context, String btnText, double h,
+    double v, Widget page, Color bgColor, Color txtColor) {
   return ElevatedButton(
     onPressed: () {
       Navigator.push(
@@ -43,18 +45,13 @@ ElevatedButton RoundedPushButton(BuildContext context, String btnText, double h,
     style: ElevatedButton.styleFrom(
       primary: bgColor,
       padding: EdgeInsets.symmetric(vertical: h, horizontal: v),
-
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(50),
       ),
     ),
     child: Text(
       btnText,
-      style: TextStyle(
-        fontSize: 20,
-        color: txtColor
-      ),
+      style: TextStyle(fontSize: 20, color: txtColor),
     ),
   );
 }
-
