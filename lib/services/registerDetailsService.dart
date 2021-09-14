@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:food_for_all/screens/home.dart';
+import 'package:food_for_all/screens/otp.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class RegisterDetailsToFirebase {
@@ -32,10 +32,12 @@ class RegisterDetailsToFirebase {
               })
             })
         .then(
-          (value) => Navigator.pushReplacement(
+          (value) => Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => Home(),
+              builder: (context) => OTP(
+                phone: phone.toString(),
+              ),
             ),
           ),
         );
