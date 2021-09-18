@@ -5,6 +5,8 @@ import 'package:food_for_all/providers/mapProvider.dart';
 import 'package:food_for_all/providers/registerDetailsProvider.dart';
 import 'package:food_for_all/screens/map.dart';
 import 'package:food_for_all/utils/theming.dart';
+import 'package:geocoder/geocoder.dart';
+import 'package:location/location.dart';
 
 // ignore: must_be_immutable
 class RegisterDetails extends StatefulWidget {
@@ -18,6 +20,32 @@ class RegisterDetails extends StatefulWidget {
 }
 
 class _RegisterDetailsState extends State<RegisterDetails> {
+  var latitude, longitude;
+  var _address;
+  var first;
+  bool loading = false;
+  @override
+  void initState() {
+    super.initState();
+    getCurrentLocation();
+  }
+
+  Future<void> getCurrentLocation() async {
+    await Location().getLocation().then((value) => {
+          setState(() {
+            latitude = value.latitude;
+            longitude = value.longitude;
+            loading = true;
+          })
+        });
+    _address = await Geocoder.local
+        .findAddressesFromCoordinates(Coordinates(latitude, longitude));
+    first = _address.first;
+    setState(() {
+      loading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     TextEditingController _phoneController = TextEditingController();
@@ -140,7 +168,9 @@ class _RegisterDetailsState extends State<RegisterDetails> {
                         ),
                         title: Text(
                           map.address == ""
-                              ? "Press ️⬅️ Home icon to choose location"
+                              ? loading
+                                  ? "Fetch your location"
+                                  : first.addressLine
                               : map.address.toString(),
                           style: TextStyle(
                             fontSize: 18,
