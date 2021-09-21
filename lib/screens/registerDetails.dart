@@ -6,6 +6,7 @@ import 'package:food_for_all/providers/registerDetailsProvider.dart';
 import 'package:food_for_all/screens/map.dart';
 import 'package:food_for_all/utils/theming.dart';
 import 'package:geocoder/geocoder.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
 // ignore: must_be_immutable
@@ -169,7 +170,7 @@ class _RegisterDetailsState extends State<RegisterDetails> {
                         title: Text(
                           map.address == ""
                               ? loading
-                                  ? "Fetch your location"
+                                  ? "Fetching your location"
                                   : first.addressLine
                               : map.address.toString(),
                           style: TextStyle(
@@ -231,8 +232,7 @@ class _RegisterDetailsState extends State<RegisterDetails> {
                       height: MediaQuery.of(context).size.height * 0.1,
                     ),
                     ElevatedButton(
-                      onPressed: _phoneController.text.length < 10 ||
-                              map.address.isEmpty
+                      onPressed: _phoneController.text.length < 10
                           ? null
                           : () {
                               if (_formKey.currentState.validate())
@@ -241,8 +241,9 @@ class _RegisterDetailsState extends State<RegisterDetails> {
                                         context, map.address, map.latLng, phone)
                                     : reg.addRegisterDetails(
                                         context,
-                                        map.address,
-                                        map.latLng,
+                                        first.addressLine ?? map.address,
+                                        map.latLng ??
+                                            LatLng(latitude, longitude),
                                         phone,
                                         role,
                                         orgName,

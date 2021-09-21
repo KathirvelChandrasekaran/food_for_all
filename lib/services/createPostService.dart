@@ -70,12 +70,14 @@ class AddPostDetailsToFirebase {
                     FirebaseFirestore.instance
                         .collection("PostQuantity")
                         .doc(_auth.email)
-                        .update({
-                      'foodQuantity':
-                          value.data()["foodQuantity"] + foodQuantity.toInt(),
-                      'nosPersons':
-                          value.data()["nosPersons"] + nosPersons.toInt(),
-                    })
+                        .update(
+                      {
+                        'foodQuantity':
+                            value.data()["foodQuantity"] + foodQuantity.toInt(),
+                        'nosPersons':
+                            value.data()["nosPersons"] + nosPersons.toInt(),
+                      },
+                    )
                   },
                 ),
           },

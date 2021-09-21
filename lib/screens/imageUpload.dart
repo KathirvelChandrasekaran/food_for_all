@@ -158,6 +158,24 @@ class _ImageUploadState extends State<ImageUpload> {
       'url': _uploadedFiles,
       "accepted": false,
     });
+    FirebaseFirestore.instance
+        .collection('PostQuantity')
+        .doc(_auth.email)
+        .get()
+        .then(
+          (value) => {
+            FirebaseFirestore.instance
+                .collection("PostQuantity")
+                .doc(_auth.email)
+                .update(
+              {
+                'foodQuantity':
+                    value.data()["foodQuantity"] + foodQuantity.toInt(),
+                'nosPersons': value.data()["nosPersons"] + nosPersons.toInt(),
+              },
+            )
+          },
+        );
   }
 
   @override
