@@ -24,7 +24,8 @@ class _CreatePostState extends State<CreatePost> {
   bool _needVessel = false,
       _tiffin = false,
       _mainCourse = false,
-      _imageUpload = false;
+      _imageUpload = false,
+      _needVehicle = false;
 
   void toggleVessel(bool val) {
     _needVessel
@@ -35,6 +36,16 @@ class _CreatePostState extends State<CreatePost> {
         : setState(() {
             _needVessel = true;
             _vesselCount = 0;
+          });
+  }
+
+  void toggleVehicle(bool val) {
+    _needVehicle
+        ? setState(() {
+            _needVehicle = false;
+          })
+        : setState(() {
+            _needVehicle = true;
           });
   }
 
@@ -522,6 +533,69 @@ class _CreatePostState extends State<CreatePost> {
                                             fontSize: 20,
                                           ),
                                         ),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(40, 10, 40, 0),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.85,
+                        height: MediaQuery.of(context).size.height * 0.40,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(
+                            15,
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey,
+                              blurRadius: 10.0,
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              height: 15,
+                            ),
+                            Text(
+                              "Need transport?",
+                              style: TextStyle(
+                                color: theme.darkTheme
+                                    ? Theme.of(context).primaryColor
+                                    : Colors.black,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 25,
+                              ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Switch(
+                                  value: _needVehicle,
+                                  onChanged: toggleVehicle,
+                                  activeColor:
+                                      Theme.of(context).scaffoldBackgroundColor,
+                                ),
+                                Container(
+                                  child: Text(
+                                    "Toggle the switch!",
+                                    style: TextStyle(
+                                      color: theme.darkTheme
+                                          ? Theme.of(context).primaryColor
+                                          : Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20,
+                                    ),
+                                  ),
                                 )
                               ],
                             ),

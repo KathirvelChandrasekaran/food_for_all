@@ -273,9 +273,8 @@ class _NewsFeedState extends State<NewsFeed> {
                                       );
                                     },
                                     child: Container(
-                                      width:
-                                          MediaQuery.of(context).size.width *
-                                              0.85,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.85,
                                       decoration: BoxDecoration(
                                         color: Colors.white,
                                         borderRadius: BorderRadius.circular(
@@ -300,8 +299,7 @@ class _NewsFeedState extends State<NewsFeed> {
                                                   MainAxisAlignment.start,
                                               children: [
                                                 CircleAvatar(
-                                                  backgroundImage:
-                                                      NetworkImage(
+                                                  backgroundImage: NetworkImage(
                                                     doc['photo'],
                                                   ),
                                                   radius: 30,
@@ -311,14 +309,12 @@ class _NewsFeedState extends State<NewsFeed> {
                                                 ),
                                                 Column(
                                                   crossAxisAlignment:
-                                                      CrossAxisAlignment
-                                                          .start,
+                                                      CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
                                                       doc['userName'],
                                                       style: TextStyle(
-                                                        color: Theme.of(
-                                                                context)
+                                                        color: Theme.of(context)
                                                             .selectedRowColor,
                                                         fontWeight:
                                                             FontWeight.w600,
@@ -331,8 +327,7 @@ class _NewsFeedState extends State<NewsFeed> {
                                                             .toDate(),
                                                       ),
                                                       style: TextStyle(
-                                                        color: Theme.of(
-                                                                context)
+                                                        color: Theme.of(context)
                                                             .selectedRowColor,
                                                         fontWeight:
                                                             FontWeight.w400,
@@ -346,13 +341,11 @@ class _NewsFeedState extends State<NewsFeed> {
                                           ),
                                           doc['images']
                                               ? Container(
-                                                  child:
-                                                      CarouselSlider.builder(
+                                                  child: CarouselSlider.builder(
                                                     itemCount:
                                                         doc['url'].length,
                                                     itemBuilder: (context,
-                                                            index,
-                                                            realIndex) =>
+                                                            index, realIndex) =>
                                                         Container(
                                                       child: Image.network(
                                                         doc['url'][index],
