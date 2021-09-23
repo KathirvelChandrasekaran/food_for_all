@@ -6,7 +6,6 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_for_all/providers/createPostProvider.dart';
-import 'package:food_for_all/utils/algoliaManager.dart';
 import 'package:food_for_all/utils/theming.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -139,25 +138,6 @@ class _ImageUploadState extends State<ImageUpload> {
         "comments": {},
       },
     );
-    var algolia = AlgoliaManager.algolia;
-    await algolia.instance.index("posts").addObject({
-      'foodQuantity': foodQuantity,
-      'expiry': expiry,
-      'postHeading': postHeading,
-      'postContent': postContent,
-      'nosPersons': nosPersons,
-      'vesselCount': vesselCount,
-      'needVessel': needVessel,
-      'tiffin': tiffin ? "Tiffin" : tiffin,
-      'mainCourse': mainCourse ? "Main Course" : mainCourse,
-      'email': _auth.email,
-      'userName': _auth.displayName,
-      'photo': _auth.photoURL,
-      'images': true,
-      'createdAt': DateTime.now(),
-      'url': _uploadedFiles,
-      "accepted": false,
-    });
     FirebaseFirestore.instance
         .collection('PostQuantity')
         .doc(_auth.email)
