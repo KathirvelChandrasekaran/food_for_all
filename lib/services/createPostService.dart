@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:food_for_all/utils/algoliaManager.dart';
 
 class AddPostDetailsToFirebase {
   AddPostDetailsToFirebase();
@@ -22,23 +21,6 @@ class AddPostDetailsToFirebase {
     mainCourse,
     imageUpload,
   ) async {
-    var algolia = AlgoliaManager.algolia;
-    await algolia.instance.index("posts").addObject({
-      'foodQuantity': foodQuantity,
-      'expiry': expiry,
-      'postHeading': postHeading,
-      'postContent': postContent,
-      'nosPersons': nosPersons,
-      'vesselCount': vesselCount,
-      'needVessel': needVessel,
-      'tiffin': tiffin ? "Tiffin" : tiffin,
-      'mainCourse': mainCourse ? "Main Course" : mainCourse,
-      'email': _auth.email,
-      'userName': _auth.displayName,
-      'photo': _auth.photoURL,
-      'createdAt': DateTime.now(),
-      "accepted": false,
-    });
     FirebaseFirestore.instance
         .collection("Posts")
         .add({
@@ -70,12 +52,14 @@ class AddPostDetailsToFirebase {
                     FirebaseFirestore.instance
                         .collection("PostQuantity")
                         .doc(_auth.email)
-                        .update({
-                      'foodQuantity':
-                          value.data()["foodQuantity"] + foodQuantity.toInt(),
-                      'nosPersons':
-                          value.data()["nosPersons"] + nosPersons.toInt(),
-                    })
+                        .update(
+                      {
+                        'foodQuantity':
+                            value.data()["foodQuantity"] + foodQuantity.toInt(),
+                        'nosPersons':
+                            value.data()["nosPersons"] + nosPersons.toInt(),
+                      },
+                    )
                   },
                 ),
           },

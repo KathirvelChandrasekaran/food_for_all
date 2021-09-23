@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_for_all/providers/authServiceProvider.dart';
@@ -13,6 +14,7 @@ import 'package:food_for_all/screens/moneyBag.dart';
 import 'package:food_for_all/screens/profile.dart';
 import 'package:food_for_all/screens/viewPost.dart';
 import 'package:food_for_all/screens/volunteerPosts.dart';
+import 'package:food_for_all/utils/theming.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class NewsFeed extends StatefulWidget {
@@ -272,162 +274,273 @@ class _NewsFeedState extends State<NewsFeed> {
                                         ),
                                       );
                                     },
-                                    child: Container(
-                                      width:
-                                          MediaQuery.of(context).size.width *
-                                              0.85,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(
-                                          15,
+                                    child: GestureDetector(
+                                      onLongPress: () {
+                                        if (FirebaseAuth
+                                                .instance.currentUser.email ==
+                                            doc['email']) {
+                                          HapticFeedback.lightImpact();
+                                          showModalBottomSheet(
+                                            context: context,
+                                            builder: (builder) {
+                                              return Container(
+                                                height: 250.0,
+                                                color: Colors.transparent,
+                                                child: Container(
+                                                  decoration: new BoxDecoration(
+                                                    color: Colors.white,
+                                                    borderRadius:
+                                                        new BorderRadius.only(
+                                                      topLeft:
+                                                          const Radius.circular(
+                                                              10.0),
+                                                      topRight:
+                                                          const Radius.circular(
+                                                              10.0),
+                                                    ),
+                                                  ),
+                                                  child: Consumer(
+                                                    builder: (context, watch,
+                                                        child) {
+                                                      final theme =
+                                                          watch(themingNotifer);
+                                                      return Container(
+                                                        child: Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Text(
+                                                              "Are you sure want to delete this post?",
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                              style: TextStyle(
+                                                                color: theme
+                                                                        .darkTheme
+                                                                    ? Colors
+                                                                        .white
+                                                                    : Colors
+                                                                        .black,
+                                                                fontSize: 25,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                              height: 25,
+                                                            ),
+                                                            Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                IconButton(
+                                                                  onPressed:
+                                                                      () {
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                  },
+                                                                  icon: Icon(
+                                                                    Icons
+                                                                        .cancel_rounded,
+                                                                    color: Theme.of(
+                                                                            context)
+                                                                        .errorColor,
+                                                                  ),
+                                                                ),
+                                                                IconButton(
+                                                                  onPressed:
+                                                                      () {
+                                                                    FirebaseFirestore
+                                                                        .instance
+                                                                        .collection(
+                                                                            "Posts")
+                                                                        .doc(doc
+                                                                            .id)
+                                                                        .delete();
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                  },
+                                                                  icon: Icon(
+                                                                    Icons
+                                                                        .done_all_rounded,
+                                                                    color: Theme.of(
+                                                                            context)
+                                                                        .accentColor,
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            )
+                                                          ],
+                                                        ),
+                                                      );
+                                                    },
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                          );
+                                        }
+                                      },
+                                      child: Container(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.85,
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.circular(
+                                            15,
+                                          ),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.grey,
+                                              blurRadius: 10.0,
+                                            ),
+                                          ],
                                         ),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.grey,
-                                            blurRadius: 10.0,
-                                          ),
-                                        ],
-                                      ),
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                            margin: EdgeInsets.only(
-                                              left: 20,
-                                              top: 30,
-                                            ),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                CircleAvatar(
-                                                  backgroundImage:
-                                                      NetworkImage(
-                                                    doc['photo'],
+                                        child: Column(
+                                          children: [
+                                            Container(
+                                              margin: EdgeInsets.only(
+                                                left: 20,
+                                                top: 30,
+                                              ),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  CircleAvatar(
+                                                    backgroundImage:
+                                                        NetworkImage(
+                                                      doc['photo'],
+                                                    ),
+                                                    radius: 30,
                                                   ),
-                                                  radius: 30,
-                                                ),
-                                                SizedBox(
-                                                  width: 15,
-                                                ),
-                                                Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment
-                                                          .start,
-                                                  children: [
-                                                    Text(
-                                                      doc['userName'],
-                                                      style: TextStyle(
-                                                        color: Theme.of(
-                                                                context)
-                                                            .selectedRowColor,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        fontSize: 16,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      timeago.format(
-                                                        doc['createdAt']
-                                                            .toDate(),
-                                                      ),
-                                                      style: TextStyle(
-                                                        color: Theme.of(
-                                                                context)
-                                                            .selectedRowColor,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        fontSize: 15,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          doc['images']
-                                              ? Container(
-                                                  child:
-                                                      CarouselSlider.builder(
-                                                    itemCount:
-                                                        doc['url'].length,
-                                                    itemBuilder: (context,
-                                                            index,
-                                                            realIndex) =>
-                                                        Container(
-                                                      child: Image.network(
-                                                        doc['url'][index],
-                                                        fit: BoxFit.contain,
-                                                      ),
-                                                    ),
-                                                    options: CarouselOptions(
-                                                      aspectRatio: 1.0,
-                                                      enlargeCenterPage: true,
-                                                      autoPlay: true,
-                                                      viewportFraction: 0.7,
-                                                    ),
+                                                  SizedBox(
+                                                    width: 15,
                                                   ),
-                                                )
-                                              : Text(""),
-                                          Container(
-                                            child: Text(
-                                              doc['postContent'],
-                                              style: TextStyle(
-                                                color: Theme.of(context)
-                                                    .selectedRowColor,
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 20,
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(
+                                                        doc['userName'],
+                                                        style: TextStyle(
+                                                          color: Theme.of(
+                                                                  context)
+                                                              .selectedRowColor,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          fontSize: 16,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        timeago.format(
+                                                          doc['createdAt']
+                                                              .toDate(),
+                                                        ),
+                                                        style: TextStyle(
+                                                          color: Theme.of(
+                                                                  context)
+                                                              .selectedRowColor,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          fontSize: 15,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
                                               ),
-                                              overflow: TextOverflow.ellipsis,
                                             ),
-                                            margin: EdgeInsets.only(
-                                              left: 25,
-                                              right: 25,
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                          Container(
-                                            child: Text(
-                                              doc['postHeading'],
-                                              style: TextStyle(
-                                                color: Theme.of(context)
-                                                    .selectedRowColor,
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 20,
+                                            doc['images']
+                                                ? Container(
+                                                    child:
+                                                        CarouselSlider.builder(
+                                                      itemCount:
+                                                          doc['url'].length,
+                                                      itemBuilder: (context,
+                                                              index,
+                                                              realIndex) =>
+                                                          Container(
+                                                        child: Image.network(
+                                                          doc['url'][index],
+                                                          fit: BoxFit.contain,
+                                                        ),
+                                                      ),
+                                                      options: CarouselOptions(
+                                                        aspectRatio: 1.0,
+                                                        enlargeCenterPage: true,
+                                                        autoPlay: true,
+                                                        viewportFraction: 0.7,
+                                                      ),
+                                                    ),
+                                                  )
+                                                : Text(""),
+                                            Container(
+                                              child: Text(
+                                                doc['postContent'],
+                                                style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .selectedRowColor,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 20,
+                                                ),
+                                                overflow: TextOverflow.ellipsis,
                                               ),
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                            margin: EdgeInsets.only(
-                                              left: 25,
-                                              right: 25,
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 25,
-                                          ),
-                                          Container(
-                                            child: Text(
-                                              doc['comments']
-                                                      .length
-                                                      .toString() +
-                                                  " Comment(s)",
-                                              style: TextStyle(
-                                                color: Colors.black54,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20,
+                                              margin: EdgeInsets.only(
+                                                left: 25,
+                                                right: 25,
                                               ),
-                                              overflow: TextOverflow.ellipsis,
                                             ),
-                                            margin: EdgeInsets.only(
-                                              left: 25,
-                                              right: 25,
+                                            SizedBox(
+                                              height: 10,
                                             ),
-                                          ),
-                                          SizedBox(
-                                            height: 40,
-                                          ),
-                                        ],
+                                            Container(
+                                              child: Text(
+                                                doc['postHeading'],
+                                                style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .selectedRowColor,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 20,
+                                                ),
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                              margin: EdgeInsets.only(
+                                                left: 25,
+                                                right: 25,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: 25,
+                                            ),
+                                            Container(
+                                              child: Text(
+                                                doc['comments']
+                                                        .length
+                                                        .toString() +
+                                                    " Comment(s)",
+                                                style: TextStyle(
+                                                  color: Colors.black54,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20,
+                                                ),
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                              margin: EdgeInsets.only(
+                                                left: 25,
+                                                right: 25,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: 40,
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),

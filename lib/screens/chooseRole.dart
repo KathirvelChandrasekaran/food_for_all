@@ -53,13 +53,13 @@ class ChooseRole extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     primary: Theme.of(context).primaryColor,
                     padding:
-                        EdgeInsets.symmetric(vertical: 15, horizontal: 100),
+                        EdgeInsets.symmetric(vertical: 15, horizontal: 115),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(50),
                     ),
                   ),
                   child: Text(
-                    "School / College",
+                    "Organization",
                     style: TextStyle(
                       fontSize: 20,
                       color: theme.darkTheme ? Colors.white : Colors.black,
@@ -67,79 +67,7 @@ class ChooseRole extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  height: 15,
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    context
-                        .read(registerProvider)
-                        .listenToRegisterDetailsRoleNotifier(
-                          "NGO",
-                        );
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => RegisterDetails(
-                          title: "More about you",
-                          edit: false,
-                        ),
-                      ),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    primary: Theme.of(context).primaryColor,
-                    padding:
-                        EdgeInsets.symmetric(vertical: 15, horizontal: 155),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50),
-                    ),
-                  ),
-                  child: Text(
-                    "NGO",
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: theme.darkTheme ? Colors.white : Colors.black,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    context
-                        .read(registerProvider)
-                        .listenToRegisterDetailsRoleNotifier(
-                          "Volunteer",
-                        );
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => RegisterDetails(
-                          title: "More about you",
-                          edit: false,
-                        ),
-                      ),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    primary: Theme.of(context).primaryColor,
-                    padding:
-                        EdgeInsets.symmetric(vertical: 15, horizontal: 130),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50),
-                    ),
-                  ),
-                  child: Text(
-                    "Volunteer",
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: theme.darkTheme ? Colors.white : Colors.black,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 15,
+                  height: 25,
                 ),
                 ElevatedButton(
                   onPressed: () {
