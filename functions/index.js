@@ -10,20 +10,20 @@ const db = admin.firestore();
 const client = algoliasearch(APP_ID, ADMIN_KEY);
 const index = client.initIndex("posts");
 
-exports.updateAutomatic = functions.firestore
-  .document("Posts/{id}")
-  .onCreate((snapshot) => {
-    setTimeout(function () {
-      db.collection("Posts").doc(snapshot.id).delete();
-    }, 2000);
-  });
+// exports.updateAutomatic = functions.firestore
+//   .document("Posts/{id}")
+//   .onCreate((snapshot) => {
+//     setTimeout(function () {
+//       db.collection("Posts").doc(snapshot.id).delete();
+//     }, 2000);
+//   });
 
 exports.addToIndex = functions.firestore
   .document("Posts/{id}")
   .onCreate((snapshot) => {
     const data = snapshot.data();
     const objectID = snapshot.id;
-    return index.addObject({ ...data, objectID });
+    return index.saveObject({ ...data, objectID });
   });
 
 exports.updateIndex = functions.firestore
