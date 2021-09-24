@@ -44,11 +44,35 @@ class _NewsFeedState extends State<NewsFeed> {
       print("Title " + message.notification.title);
       print("Body " + message.notification.body);
       print(message);
+      FirebaseFirestore.instance
+          .collection("Notifications")
+          .doc(FirebaseAuth.instance.currentUser.email)
+          .update({
+        'notifications': FieldValue.arrayUnion([
+          {
+            'title': message.notification.title,
+            'body': message.notification.body,
+            'createdAt': message.sentTime
+          }
+        ])
+      });
       _setMessage(message.notification.title, message.notification.body);
     });
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       print(message.data);
       print('Message clicked!');
+      FirebaseFirestore.instance
+          .collection("Notifications")
+          .doc(FirebaseAuth.instance.currentUser.email)
+          .update({
+        'notifications': FieldValue.arrayUnion([
+          {
+            'title': message.notification.title,
+            'body': message.notification.body,
+            'createdAt': message.sentTime
+          }
+        ])
+      });
       _setMessage(message.notification.title, message.notification.body);
     });
   }
@@ -103,13 +127,17 @@ class _NewsFeedState extends State<NewsFeed> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => Notifications(
-                        messages: messages,
-                      ),
+                      builder: (context) => Notifications(),
                     ),
                   );
                 },
-                icon: Icon(Icons.notifications),
+                icon: Icon(
+                  Icons.notifications,
+                  size: 30.0,
+                ),
+              ),
+              SizedBox(
+                width: 10,
               ),
               InkWell(
                 customBorder: RoundedRectangleBorder(

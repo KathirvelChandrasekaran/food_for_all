@@ -31,6 +31,12 @@ class RegisterDetailsToFirebase {
                 'email': FirebaseAuth.instance.currentUser.email,
               })
             })
+        .then((value) => {
+              FirebaseFirestore.instance
+                  .collection("Notifications")
+                  .doc(FirebaseAuth.instance.currentUser.email)
+                  .set({'notifications': FieldValue.arrayUnion([])})
+            })
         .then(
           // (value) => Navigator.push(
           //   context,
