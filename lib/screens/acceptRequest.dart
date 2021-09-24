@@ -100,6 +100,10 @@ class _AcceptRequestState extends State<AcceptRequest> {
                 ElevatedButton(
                   onPressed: () {
                     updatePost.acceptRequest(widget.snapshot);
+                    Navigator.popUntil(
+                      context,
+                      (route) => route.isFirst,
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     primary: Theme.of(context).primaryColor,

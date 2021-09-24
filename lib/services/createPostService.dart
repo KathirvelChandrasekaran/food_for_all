@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -21,6 +22,8 @@ class AddPostDetailsToFirebase {
     mainCourse,
     imageUpload,
   ) async {
+    String token;
+    FirebaseMessaging.instance.getToken().then((value) => token = value);
     FirebaseFirestore.instance
         .collection("Posts")
         .add({
@@ -40,6 +43,7 @@ class AddPostDetailsToFirebase {
           'createdAt': DateTime.now(),
           "comments": FieldValue.arrayUnion([{}]),
           "accepted": false,
+          "deviceToken": token,
         })
         .then(
           (value) => {

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -92,6 +93,8 @@ class _ImageUploadState extends State<ImageUpload> {
     mainCourse,
   ) async {
     int i = 1;
+    String token;
+    FirebaseMessaging.instance.getToken().then((value) => token = value);
 
     for (var img in _image) {
       setState(
@@ -136,6 +139,7 @@ class _ImageUploadState extends State<ImageUpload> {
         'images': true,
         'url': _uploadedFiles,
         "comments": {},
+        "deviceToken": token,
       },
     );
     FirebaseFirestore.instance
