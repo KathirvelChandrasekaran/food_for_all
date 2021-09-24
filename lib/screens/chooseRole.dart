@@ -38,7 +38,7 @@ class ChooseRole extends StatelessWidget {
                     context
                         .read(registerProvider)
                         .listenToRegisterDetailsRoleNotifier(
-                          "School / College",
+                          "Organization",
                         );
                     Navigator.pushReplacement(
                       context,

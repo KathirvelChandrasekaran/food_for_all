@@ -101,20 +101,45 @@ class _NewsFeedState extends State<NewsFeed> {
               ),
             ],
           ),
-          floatingActionButton: FloatingActionButton(
-            child: Icon(
-              Icons.volunteer_activism_rounded,
-              color: Colors.white,
-            ),
-            tooltip: "Money Bag",
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => MoneyBag(),
+          floatingActionButton: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              FloatingActionButton(
+                heroTag: "Orders",
+                child: Icon(
+                  Icons.task_alt_rounded,
+                  color: Colors.white,
                 ),
-              );
-            },
+                tooltip: "Accepted Tasks",
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => VolunteerPosts(),
+                    ),
+                  );
+                },
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              FloatingActionButton(
+                heroTag: "MoneyBag",
+                child: Icon(
+                  Icons.volunteer_activism_rounded,
+                  color: Colors.white,
+                ),
+                tooltip: "Money Bag",
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MoneyBag(),
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
           body: Column(
             // mainAxisAlignment: MainAxisAlignment.center,
