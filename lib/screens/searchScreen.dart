@@ -105,8 +105,8 @@ class _SearchScreenState extends State<SearchScreen> {
                           itemCount: _results.length,
                           itemBuilder: (BuildContext context, int index) {
                             AlgoliaObjectSnapshot snap = _results[index];
-                            var parsedDate =
-                                DateTime.parse(snap.data['createdAt']);
+                            // var parsedDate =
+                            //     DateTime.parse(snap.data['createdAt'].toString());
                             return Center(
                               child: Column(
                                 children: [
@@ -163,17 +163,17 @@ class _SearchScreenState extends State<SearchScreen> {
                                                         fontSize: 16,
                                                       ),
                                                     ),
-                                                    Text(
-                                                      timeago
-                                                          .format(parsedDate),
-                                                      style: TextStyle(
-                                                        color: Theme.of(context)
-                                                            .selectedRowColor,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        fontSize: 15,
-                                                      ),
-                                                    ),
+                                                    // Text(
+                                                    //   timeago
+                                                    //       .format(parsedDate),
+                                                    //   style: TextStyle(
+                                                    //     color: Theme.of(context)
+                                                    //         .selectedRowColor,
+                                                    //     fontWeight:
+                                                    //         FontWeight.w400,
+                                                    //     fontSize: 15,
+                                                    //   ),
+                                                    // ),
                                                   ],
                                                 ),
                                               ],

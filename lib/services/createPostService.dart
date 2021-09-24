@@ -92,6 +92,7 @@ class AddPostDetailsToFirebase {
       'acceptedBy': _auth.email,
       'acceptedAt': DateTime.now(),
       'acceptedPhotoURL': _auth.photoURL,
+      'deleiverd': false
     });
   }
 }

@@ -33,7 +33,7 @@ exports.updateIndex = functions.firestore
     var payLoad = {
       notification: {
         title: "Your request has been accepted 🤩",
-        body: `${newData["userName"]} has accepted your request!`,
+        body: `${newData["acceptedBy"]} has accepted your request!`,
         sound: "default",
       },
       data: {
