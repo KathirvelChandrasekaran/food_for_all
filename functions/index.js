@@ -28,9 +28,31 @@ exports.addToIndex = functions.firestore
 
 exports.updateIndex = functions.firestore
   .document("Posts/{id}")
-  .onUpdate((changes) => {
+  .onUpdate(async (changes) => {
     const newData = changes.after.data();
     const objectID = changes.after.id;
+    var token = [
+      "eQ9h4LpZSgichpg-DNA_XG:APA91bErtIfSczDtpeIzhEwJVUNapESRzXhuh6B7UXJBM2MMCgx2n5z1fR_ZdDr4myjZ9RnFbiYGqCoePKT5cijKMXow1YudA7RXrJ4qgb6CrIQ-UmPHPUuO9pWwQnYkt9TwzDYLdUo9",
+    ];
+    var payLoad = {
+      notification: {
+        title: "Your request has been accepted 🤩",
+        body: `${changes.after.data()["userName"]} has accepted your request!`,
+        sound: "default",
+      },
+      data: {
+        click_action: "FLUTTER_NOTIFICATION_CLICK",
+        message: "Request has been accepted",
+      },
+    };
+
+    try {
+      const response = await admin.messaging().sendToDevice(token, payLoad);
+      console.log("Notification sent");
+    } catch (err) {
+      console.log(err);
+    }
+
     return index.saveObject({ ...newData, objectID });
   });
 

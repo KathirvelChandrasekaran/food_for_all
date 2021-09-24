@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_for_all/providers/createPostProvider.dart';
 import 'package:food_for_all/utils/theming.dart';
 import 'package:logger/logger.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 // ignore: must_be_immutable
 class AcceptRequest extends StatefulWidget {
@@ -25,6 +26,10 @@ class _AcceptRequestState extends State<AcceptRequest> {
   void initState() {
     super.initState();
     doc = widget.snapshot;
+  }
+
+  _launchURL(String gMaps) async {
+    await canLaunch(gMaps) ? await launch(gMaps) : throw "could not launch URL";
   }
 
   @override
@@ -60,35 +65,35 @@ class _AcceptRequestState extends State<AcceptRequest> {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.1,
                 ),
-                // ElevatedButton(
-                //   onPressed: () {
-                //     FirebaseFirestore.instance
-                //         .collection("UserDetails")
-                //         .where('email', isEqualTo: widget.snapshot['email'])
-                //         .get()
-                //         .then((value) {
-                //       logger.i(value.docs[0].data()['latitude']);
-                //       _launchURL(
-                //         "google.navigation:q=${value.docs[0].data()['latitude']},${value.docs[0].data()['longitude']}",
-                //       );
-                //     });
-                //   },
-                //   style: ElevatedButton.styleFrom(
-                //     primary: Theme.of(context).primaryColor,
-                //     padding:
-                //         EdgeInsets.symmetric(vertical: 15, horizontal: 110),
-                //     shape: RoundedRectangleBorder(
-                //       borderRadius: BorderRadius.circular(50),
-                //     ),
-                //   ),
-                //   child: Text(
-                //     "View direction",
-                //     style: TextStyle(
-                //       fontSize: 20,
-                //       color: theme.darkTheme ? Colors.white : Colors.black,
-                //     ),
-                //   ),
-                // ),
+                ElevatedButton(
+                  onPressed: () {
+                    FirebaseFirestore.instance
+                        .collection("UserDetails")
+                        .where('email', isEqualTo: widget.snapshot['email'])
+                        .get()
+                        .then((value) {
+                      logger.i(value.docs[0].data()['latitude']);
+                      _launchURL(
+                        "google.navigation:q=${value.docs[0].data()['latitude']},${value.docs[0].data()['longitude']}",
+                      );
+                    });
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: Theme.of(context).primaryColor,
+                    padding:
+                        EdgeInsets.symmetric(vertical: 15, horizontal: 110),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                  ),
+                  child: Text(
+                    "View direction",
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: theme.darkTheme ? Colors.white : Colors.black,
+                    ),
+                  ),
+                ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.05,
                 ),

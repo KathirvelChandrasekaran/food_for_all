@@ -85,6 +85,9 @@ class AddPostDetailsToFirebase {
   acceptRequest(QueryDocumentSnapshot snapshot) {
     FirebaseFirestore.instance.collection("Posts").doc(snapshot.id).update({
       'accepted': true,
+      'acceptedBy': _auth.email,
+      'acceptedAt': DateTime.now(),
+      'acceptedPhotoURL': _auth.photoURL,
     });
   }
 }

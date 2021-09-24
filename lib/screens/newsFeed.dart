@@ -7,15 +7,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:food_for_all/modals/message.dart';
 import 'package:food_for_all/providers/authServiceProvider.dart';
 import 'package:food_for_all/providers/newsFeedProvider.dart';
 import 'package:food_for_all/screens/createPost.dart';
 import 'package:food_for_all/screens/moneyBag.dart';
+import 'package:food_for_all/screens/notifications.dart';
 import 'package:food_for_all/screens/profile.dart';
 import 'package:food_for_all/screens/viewPost.dart';
 import 'package:food_for_all/screens/volunteerPosts.dart';
 import 'package:food_for_all/utils/theming.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class NewsFeed extends StatefulWidget {
   @override
@@ -24,11 +27,46 @@ class NewsFeed extends StatefulWidget {
 
 class _NewsFeedState extends State<NewsFeed> {
   String role = "";
+  List<Message> messages;
+
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+
+  _getToken() {
+    _firebaseMessaging.getToken().then(
+          (deviceToken) => {
+            print("deviceToken: " + deviceToken),
+          },
+        );
+  }
+
+  _configureFirebaseListeners() {
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print("Title " + message.notification.title);
+      print("Body " + message.notification.body);
+      print(message);
+      _setMessage(message.notification.title, message.notification.body);
+    });
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      print(message.data);
+      print('Message clicked!');
+      _setMessage(message.notification.title, message.notification.body);
+    });
+  }
+
+  _setMessage(String title, body) {
+    setState(() {
+      Message m = Message(title, body);
+      messages.add(m);
+    });
+  }
 
   @override
   void initState() {
     super.initState();
     getRole();
+    messages = [];
+    _getToken();
+    _configureFirebaseListeners();
   }
 
   Future<void> getRole() async {
@@ -40,7 +78,6 @@ class _NewsFeedState extends State<NewsFeed> {
       setState(() {
         role = event.get('role');
       });
-      print(role);
     });
   }
 
@@ -61,6 +98,19 @@ class _NewsFeedState extends State<NewsFeed> {
               ),
             ),
             actions: [
+              IconButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Notifications(
+                        messages: messages,
+                      ),
+                    ),
+                  );
+                },
+                icon: Icon(Icons.notifications),
+              ),
               InkWell(
                 customBorder: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(25),
