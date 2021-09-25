@@ -41,9 +41,29 @@ exports.updateIndex = functions.firestore
         message: "Request has been accepted",
       },
     };
+
+    var payLoad1 = {
+      notification: {
+        title: "Your request has been delivered 🤩",
+        body: `${newData["deliveredBy"]} has delivered your request!`,
+        sound: "default",
+      },
+      data: {
+        click_action: "FLUTTER_NOTIFICATION_CLICK",
+        message: "Request has been accepted",
+      },
+    };
     if (newData["accepted"])
       try {
         await admin.messaging().sendToDevice(newData["deviceToken"], payLoad);
+        console.log("Notification sent");
+      } catch (err) {
+        console.log(err);
+      }
+
+    if (newData["delivered"])
+      try {
+        await admin.messaging().sendToDevice(newData["deviceToken"], payLoad1);
         console.log("Notification sent");
       } catch (err) {
         console.log(err);
@@ -55,5 +75,6 @@ exports.updateIndex = functions.firestore
 exports.deleteFromIndex = functions.firestore
   .document("Posts/{id}")
   .onDelete((snapshot) => {
+    admin.firestore().collection("Archives").add(snapshot.data());
     index.deleteObject(snapshot.id);
   });

@@ -2,9 +2,11 @@ import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_for_all/screens/acceptRequest.dart';
 import 'package:food_for_all/screens/comments.dart';
+import 'package:food_for_all/utils/theming.dart';
 import 'package:logger/logger.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:flutter/material.dart';
@@ -13,8 +15,8 @@ import 'package:intl/intl.dart';
 // ignore: must_be_immutable
 class ViewPost extends StatefulWidget {
   QueryDocumentSnapshot snapshot;
-
-  ViewPost({this.snapshot});
+  bool acceptRequest;
+  ViewPost({this.snapshot, this.acceptRequest});
 
   @override
   _ViewPostState createState() => _ViewPostState();
@@ -86,14 +88,13 @@ class _ViewPostState extends State<ViewPost> {
                                 ),
                                 Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       widget.snapshot['userName'],
                                       style: TextStyle(
-                                        color: Theme.of(context)
-                                            .selectedRowColor,
+                                        color:
+                                            Theme.of(context).selectedRowColor,
                                         fontWeight: FontWeight.w600,
                                         fontSize: 16,
                                       ),
@@ -133,9 +134,8 @@ class _ViewPostState extends State<ViewPost> {
                               ? Container(
                                   child: CarouselSlider.builder(
                                     itemCount: widget.snapshot['url'].length,
-                                    itemBuilder:
-                                        (context, index, realIndex) =>
-                                            Container(
+                                    itemBuilder: (context, index, realIndex) =>
+                                        Container(
                                       child: Image.network(
                                         widget.snapshot['url'][index],
                                         fit: BoxFit.contain,
@@ -290,8 +290,7 @@ class _ViewPostState extends State<ViewPost> {
                               ),
                               Container(
                                 child: Text(
-                                  widget.snapshot['expiry'].toString() +
-                                      " Hrs",
+                                  widget.snapshot['expiry'].toString() + " Hrs",
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.w500,
@@ -439,6 +438,146 @@ class _ViewPostState extends State<ViewPost> {
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
+              Container(
+                child: !widget.acceptRequest
+                    ? FloatingActionButton.extended(
+                        heroTag: "delivered",
+                        icon: Icon(
+                          Icons.local_shipping_rounded,
+                          color: Colors.white,
+                        ),
+                        label: Text(
+                          "Delivered",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                          ),
+                        ),
+                        onPressed: () {
+                          HapticFeedback.lightImpact();
+                          showModalBottomSheet(
+                            context: context,
+                            builder: (builder) {
+                              return Container(
+                                height: 250.0,
+                                color: Colors.transparent,
+                                child: Container(
+                                  decoration: new BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: new BorderRadius.only(
+                                      topLeft: const Radius.circular(10.0),
+                                      topRight: const Radius.circular(10.0),
+                                    ),
+                                  ),
+                                  child: Consumer(
+                                    builder: (context, watch, child) {
+                                      final theme = watch(themingNotifer);
+                                      return Container(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                "Are you sure you delivered this post?",
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  color: theme.darkTheme
+                                                      ? Colors.white
+                                                      : Colors.black,
+                                                  fontSize: 25,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: 25,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                IconButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  icon: Icon(
+                                                    Icons.cancel_rounded,
+                                                    size: 35,
+                                                    color: Theme.of(context)
+                                                        .errorColor,
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: 30,
+                                                ),
+                                                IconButton(
+                                                  onPressed: () {
+                                                    FirebaseFirestore.instance
+                                                        .collection("Posts")
+                                                        .doc(doc.id)
+                                                        .update({
+                                                      'delivered': true,
+                                                      'deliveredBy':
+                                                          FirebaseAuth
+                                                              .instance
+                                                              .currentUser
+                                                              .displayName,
+                                                      'deliveredAt':
+                                                          DateTime.now(),
+                                                    });
+                                                    FirebaseFirestore.instance
+                                                        .collection(
+                                                            "Notifications")
+                                                        .doc(doc['email'])
+                                                        .update({
+                                                      'notifications':
+                                                          FieldValue
+                                                              .arrayUnion([
+                                                        {
+                                                          "title":
+                                                              "Your request has been delivered 🤩",
+                                                          "body":
+                                                              "${FirebaseAuth.instance.currentUser.displayName} has delivered your request!",
+                                                          "createdAt":
+                                                              DateTime.now(),
+                                                        }
+                                                      ])
+                                                    });
+                                                    FirebaseFirestore.instance
+                                                        .collection("Posts")
+                                                        .doc(doc.id)
+                                                        .delete();
+                                                    Navigator.popUntil(
+                                                      context,
+                                                      (route) => route.isFirst,
+                                                    );
+                                                  },
+                                                  icon: Icon(
+                                                    Icons.done_all_rounded,
+                                                    size: 35,
+                                                    color: Theme.of(context)
+                                                        .accentColor,
+                                                  ),
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        },
+                      )
+                    : null,
+              ),
+              SizedBox(height: 15),
               FloatingActionButton.extended(
                 heroTag: "comment",
                 icon: Icon(
@@ -480,7 +619,8 @@ class _ViewPostState extends State<ViewPost> {
                   ),
                 ),
                 onPressed: widget.snapshot['email'] ==
-                        FirebaseAuth.instance.currentUser.email
+                            FirebaseAuth.instance.currentUser.email ||
+                        !widget.acceptRequest
                     ? null
                     : () {
                         Navigator.push(

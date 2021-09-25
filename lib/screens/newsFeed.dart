@@ -373,6 +373,7 @@ class _NewsFeedState extends State<NewsFeed> {
                                         MaterialPageRoute(
                                           builder: (context) => ViewPost(
                                             snapshot: doc,
+                                            acceptRequest: true,
                                           ),
                                         ),
                                       );

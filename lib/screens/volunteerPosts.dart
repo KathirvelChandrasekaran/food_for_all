@@ -61,6 +61,7 @@ class _VolunteerPostsState extends State<VolunteerPosts> {
                                 MaterialPageRoute(
                                   builder: (context) => ViewPost(
                                     snapshot: doc,
+                                    acceptRequest: false,
                                   ),
                                 ),
                               );

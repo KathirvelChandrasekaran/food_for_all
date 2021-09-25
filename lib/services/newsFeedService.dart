@@ -16,7 +16,8 @@ class NewsFeedService {
     var snapshots = FirebaseFirestore.instance
         .collection("Posts")
         .where('accepted', isEqualTo: true)
-        .where('acceptedBy', isEqualTo: FirebaseAuth.instance.currentUser.email)
+        .where('acceptedBy',
+            isEqualTo: FirebaseAuth.instance.currentUser.displayName)
         // .orderBy("createdAt", descending: true)
         .snapshots();
     return snapshots;
