@@ -53,7 +53,7 @@ class _SearchScreenState extends State<SearchScreen> {
             borderRadius: BorderRadius.circular(
               15,
             ),
-            onSubmitted: (val) {
+            onQueryChanged: (val) {
               setState(() {
                 queryText = val;
               });
