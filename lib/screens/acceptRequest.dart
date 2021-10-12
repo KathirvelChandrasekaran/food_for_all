@@ -73,9 +73,12 @@ class _AcceptRequestState extends State<AcceptRequest> {
                 //         .get()
                 //         .then((value) {
                 //       logger.i(value.docs[0].data()['latitude']);
+                //       // String url =
+                //       //     "google.navigation:q=${value.docs[0].data()['latitude']},${value.docs[0].data()['longitude']}&mode=d";
+                //       var uri = Uri.parse(
+                //           "comgooglemaps://?saddr=&daddr=${value.docs[0].data()['latitude']},${value.docs[0].data()['longitude']}&directionsmode=driving");
                 //       _launchURL(
-                //         "google.navigation:q=${value.docs[0].data()['latitude']},${value.docs[0].data()['longitude']}",
-                //       );
+                //           "comgooglemaps://?saddr=&daddr=${value.docs[0].data()['latitude']},${value.docs[0].data()['longitude']}&directionsmode=driving");
                 //     });
                 //   },
                 //   style: ElevatedButton.styleFrom(

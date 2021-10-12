@@ -90,7 +90,7 @@ class _RegisterDetailsState extends State<RegisterDetails> {
                       ),
                     ),
                     Container(
-                      child: role == "NGO" || role == "School / College"
+                      child: role == "Organization"
                           ? Padding(
                               padding: const EdgeInsets.fromLTRB(40, 10, 40, 0),
                               child: TextFormField(
@@ -129,8 +129,7 @@ class _RegisterDetailsState extends State<RegisterDetails> {
                                 ),
                                 validator: (val) {
                                   if (val.isEmpty) return "Should not be empty";
-                                  if (val.length < 10)
-                                    return "Not a valid phone number";
+
                                   return null;
                                 },
                                 onChanged: (val) {
