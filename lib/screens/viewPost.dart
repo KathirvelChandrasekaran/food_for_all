@@ -114,18 +114,24 @@ class _ViewPostState extends State<ViewPost> {
                                 SizedBox(
                                   width: 20,
                                 ),
-                                IconButton(
-                                  onPressed: () {
-                                    print("share");
-                                    Share.share("Hey! Will you help this 😄",
-                                        subject:
-                                            "There is availability of ${widget.snapshot['foodQuantity']}Kg food from ${widget.snapshot['userName']}");
-                                  },
-                                  icon: Icon(
-                                    Icons.share_rounded,
-                                    color: Theme.of(context).accentColor,
-                                  ),
-                                  tooltip: "Share this content",
+                                Container(
+                                  child: widget.snapshot['foodQuantity'] > 20
+                                      ? IconButton(
+                                          onPressed: () {
+                                            print("share");
+                                            Share.share(
+                                                "Hey! Will you help this 😄",
+                                                subject:
+                                                    "There is availability of ${widget.snapshot['foodQuantity']}Kg food from ${widget.snapshot['userName']}");
+                                          },
+                                          icon: Icon(
+                                            Icons.share_rounded,
+                                            color:
+                                                Theme.of(context).accentColor,
+                                          ),
+                                          tooltip: "Share this content",
+                                        )
+                                      : null,
                                 ),
                               ],
                             ),
