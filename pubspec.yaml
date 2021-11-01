@@ -9,44 +9,44 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+  algolia: ^1.0.1
+  bouncing_widget: ^2.0.0
+  carousel_slider: ^3.0.0
+  charts_flutter: ^0.11.0
+  cloud_firestore: ^2.2.0
+  comment_box: ^0.0.16
+  cupertino_icons: ^1.0.2
+  firebase_auth: ^1.1.4
+  firebase_core: ^1.1.1
+  firebase_messaging: ^10.0.7
+  firebase_storage: ^8.1.0
+  floating_bottom_navigation_bar: ^1.5.1
   flutter:
     sdk: flutter
-
-  cupertino_icons: ^1.0.2
-  firebase_core: ^1.1.1
-  firebase_auth: ^1.1.4
-  cloud_firestore: ^2.2.0
   flutter_riverpod: ^0.14.0+3
-  flutter_svg: ^0.22.0
   flutter_signin_button: ^2.0.0
-  shared_preferences: ^2.0.5
-  google_sign_in: ^5.0.3
-  location: ^4.1.1
-  google_maps_flutter: ^2.0.5
-  logger: ^1.0.0
-  geocoder: ^0.2.1
+  flutter_svg: ^0.22.0
   flutter_switch: ^0.3.1
-  floating_bottom_navigation_bar: ^1.5.1
-  numberpicker: ^2.1.1
-  image_picker: ^0.7.5+2
-  firebase_storage: ^8.1.0
-  introduction_screen: ^2.1.0
-  image_cropper: ^1.4.0
-  timeago: ^3.0.2
+  geocoder: ^0.2.1
   google_fonts: ^2.1.0
-  carousel_slider: ^3.0.0
-  bouncing_widget: ^2.0.0
-  comment_box: ^0.0.16
-  share_plus: ^2.1.4
-  url_launcher: ^6.0.9
+  google_maps_flutter: ^2.0.5
+  google_ml_kit: ^0.7.2
+  google_sign_in: ^5.0.3
+  image_cropper: ^1.4.0
+  image_picker: ^0.7.5+2
+  introduction_screen: ^2.1.0
+  location: ^4.1.1
+  logger: ^1.0.0
   material_floating_search_bar: ^0.3.4
+  numberpicker: ^2.1.1
   page_transition: ^2.0.2
-  charts_flutter: ^0.11.0
   percent_indicator: ^3.0.1
-  upi_pay: ^1.0.1
-  algolia: ^1.0.1
   pinput: ^1.2.0
-  firebase_messaging: ^10.0.7
+  share_plus: ^2.1.4
+  shared_preferences: ^2.0.5
+  timeago: ^3.0.2
+  upi_pay: ^1.0.1
+  url_launcher: ^6.0.9
 
 dev_dependencies:
   flutter_test:

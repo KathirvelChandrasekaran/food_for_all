@@ -11,6 +11,7 @@ import 'package:logger/logger.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:google_ml_kit/google_ml_kit.dart';
 
 // ignore: must_be_immutable
 class ViewPost extends StatefulWidget {
@@ -29,6 +30,71 @@ class _ViewPostState extends State<ViewPost> {
   DateTime postedAt;
   var logger = Logger();
 
+  final _languageModelManager = GoogleMlKit.nlp.translateLanguageModelManager();
+  bool _translate = false;
+  var _translatedContent = '',
+      _translatedHeading = '',
+      _nos = "",
+      _quantity = "",
+      _expiry = "",
+      _count = "",
+      _food = "",
+      _type = "";
+  final _onDeviceTranslator = GoogleMlKit.nlp.onDeviceTranslator(
+      sourceLanguage: TranslateLanguage.ENGLISH,
+      targetLanguage: TranslateLanguage.TAMIL);
+
+  @override
+  void dispose() {
+    _onDeviceTranslator.close();
+    super.dispose();
+  }
+
+  Future<void> downloadModel() async {
+    var result = await _languageModelManager.downloadModel('en');
+    print('Model downloaded: $result');
+    result = await _languageModelManager.downloadModel('ta');
+    print('Model downloaded: $result');
+  }
+
+  Future<void> deleteModel() async {
+    var result = await _languageModelManager.deleteModel('en');
+    print('Model deleted: $result');
+    result = await _languageModelManager.deleteModel('ta');
+    print('Model deleted: $result');
+  }
+
+  Future<void> getAvailableModels() async {
+    var result = await _languageModelManager.getAvailableModels();
+    print('Available models: $result');
+  }
+
+  Future<void> translate() async {
+    var content =
+        await _onDeviceTranslator.translateText(widget.snapshot['postContent']);
+    var heading =
+        await _onDeviceTranslator.translateText(widget.snapshot['postHeading']);
+    var nos =
+        await _onDeviceTranslator.translateText("Number of persons can eat");
+    var expiry = await _onDeviceTranslator.translateText("Expiry");
+    var quantity = await _onDeviceTranslator.translateText("Quantity");
+    var count =
+        await _onDeviceTranslator.translateText("Utensils count needed");
+    var food = await _onDeviceTranslator.translateText("Food type");
+    var type = await _onDeviceTranslator.translateText("Main Course dishes");
+    setState(() {
+      _translate = true;
+      _translatedContent = content;
+      _translatedHeading = heading;
+      _quantity = quantity;
+      _nos = nos;
+      _expiry = expiry;
+      _count = count;
+      _food = food;
+      _type = type;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -36,6 +102,7 @@ class _ViewPostState extends State<ViewPost> {
     Timestamp t = doc['createdAt'];
     setState(() {
       postedAt = t.toDate();
+      _translate = false;
     });
   }
 
@@ -44,7 +111,18 @@ class _ViewPostState extends State<ViewPost> {
     return Consumer(
       builder: (context, watch, child) {
         return Scaffold(
-          appBar: AppBar(),
+          appBar: AppBar(
+            actions: [
+              IconButton(
+                icon: Icon(Icons.translate_rounded),
+                onPressed: () {
+                  getAvailableModels();
+                  downloadModel();
+                  translate();
+                },
+              ),
+            ],
+          ),
           body: Center(
             child: Column(
               children: [
@@ -158,7 +236,9 @@ class _ViewPostState extends State<ViewPost> {
                               : Text(""),
                           Container(
                             child: Text(
-                              widget.snapshot['postContent'],
+                              !_translate
+                                  ? widget.snapshot['postContent']
+                                  : _translatedContent,
                               style: TextStyle(
                                 color: Theme.of(context).selectedRowColor,
                                 fontWeight: FontWeight.w600,
@@ -176,7 +256,9 @@ class _ViewPostState extends State<ViewPost> {
                           Expanded(
                             child: Container(
                               child: Text(
-                                widget.snapshot['postHeading'],
+                                !_translate
+                                    ? widget.snapshot['postHeading']
+                                    : _translatedHeading,
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.w500,
@@ -198,7 +280,7 @@ class _ViewPostState extends State<ViewPost> {
                             children: [
                               Container(
                                 child: Text(
-                                  "Quantity",
+                                  !_translate ? "Quantity" : _quantity,
                                   style: TextStyle(
                                     color: Theme.of(context).selectedRowColor,
                                     fontWeight: FontWeight.w600,
@@ -239,7 +321,9 @@ class _ViewPostState extends State<ViewPost> {
                             children: [
                               Container(
                                 child: Text(
-                                  "Number of persons can eat",
+                                  !_translate
+                                      ? "Number of persons can eat"
+                                      : _nos,
                                   style: TextStyle(
                                     color: Theme.of(context).selectedRowColor,
                                     fontWeight: FontWeight.w600,
@@ -279,7 +363,7 @@ class _ViewPostState extends State<ViewPost> {
                             children: [
                               Container(
                                 child: Text(
-                                  "Expiry",
+                                  !_translate ? "Expiry" : _expiry,
                                   style: TextStyle(
                                     color: Theme.of(context).selectedRowColor,
                                     fontWeight: FontWeight.w600,
@@ -319,7 +403,7 @@ class _ViewPostState extends State<ViewPost> {
                             children: [
                               Container(
                                 child: Text(
-                                  "Vessel count needed",
+                                  !_translate ? "Vessel count needed" : _count,
                                   style: TextStyle(
                                     color: Theme.of(context).selectedRowColor,
                                     fontWeight: FontWeight.w600,
@@ -359,7 +443,7 @@ class _ViewPostState extends State<ViewPost> {
                             children: [
                               Container(
                                 child: Text(
-                                  "Food type",
+                                  !_translate ? "Food type" : _food,
                                   style: TextStyle(
                                     color: Theme.of(context).selectedRowColor,
                                     fontWeight: FontWeight.w600,
@@ -394,7 +478,7 @@ class _ViewPostState extends State<ViewPost> {
                                   : widget.snapshot['mainCourse']
                                       ? Container(
                                           child: Text(
-                                            "Main Course",
+                                            !_translate ? "Main Course" : _type,
                                             style: TextStyle(
                                               color: Theme.of(context)
                                                   .selectedRowColor,
@@ -410,7 +494,7 @@ class _ViewPostState extends State<ViewPost> {
                                       : widget.snapshot['tiffin']
                                           ? Container(
                                               child: Text(
-                                                "Tiffin",
+                                                !_translate ? "Tiffin" : _type,
                                                 style: TextStyle(
                                                   color: Theme.of(context)
                                                       .selectedRowColor,

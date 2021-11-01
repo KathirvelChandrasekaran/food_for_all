@@ -5,6 +5,9 @@
         android:icon="@mipmap/ic_launcher"
         android:label="food_for_all">
         <meta-data
+        android:name="com.google.mlkit.vision.DEPENDENCIES"
+        android:value="ica" />
+        <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAPwQn1BKo_E8xPn8CcwnVcFbNF_DSOB1E" />
         <activity

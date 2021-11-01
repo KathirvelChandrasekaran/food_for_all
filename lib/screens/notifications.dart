@@ -32,7 +32,7 @@ class _NotificationsState extends State<Notifications> {
           if (fetchedNotifications['notifications'].length < 1)
             return Center(
               child: Text(
-                "No comments found ☹️",
+                "No notifications found ☹️",
                 style: TextStyle(
                   color: Theme.of(context).primaryColor,
                   fontWeight: FontWeight.w600,
