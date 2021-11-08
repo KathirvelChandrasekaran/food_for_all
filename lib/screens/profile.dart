@@ -1,9 +1,11 @@
+import 'package:cron/cron.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:food_for_all/providers/registerDetailsProvider.dart';
 import 'package:food_for_all/screens/chart.dart';
+import 'package:food_for_all/screens/donationLinks.dart';
 import 'package:food_for_all/screens/registerDetails.dart';
 import 'package:food_for_all/utils/theming.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -31,6 +33,9 @@ class _ProfileState extends State<Profile> {
       this.photoUrl = widget.userCredential.photoURL;
       this.newPhotoUrl =
           photoUrl.substring(0, this.photoUrl.length - 5) + "s500-c";
+    });
+    Cron().schedule(Schedule.parse('1-2 * * * *'), () async {
+      print('between every 8 and 11 minutes');
     });
   }
 
@@ -150,19 +155,42 @@ class _ProfileState extends State<Profile> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ChartsScreen(),
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DonationLinks(),
+                ),
+              );
+            },
+            child: Icon(
+              Icons.link,
+              color: Colors.white,
             ),
-          );
-        },
-        child: Icon(
-          Icons.bar_chart,
-          color: Colors.white,
-        ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          FloatingActionButton(
+            heroTag: "Chart",
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ChartsScreen(),
+                ),
+              );
+            },
+            child: Icon(
+              Icons.bar_chart,
+              color: Colors.white,
+            ),
+          ),
+        ],
       ),
       body: Center(
         child: Container(

@@ -3,6 +3,7 @@ const algoliasearch = require("algoliasearch");
 const APP_ID = functions.config().algolia.app;
 const ADMIN_KEY = functions.config().algolia.key;
 const admin = require("firebase-admin");
+const messagebird = require("messagebird")("LmmHoPyrSv5TM8WR0UktxvXJL");
 admin.initializeApp();
 
 const client = algoliasearch(APP_ID, ADMIN_KEY);
@@ -29,6 +30,19 @@ exports.updateIndex = functions.firestore
   .onUpdate(async (changes) => {
     const newData = changes.after.data();
     const objectID = changes.after.id;
+
+    var params = {
+      originator: "TestMessage",
+      recipients: ["+919942648418"],
+      body: "This is a test message",
+    };
+
+    messagebird.messages.create(params, function (err, response) {
+      if (err) {
+        return console.log(err);
+      }
+      console.log(response);
+    });
 
     var payLoad = {
       notification: {
